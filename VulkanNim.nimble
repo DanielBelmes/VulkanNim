@@ -22,7 +22,8 @@ let specDir   = "spec"
 let vkSpecXML   = specDir/"xml"/"vk.xml"
 let videoSpecXML   = specDir/"xml"/"video.xml"
 let toolsDir  = "tools"
-let generator = toolsDir/"generator.nim"
+let generatorVk = toolsDir/"generator.nim"
+let generatorVideo = toolsDir/"generatorVideo.nim"
 
 #________________________________________
 # Helpers
@@ -53,15 +54,15 @@ task git, "Internal:  Updates the Vulkan spec submodule.":
   withDir specDir:
     exec "git submodule update --remote --merge"
 #___________________
-taskRequires "genvk", "https://github.com/heysokam/nstd" # For parseopts extensions
+taskRequires "genvk", "https://github.com/heysokam/nstd#head" # For parseopts extensions
 task genvk, "Internal:  Generates the vk bindings, using the currently tracked vk.xml file.":
   exec "nimble git"
-  exec &"{nimcr} {generator} {vkSpecXML}"
+  exec &"{nimcr} {generatorVk} {vkSpecXML}"
 #___________________
 taskRequires "genvideo", "https://github.com/heysokam/nstd" # For parseopts extensions
 task genvideo, "Internal:  Generates the vk video bindings, using the currently tracked video.xml file.":
   exec "nimble git"
-  exec &"{nimcr} {generator} {videoSpecXML}"
+  exec &"{nimcr} {generatorVideo} {videoSpecXML}"
 #___________________
 # Build the examples binaries
 example wip, "Example WIP: Builds the current wip example.", "wip"
