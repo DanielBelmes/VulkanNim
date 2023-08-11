@@ -50,7 +50,7 @@ template example (name :untyped; descr,file :static string)=
 #___________________
 task git, "Internal:  Updates the Vulkan spec submodule.":
   withDir specDir:
-    exec "git pull --recurse-submodules origin master"
+    exec "git submodule update --remote --merge"
 #___________________
 taskRequires "gen", "https://github.com/heysokam/nstd" # For parseopts extensions
 task gen, "Internal:  Generates the bindings, using the currently tracked vk.xml file.":
