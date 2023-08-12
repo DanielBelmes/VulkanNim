@@ -24,6 +24,8 @@ import std/sets
 {enums}
 """
 
+proc readEnums *(gen :var Generator; node :XmlNode) :void=  discard
+
 proc generateEnumFile *(gen: Generator) :void=
   # Configuration
   let outputDir = fmt"./src/VulkanNim/{gen.api}_enums.nim"

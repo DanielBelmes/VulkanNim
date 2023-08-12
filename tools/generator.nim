@@ -13,6 +13,44 @@ import ./generator/procs
 import ./generator/structs
 import ./generator/types
 
+# TODO: Move to the ./generator/*.nim file they should belong to
+proc readFeatures *(gen :var Generator; node :XmlNode) :void=  discard
+proc readFormats *(gen :var Generator; node :XmlNode) :void=  discard
+proc readPlatforms *(gen :var Generator; node :XmlNode) :void=  discard
+proc readSpirvCapabilities *(gen :var Generator; node :XmlNode) :void=  discard
+proc readSpirvExtensions *(gen :var Generator; node :XmlNode) :void=  discard
+proc readSync *(gen :var Generator; node :XmlNode) :void=  discard
+proc readTags *(gen :var Generator; node :XmlNode) :void=  discard
+
+proc readRegistry *(gen :var Generator) :void=
+  for child in gen.doc:
+    let value = child.tag
+    if value == "commands":
+      discard
+    elif value == "comment":
+      if child.innerText.contains("Copyright"):
+        gen.registry.vulkanLicenseHeader = child.innerText # [TODO] will have to generate real copyright message from this
+    elif value == "enums":
+      gen.readEnums(child)
+    elif value == "extensions":
+      gen.readExtensions(child)
+    elif value == "feature":
+      gen.readFeatures(child)
+    elif value == "formats":
+      gen.readFormats(child)
+    elif value == "platforms":
+      gen.readPlatforms(child)
+    elif value == "spirvcapabilities":
+      gen.readSpirvCapabilities(child)
+    elif value == "spirvextensions":
+      gen.readSpirvExtensions(child)
+    elif value == "sync":
+      gen.readSync(child)
+    elif value == "tags":
+      gen.readTags(child)
+    elif value == "types":
+      gen.readTypes(child)
+
 
 proc main() =
   let args = getArgs()
