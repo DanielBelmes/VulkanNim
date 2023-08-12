@@ -33,6 +33,8 @@ proc main() =
 
   let generator = Generator(doc: file.parseXml(), api: api)
 
+  generator.readRegistry()
+
   generator.generateApiFile()
   generator.generateTypesFile()
   generator.generateExtensionInspectionFile()
