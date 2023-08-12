@@ -29,7 +29,7 @@ proc readRegistry *(gen :var Generator) :void=
       if child.innerText.contains("Copyright"):
         gen.registry.vulkanLicenseHeader = child.innerText # [TODO] will have to generate real copyright message from this
     elif value == "enums":
-      gen.readEnums(child)
+      gen.addEnum(child)
     elif value == "extensions":
       gen.readExtensions(child)
     elif value == "feature":
@@ -67,7 +67,7 @@ proc main() =
     raise newException(IOError, "I don't know why you have so many arguments")
   let file = newFileStream(XML, fmRead)
 
-  let generator = Generator(doc: file.parseXml(), api: api)
+  var generator = Generator(doc: file.parseXml(), api: api)
 
   generator.readRegistry()
 

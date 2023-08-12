@@ -24,7 +24,31 @@ import std/sets
 {enums}
 """
 
-proc readEnums *(gen :var Generator; node :XmlNode) :void=  discard
+proc addEnum *(gen :var Generator; node :XmlNode) :void=
+  echo node.tag
+
+##[ TODO
+type AliasData* = object
+  name     *:string
+  xmlLine  *:int
+type BitmaskData* = object
+  require  *:string
+  `type`   *:string
+  xmlLine  *:int
+type EnumData* = object
+  #void addEnumAlias( int line, string const & name, string const & alias, string const & protect, bool supported );
+  #void addEnumValue(int line, string const & valueName, string const & protect, string const & bitpos, string const & value, bool supported );
+  bitwidth          *:string
+  isBitmask         *:bool = false
+  unsupportedValues *:seq[EnumValueData]
+  values            *:seq[EnumValueData]
+  xmlLine           *:int
+type Registry * = object
+  bitmaskAliases *:OrderedTable[string, AliasData]
+  bitmasks       *:OrderedTable[string, BitmaskData]
+  enumAliases    *:OrderedTable[string, AliasData]
+  enums          *:OrderedTable[string, EnumData]
+]##
 
 proc generateEnumFile *(gen: Generator) :void=
   # Configuration
