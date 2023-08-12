@@ -225,7 +225,8 @@ type StructureData* = object
   xmlLine*: int
 
 type TagData* = object
-  xmlLine*: int
+  author*: string
+  contact*: string
 
 type VectorParamData* = object
   lenParam*: csize_t = -1

@@ -1,5 +1,5 @@
 # std dependencies
-import strutils, os, xmlparser, xmltree, strformat, streams
+import strutils, os, xmlparser, xmltree, strformat, streams, tables
 # External dependencies
 import nstd
 # Generator dependencies
@@ -18,7 +18,13 @@ import ./generator/spirv
 proc readFeatures *(gen :var Generator; node :XmlNode) :void=  discard
 proc readPlatforms *(gen :var Generator; node :XmlNode) :void=  discard
 proc readSync *(gen :var Generator; node :XmlNode) :void=  discard
-proc readTags *(gen :var Generator; node :XmlNode) :void=  discard
+proc readTags *(gen :var Generator; node :XmlNode) :void=
+  for tag in node:
+    var name = tag.attr("name")
+    var author = tag.attr("author")
+    var contact = tag.attr("contact")
+    if name != "":
+      gen.registry.tags[name] = TagData(author: author, contact: contact)
 
 proc readRegistry *(gen :var Generator) :void=
   for child in gen.doc:
@@ -67,7 +73,7 @@ proc main() =
     raise newException(IOError, "I don't know why you have so many arguments")
   let file = newFileStream(XML, fmRead)
 
-  let generator = Generator(doc: file.parseXml(), api: api)
+  var generator = Generator(doc: file.parseXml(), api: api)
 
   generator.readRegistry()
 

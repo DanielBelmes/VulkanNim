@@ -1,5 +1,5 @@
 # std dependencies
-import std/strformat
+import std/strformat, xmltree
 # Generator dependencies
 import ./common
 
