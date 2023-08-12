@@ -1,3 +1,4 @@
+{.experimental: "codeReordering".}
 import strutils, os, xmlparser, xmltree, strformat, streams
 import nstd
 
@@ -7,15 +8,102 @@ type Generator = object
 
 proc generateApiFile(gen: Generator): void =
   let outputDir = fmt"./src/VulkanNim/{gen.api}.nim"
-  const apiTemplate = """
+  const genTemplate = """
 include ./dynamic
 import {gen.api}_enum;export {gen.api}_enum
 """
-  writeFile(outputDir,fmt apiTemplate)
+  writeFile(outputDir,fmt genTemplate)
+
+proc generateTypesFile(gen: Generator): void =
+  let outputDir = fmt"./src/VulkanNim/{gen.api}_types.nim"
+  const genTemplate = """
+#[
+=====================================
+
+Types
+
+=====================================
+]#
+"""
+  writeFile(outputDir,fmt genTemplate)
+
+proc generateExtensionInspectionFile(gen: Generator): void =
+  let outputDir = fmt"./src/VulkanNim/{gen.api}_extension_inspection.nim"
+  const genTemplate = """
+#[
+=====================================
+
+Extension Inspection
+
+=====================================
+]#
+"""
+  writeFile(outputDir,fmt genTemplate)
+
+proc generateFormatsFile(gen: Generator): void =
+  let outputDir = fmt"./src/VulkanNim/{gen.api}_formats.nim"
+  const genTemplate = """
+#[
+=====================================
+
+Formats
+
+=====================================
+]#
+"""
+  writeFile(outputDir,fmt genTemplate)
 
 proc generateEnumFile(gen: Generator): void =
-  let outputDir = fmt"./src/VulkanNim/{gen.api}_enum.nim"
-  writeFile(outputDir,"")
+  let outputDir = fmt"./src/VulkanNim/{gen.api}_enums.nim"
+  const genTemplate = """
+#[
+=====================================
+
+Enums
+
+=====================================
+]#
+"""
+  writeFile(outputDir,fmt genTemplate)
+
+proc generateProcsFile(gen: Generator): void =
+  let outputDir = fmt"./src/VulkanNim/{gen.api}_procs.nim"
+  const genTemplate = """
+#[
+=====================================
+
+Procedures
+
+=====================================
+]#
+"""
+  writeFile(outputDir,fmt genTemplate)
+
+proc generateHandlesFile(gen: Generator): void =
+  let outputDir = fmt"./src/VulkanNim/{gen.api}_handles.nim"
+  const genTemplate = """
+#[
+=====================================
+
+Handles
+
+=====================================
+]#
+"""
+  writeFile(outputDir,fmt genTemplate)
+
+proc generateStructsFile(gen: Generator): void =
+  let outputDir = fmt"./src/VulkanNim/{gen.api}_structs.nim"
+  const genTemplate = """
+#[
+=====================================
+
+Structs
+
+=====================================
+]#
+"""
+  writeFile(outputDir,fmt genTemplate)
 
 proc main() =
   let args = getArgs()
@@ -37,7 +125,13 @@ proc main() =
   let generator = Generator(doc: file.parseXml(), api: api)
 
   generator.generateApiFile()
+  generator.generateTypesFile()
+  generator.generateExtensionInspectionFile()
+  generator.generateFormatsFile()
   generator.generateEnumFile()
+  generator.generateProcsFile()
+  generator.generateHandlesFile()
+  generator.generateStructsFile()
 
 
 when isMainModule: main()
