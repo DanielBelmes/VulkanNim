@@ -11,8 +11,7 @@ iterator findElems *(node :XmlNode; name :string) :XmlNode=
     of xnText, xnVerbatimText, xnCData, xnEntity, xnComment: continue
     of xnElement: yield node
 
-
-type SomeTable[A,B] = Table[A,B] | OrderedTable[A,B]
+type SomeTable[A,B] = Table[A,B] | OrderedTable[A,B] | CountTable[A]
 proc containsOrIncl *[A, B](table :var SomeTable[A,B]; key :A; value :B) :bool=
   if key in table: return true
   table[key] = value

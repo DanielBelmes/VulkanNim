@@ -13,22 +13,24 @@ import ./generator/procs
 import ./generator/structs
 import ./generator/types
 import ./generator/spirv
+import helpers
 
 # TODO: Move to the ./generator/*.nim file they should belong to
 proc readFeatures *(gen :var Generator; node :XmlNode) :void=  discard
 proc readPlatforms *(gen :var Generator; platforms :XmlNode) :void=
   for platform in platforms:
-    var name = platform.attr("name")
-    var protect = platform.attr("protect")
-    var comment = platform.attr("comment")
-    gen.registry.platforms[name] = PlatformData(protect: protect, comment: comment)
+    if gen.registry.platforms.containsOrIncl(platform.attr("name"),
+      PlatformData(
+        protect: platform.attr("protect"),
+        comment: platform.attr("comment")
+        )): raise newException(ParsingError, &"Tried to add a repeated Platform that already exists inside the generator : {platform.attr(\"name\")}.")
 proc readSync *(gen :var Generator; node :XmlNode) :void=  discard #relies on enum
 proc readTags *(gen :var Generator; tags :XmlNode) :void=
   for tag in tags:
-    var name = tag.attr("name")
-    var author = tag.attr("author")
-    var contact = tag.attr("contact")
-    gen.registry.tags[name] = TagData(author: author, contact: contact)
+    if gen.registry.tags.containsOrIncl(tag.attr("name"),
+      TagData(
+        author: tag.attr("author"),
+        contact: tag.attr("contact"))): raise newException(ParsingError, &"Tried to add a repeated Tag that already exists inside the generator : {tag.attr(\"name\")}.")
 
 proc readRegistry *(gen :var Generator) :void=
   for child in gen.doc:
