@@ -12,13 +12,11 @@ import ./generator/handles
 import ./generator/procs
 import ./generator/structs
 import ./generator/types
+import ./generator/spirv
 
 # TODO: Move to the ./generator/*.nim file they should belong to
 proc readFeatures *(gen :var Generator; node :XmlNode) :void=  discard
-proc readFormats *(gen :var Generator; node :XmlNode) :void=  discard
 proc readPlatforms *(gen :var Generator; node :XmlNode) :void=  discard
-proc readSpirvCapabilities *(gen :var Generator; node :XmlNode) :void=  discard
-proc readSpirvExtensions *(gen :var Generator; node :XmlNode) :void=  discard
 proc readSync *(gen :var Generator; node :XmlNode) :void=  discard
 proc readTags *(gen :var Generator; node :XmlNode) :void=  discard
 
