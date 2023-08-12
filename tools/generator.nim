@@ -65,16 +65,16 @@ proc main() =
   var XML, api: string
   if args.len == 2:
     if args[1] != "vulkan" or args[1] != "vulkansc":
-      raise newException(IOError, "The vk.xml spec file path needs to be passed to the generator as its first argument.")
+      raise newException(ArgsError, "The vk.xml spec file path needs to be passed to the generator as its first argument.")
     api = args[1]
   elif args.len == 1:
-    if not args[0].endsWith(".xml"): raise newException(IOError, "The vk.xml spec file path needs to be passed to the generator as its first argument.")
+    if not args[0].endsWith(".xml"): raise newException(ArgsError, "The vk.xml spec file path needs to be passed to the generator as its first argument.")
     api = "vulkan"
     XML = args[0]
   elif args.len == 0:
-    raise newException(IOError, "No arguments provided [TODO] be more helpful")
+    raise newException(ArgsError, "No arguments provided [TODO] be more helpful")
   else:
-    raise newException(IOError, "I don't know why you have so many arguments")
+    raise newException(ArgsError, "I don't know why you have so many arguments")
   let file = newFileStream(XML, fmRead)
 
   var generator = Generator(doc: file.parseXml(), api: api)

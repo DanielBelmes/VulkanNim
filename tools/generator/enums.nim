@@ -4,6 +4,7 @@ import std/strutils
 import std/xmlparser
 import std/xmltree
 import std/strtabs
+import std/sets
 # Generator dependencies
 import ../helpers
 import ./common
@@ -23,31 +24,90 @@ import std/sets
 
 {enums}
 """
+##[
+]##
+
+proc addConsts *(gen :var Generator; node :XmlNode) :void=
+  ## Treats the given node as a constants block, and adds its contents to the generator registry.
+  for entry in node:
+    if gen.registry.constants.containsOrIncl(entry.attr("name"), ConstantData(
+      typ     : entry.attr("type"),
+      value   : entry.attr("value"),
+      xmlLine : -1,
+      )): raise newException(ParsingError, &"Tried to add a constant that already exists inside the generator : {entry.attr(\"name\")}")
+  echo gen.registry.constants
 
 proc addEnum *(gen :var Generator; node :XmlNode) :void=
-  echo node.tag
+  ## Treats the given node as an enum block, and adds its contents to the respective generator registry field.
+  # Add constants
+  if node.attr("name") == "API Constants": gen.addConsts(node); return
+  # Add enum or bitmask
+  var data = EnumData(
+    bitwidth  : node.attr("bitwidth"),
+    isBitmask : node.attr("type") == "bitmask",
+    xmlLine   : -1,
+    ) # << EnumData( .. )
+  for key,val in node.attrs().pairs:
+    if   key == "type":     continue
+    elif key == "enum":     continue
+    elif key == "name":     continue
+    elif key == "bitwidth": continue
+    elif key == "comment":  continue
+    else: echo "attr: ",key, " ", val
+  echo "_____________________________"
+  for entry in node:
+    for key,val in entry.attrs().pairs:
+      if key == "type" and val == "float": echo "Float enum @: ",entry.attr("name")
+      if   key == "name":    continue
+      elif key == "value":   continue
+      elif key == "comment": continue
+      elif key == "alias":   continue
+      echo key, " : ", val
+    let field = EnumValueData(
+      alias    : entry.attr("alias"),
+      bitpos   : "",
+      name     : entry.attr("name"),
+      protect  : "",
+      value    : entry.attr("value"),
+      xmlLine  : -1,
+      )
+    # echo field
+  # echo data
 
 ##[ TODO
 type AliasData* = object
   name     *:string
   xmlLine  *:int
+# type ConstantData* = object
+#   name     *:string
+#   typ`     *:string
+#   value    *:string
+#   xmlLine  *:int
 type BitmaskData* = object
   require  *:string
   `type`   *:string
   xmlLine  *:int
+
+type EnumValueData* = object
+  alias    *:string
+  bitpos   *:string
+  name     *:string
+  protect  *:string
+  value    *:string
+  xmlLine  *:int
 type EnumData* = object
-  #void addEnumAlias( int line, string const & name, string const & alias, string const & protect, bool supported );
-  #void addEnumValue(int line, string const & valueName, string const & protect, string const & bitpos, string const & value, bool supported );
-  bitwidth          *:string
-  isBitmask         *:bool = false
+  # bitwidth          *:string
+  # isBitmask         *:bool = false
   unsupportedValues *:seq[EnumValueData]
-  values            *:seq[EnumValueData]
-  xmlLine           *:int
+  values            *:OrderedSet[EnumValueData]
+  # xmlLine           *:int
 type Registry * = object
-  bitmaskAliases *:OrderedTable[string, AliasData]
-  bitmasks       *:OrderedTable[string, BitmaskData]
-  enumAliases    *:OrderedTable[string, AliasData]
-  enums          *:OrderedTable[string, EnumData]
+  constantAliases *:OrderedTable[string, AliasData]
+  constants       *:OrderedTable[string, ConstantData]
+  bitmaskAliases  *:OrderedTable[string, AliasData]
+  bitmasks        *:OrderedTable[string, BitmaskData]
+  enumAliases     *:OrderedTable[string, AliasData]
+  enums           *:OrderedTable[string, EnumData]
 ]##
 
 proc generateEnumFile *(gen: Generator) :void=
@@ -67,7 +127,7 @@ proc generateEnumFile *(gen: Generator) :void=
       case key
       of "type": discard
       of "name": discard
-      else: echo key, " ", val
+      else: discard #echo key, " ", val
   # Find the enums
   for node in gen.doc.findElems("enums"):
     enums.add node.genEnum()
