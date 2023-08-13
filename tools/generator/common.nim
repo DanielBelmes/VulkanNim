@@ -133,6 +133,7 @@ type ExtensionData* = object
 
 type FeatureData* = object
   name*: string
+  api*: seq[string]
   number*: string
   removeData*: seq[RemoveData]
   requireData*: seq[RequireData]
