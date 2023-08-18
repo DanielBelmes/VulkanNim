@@ -62,10 +62,10 @@ proc readSync *(gen :var Generator; node :XmlNode) :void=  discard #relies on en
 
 proc readTags *(gen :var Generator; tags :XmlNode) :void=
   for tag in tags:
-    if gen.registry.tags.containsOrIncl(tag.attr("name"),
+    if gen.registry.tags.containsOrIncl(tag.attr("name").removeExtraSpace(),
       TagData(
-        author: tag.attr("author"),
-        contact: tag.attr("contact"))): raise newException(ParsingError, &"Tried to add a repeated Tag that already exists inside the generator : {tag.attr(\"name\")}.")
+        author: tag.attr("author").removeExtraSpace(),
+        contact: tag.attr("contact").removeExtraSpace())): raise newException(ParsingError, &"Tried to add a repeated Tag that already exists inside the generator : {tag.attr(\"name\")}.")
 
 proc readRegistry *(gen :var Generator) :void=
   for child in gen.doc:

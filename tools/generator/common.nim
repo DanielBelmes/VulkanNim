@@ -253,17 +253,17 @@ type Registry * = object
   extendedStructs*:  OrderedSet[string]
   extensions*: seq[ExtensionData]
   externalTypes*: OrderedTable[string, ExternalTypeData]
-  features*: seq[FeatureData]
-  formats*: OrderedTable[string, FormatData]
+  features*: seq[FeatureData] #Done
+  formats*: OrderedTable[string, FormatData] #Done
   funcPointers*: OrderedTable[string, FuncPointerData]
   handleAliases*: OrderedTable[string, AliasData]
   handles*: OrderedTable[string, HandleData]
   includes*: OrderedTable[string, IncludeData]
-  platforms*: OrderedTable[string, PlatformData]
+  platforms*: OrderedTable[string, PlatformData] #Done
   RAIISpecialFunctions*: OrderedSet[string]
   structAliases*: OrderedTable[string, AliasData]
   structs*: OrderedTable[string, StructureData]
-  tags*: OrderedTable[string, TagData]
+  tags*: OrderedTable[string, TagData] #Done
   types*: OrderedTable[string, TypeData]
   typesafeCheck*: string
   unsupportedExtensions*: OrderedSet[string]
