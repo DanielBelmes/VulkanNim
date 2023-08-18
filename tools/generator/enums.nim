@@ -8,18 +8,11 @@ import std/sets
 # Generator dependencies
 import ../helpers
 import ./common
+import ./license
 
 
 const genTemplate = """
-{LicensePlate}
-#[
-=====================================
-
-Enums
-
-=====================================
-]#
-
+{VulkanNimHeader}
 import std/sets
 
 {enums}
@@ -68,14 +61,14 @@ proc addNormalEnum *(gen :var Generator; node :XmlNode) :void=
   #   echo name," : ",field,"\n"
 
 
-proc addEnum *(gen :var Generator; node :XmlNode) :void=
+proc readEnum *(gen :var Generator; node :XmlNode) :void=
   ## Treats the given node as an enum block, and adds its contents to the respective generator registry field.
   # Add constants, alias or bitmasks, and return early
   if   node.attr("name")  == "API Constants" : gen.addConsts(node)     ; return
   elif node.attr("alias") != ""              : gen.addAlias(node)      ; return
   elif node.attr("type")  == "bitmask"       : gen.addBitmask(node)    ; return
   elif node.attr("type")  == "enum"          : gen.addNormalEnum(node) ; return
-  elif node.attr("name")  == ""              : unreachable "addEnum->node.attr() section. The enum name should never be empty."
+  elif node.attr("name")  == ""              : unreachable "readEnum->node.attr() section. The enum name should never be empty."
   else:unreachable &"addEnum->node.attr() section. else case. Failing XmlNode contains: \n\n{$node}\n\n"
 
 ##[ TODO

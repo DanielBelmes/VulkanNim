@@ -13,7 +13,8 @@ import ./generator/procs
 import ./generator/structs
 import ./generator/types
 import ./generator/spirv
-import helpers
+import ./generator/license
+import ./helpers
 
 # TODO: Move to the ./generator/*.nim file they should belong to
 proc readFeatures *(gen :var Generator; feature :XmlNode) :void=
@@ -67,14 +68,16 @@ proc readTags *(gen :var Generator; tags :XmlNode) :void=
         author: tag.attr("author").removeExtraSpace(),
         contact: tag.attr("contact").removeExtraSpace())): raise newException(ParsingError, &"Tried to add a repeated Tag that already exists inside the generator : {tag.attr(\"name\")}.")
 
+proc readComment *(gen :var Generator; comment :XmlNode) :void=
+  if comment.innerText.contains("Copyright"):
+    gen.registry.vulkanLicenseHeader = comment.innerText.getMIT()
+
 proc readRegistry *(gen :var Generator) :void=
   for child in gen.doc:
     case child.tag
-    of "commands": discard
-    of "comment":
-      if child.innerText.contains("Copyright"):
-        gen.registry.vulkanLicenseHeader = child.innerText # [TODO] will have to generate real copyright message from this
-    of "enums"             : gen.addEnum(child)
+    of "commands"          : discard
+    of "comment"           : gen.readComment(child)
+    of "enums"             : gen.readEnum(child)
     of "extensions"        : gen.readExtensions(child)
     of "feature"           : gen.readFeatures(child)
     of "formats"           : gen.readFormats(child)
@@ -84,7 +87,7 @@ proc readRegistry *(gen :var Generator) :void=
     of "sync"              : gen.readSync(child)
     of "tags"              : gen.readTags(child)
     of "types"             : gen.readTypes(child)
-    else: unreachable
+    else: raise newException(ParsingError, &"Unknown tag {child.tag} in readRegistry")
 
 
 proc main() =
