@@ -8,6 +8,7 @@ import ../helpers
 import options
 
 proc readNameAndType *(node: XmlNode): (NameData, TypeInfo) =
+  ## Extracts <name></name> and <type></type> from certain elements
   var name: NameData
   var typeInfo: TypeInfo
   for index, enumNameType in node:

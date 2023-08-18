@@ -25,16 +25,20 @@ template unreachable *(msg :string= "")=  raise newException(Unreachable, msg)
   ## Useful to debug for difficult to track edge cases and work in progress sections of parsing.
 
 proc toplevelText*(node: XmlNode): string =
+  ## Used to get just the top level text out of a xnElement. (see xmltree/InnerText for getting all text recursively)
+  assert node.kind == xnElement
   for elem in node:
     if elem.kind == xnText:
       result &= elem.rawText()
 
 iterator pairs*(node: XmlNode): (int,XmlNode) {.inline.} =
-    assert node.kind == xnElement
-    var index = 0
-    for child in node:
-        yield (index,child)
-        index+=1
+  ## Enables you to take out the index with a for in statement
+  assert node.kind == xnElement
+  var index = 0
+  for child in node:
+      yield (index,child)
+      index+=1
 
 proc removeExtraSpace*(str: string): string =
-    return str.strip().replacef(re"[ 	]+"," ") #remove trailing and appending whitespace then reduce excess whitespace
+  ## Changes all multi spaces and tabs into one space. Trims trailing and appending whitespace as well
+  return str.strip().replacef(re"[ 	]+"," ")

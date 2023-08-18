@@ -73,6 +73,7 @@ proc readComment *(gen :var Generator; comment :XmlNode) :void=
     gen.registry.vulkanLicenseHeader = comment.innerText.getMIT()
 
 proc readRegistry *(gen :var Generator) :void=
+  ## Reads the XML file and puts into intermediate representation
   for child in gen.doc:
     case child.tag
     of "commands"          : discard
