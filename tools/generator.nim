@@ -69,22 +69,22 @@ proc readTags *(gen :var Generator; tags :XmlNode) :void=
 
 proc readRegistry *(gen :var Generator) :void=
   for child in gen.doc:
-    let value = child.tag
-    if value == "commands":
-      discard
-    elif value == "comment":
+    case child.tag
+    of "commands": discard
+    of "comment":
       if child.innerText.contains("Copyright"):
         gen.registry.vulkanLicenseHeader = child.innerText # [TODO] will have to generate real copyright message from this
-    elif value == "enums"             : gen.addEnum(child)
-    elif value == "extensions"        : gen.readExtensions(child)
-    elif value == "feature"           : gen.readFeatures(child)
-    elif value == "formats"           : gen.readFormats(child)
-    elif value == "platforms"         : gen.readPlatforms(child)
-    elif value == "spirvcapabilities" : gen.readSpirvCapabilities(child)
-    elif value == "spirvextensions"   : gen.readSpirvExtensions(child)
-    elif value == "sync"              : gen.readSync(child)
-    elif value == "tags"              : gen.readTags(child)
-    elif value == "types"             : gen.readTypes(child)
+    of "enums"             : gen.addEnum(child)
+    of "extensions"        : gen.readExtensions(child)
+    of "feature"           : gen.readFeatures(child)
+    of "formats"           : gen.readFormats(child)
+    of "platforms"         : gen.readPlatforms(child)
+    of "spirvcapabilities" : gen.readSpirvCapabilities(child)
+    of "spirvextensions"   : gen.readSpirvExtensions(child)
+    of "sync"              : gen.readSync(child)
+    of "tags"              : gen.readTags(child)
+    of "types"             : gen.readTypes(child)
+    else: unreachable
 
 
 proc main() =
