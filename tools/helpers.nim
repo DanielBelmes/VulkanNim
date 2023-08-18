@@ -32,8 +32,8 @@ proc toplevelText*(node: XmlNode): string =
 iterator pairs*(node: XmlNode): (int,XmlNode) {.inline.} =
     assert node.kind == xnElement
     var index = 0
-    for node in node:
-        yield (index,node)
+    for child in node:
+        yield (index,child)
         index+=1
 
 proc removeExtraSpace*(str: string): string =
