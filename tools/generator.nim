@@ -75,26 +75,16 @@ proc readRegistry *(gen :var Generator) :void=
     elif value == "comment":
       if child.innerText.contains("Copyright"):
         gen.registry.vulkanLicenseHeader = child.innerText # [TODO] will have to generate real copyright message from this
-    elif value == "enums":
-      gen.addEnum(child)
-    elif value == "extensions":
-      gen.readExtensions(child)
-    elif value == "feature":
-      gen.readFeatures(child)
-    elif value == "formats":
-      gen.readFormats(child)
-    elif value == "platforms":
-      gen.readPlatforms(child)
-    elif value == "spirvcapabilities":
-      gen.readSpirvCapabilities(child)
-    elif value == "spirvextensions":
-      gen.readSpirvExtensions(child)
-    elif value == "sync":
-      gen.readSync(child)
-    elif value == "tags":
-      gen.readTags(child)
-    elif value == "types":
-      gen.readTypes(child)
+    elif value == "enums"             : gen.addEnum(child)
+    elif value == "extensions"        : gen.readExtensions(child)
+    elif value == "feature"           : gen.readFeatures(child)
+    elif value == "formats"           : gen.readFormats(child)
+    elif value == "platforms"         : gen.readPlatforms(child)
+    elif value == "spirvcapabilities" : gen.readSpirvCapabilities(child)
+    elif value == "spirvextensions"   : gen.readSpirvExtensions(child)
+    elif value == "sync"              : gen.readSync(child)
+    elif value == "tags"              : gen.readTags(child)
+    elif value == "types"             : gen.readTypes(child)
 
 
 proc main() =

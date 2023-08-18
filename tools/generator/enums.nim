@@ -35,54 +35,53 @@ proc addConsts *(gen :var Generator; node :XmlNode) :void=
       value   : entry.attr("value"),
       xmlLine : -1,
       )): raise newException(ParsingError, &"Tried to add a constant that already exists inside the generator : {entry.attr(\"name\")}")
-  echo gen.registry.constants
 
-proc addEnum *(gen :var Generator; node :XmlNode) :void=
-  ## Treats the given node as an enum block, and adds its contents to the respective generator registry field.
-  # Add constants
-  if node.attr("name") == "API Constants": gen.addConsts(node); return
-  # Add enum or bitmask
+proc addAlias *(gen :var Generator; node :XmlNode) :void=  discard
+  ## Treats the given node as an alias, and adds its contents to the respective generator registry field.
+
+proc addBitmask *(gen :var Generator; node :XmlNode) :void=  discard
+  ## Treats the given node as a bitmask enum, and adds its contents to the respective generator registry field.
+
+proc addNormalEnum *(gen :var Generator; node :XmlNode) :void=
+  ## Treats the given node as a normal enum, and adds its contents to the respective generator registry field.
+  # Add normal enum
   var data = EnumData(
     bitwidth  : node.attr("bitwidth"),
     isBitmask : node.attr("type") == "bitmask",
     xmlLine   : -1,
     ) # << EnumData( .. )
-  for key,val in node.attrs().pairs:
-    if   key == "type":     continue
-    elif key == "enum":     continue
-    elif key == "name":     continue
-    elif key == "bitwidth": continue
-    elif key == "comment":  continue
-    else: echo "attr: ",key, " ", val
-  echo "_____________________________"
   for entry in node:
-    for key,val in entry.attrs().pairs:
-      if key == "type" and val == "float": echo "Float enum @: ",entry.attr("name")
-      if   key == "name":    continue
-      elif key == "value":   continue
-      elif key == "comment": continue
-      elif key == "alias":   continue
-      echo key, " : ", val
-    let field = EnumValueData(
+    if entry.tag() == "comment": continue  # Infix Comment, inbetween enum fields
+    if data.values.containsOrIncl( entry.attr("name"), EnumValueData(
       alias    : entry.attr("alias"),
-      bitpos   : "",
+      bitpos   : entry.attr("bitpos"),
       name     : entry.attr("name"),
-      protect  : "",
+      protect  : entry.attr("protect"),
       value    : entry.attr("value"),
       xmlLine  : -1,
-      )
-    # echo field
-  # echo data
+      )):
+      echo "\n",entry,"\n"
+      echo "\n",node, "\n"
+      raise newException(ParsingError, &"Tried to add a field to an enum that already contains it : {entry.attr(\"name\")}")
+  # for name,field in data.fieldPairs:
+  #   echo "______________________________"
+  #   echo name," : ",field,"\n"
+
+
+proc addEnum *(gen :var Generator; node :XmlNode) :void=
+  ## Treats the given node as an enum block, and adds its contents to the respective generator registry field.
+  # Add constants, alias or bitmasks, and return early
+  if   node.attr("name")  == "API Constants" : gen.addConsts(node)     ; return
+  elif node.attr("alias") != ""              : gen.addAlias(node)      ; return
+  elif node.attr("type")  == "bitmask"       : gen.addBitmask(node)    ; return
+  elif node.attr("type")  == "enum"          : gen.addNormalEnum(node) ; return
+  elif node.attr("name")  == ""              : unreachable "addEnum->node.attr() section. The enum name should never be empty."
+  else:unreachable &"addEnum->node.attr() section. else case. Failing XmlNode contains: \n\n{$node}\n\n"
 
 ##[ TODO
 type AliasData* = object
   name     *:string
   xmlLine  *:int
-# type ConstantData* = object
-#   name     *:string
-#   typ`     *:string
-#   value    *:string
-#   xmlLine  *:int
 type BitmaskData* = object
   require  *:string
   `type`   *:string
@@ -99,7 +98,7 @@ type EnumData* = object
   # bitwidth          *:string
   # isBitmask         *:bool = false
   unsupportedValues *:seq[EnumValueData]
-  values            *:OrderedSet[EnumValueData]
+  values            *:OrderedTable[string, EnumValueData]
   # xmlLine           *:int
 type Registry * = object
   constantAliases *:OrderedTable[string, AliasData]
