@@ -1,5 +1,5 @@
 # std dependencies
-import std/xmltree, std/tables, std/sets, std/strutils
+import ../customxmlParsing/xmltree, std/tables, std/sets, std/strutils
 
 
 type ArgsError     * = object of CatchableError  ## For errors in input arguments into the generator

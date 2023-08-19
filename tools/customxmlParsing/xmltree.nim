@@ -65,6 +65,7 @@ type
       s: seq[XmlNode]
       fAttr: XmlAttributes
     fClientData: int    ## for other clients
+    flineNumber: int    ## for parsers that record line numbers
 
 const
   xmlHeader* = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
@@ -694,6 +695,18 @@ proc `clientData=`*(n: XmlNode, data: int) {.inline.} =
   ##
   ## The client data field is used by the HTML parser and generator.
   n.fClientData = data
+
+proc lineNumber*(n: XmlNode): int {.inline.} =
+  ## Gets the client data of `n`.
+  ##
+  ## The client data field is used by the HTML parser and generator.
+  result = n.flineNumber
+
+proc `lineNumber=`*(n: XmlNode, data: int) {.inline.} =
+  ## Sets the client data of `n`.
+  ##
+  ## The client data field is used by the HTML parser and generator.
+  n.flineNumber = data
 
 proc addEscaped*(result: var string, s: string) =
   ## The same as `result.add(escape(s)) <#escape,string>`_, but more efficient.

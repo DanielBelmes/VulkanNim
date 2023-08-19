@@ -7,9 +7,9 @@
 #    distribution, for details about the copyright.
 #
 
-## This module parses an XML document and creates its XML tree representation.
+## This module parses an XML document and creates its XML tree representation. Also parses lineNumber
 
-import streams, parsexml, strtabs, xmltree
+import streams, parsexml, strtabs, ./xmltree
 
 when defined(nimPreviewSlimSystem):
   import std/syncio
@@ -49,6 +49,7 @@ proc untilElementEnd(x: var XmlParser, result: XmlNode,
       result.addNode(parse(x, errors))
 
 proc parse(x: var XmlParser, errors: var seq[string]): XmlNode =
+  let lineNumber = x.getLine()
   case x.kind
   of xmlComment:
     result = newComment(x.charData)
@@ -100,6 +101,7 @@ proc parse(x: var XmlParser, errors: var seq[string]): XmlNode =
     result = newEntity(x.entityName)
     next(x)
   of xmlEof: discard
+  result.lineNumber=lineNumber
 
 proc parseXml*(s: Stream, filename: string,
                errors: var seq[string], options: set[XmlParseOption] = {reportComments}): XmlNode =
