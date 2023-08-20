@@ -697,15 +697,15 @@ proc `clientData=`*(n: XmlNode, data: int) {.inline.} =
   n.fClientData = data
 
 proc lineNumber*(n: XmlNode): int {.inline.} =
-  ## Gets the client data of `n`.
+  ## Gets the line number of `n`.
   ##
-  ## The client data field is used by the HTML parser and generator.
+  ## The line number field is used by the HTML parser and generator.
   result = n.flineNumber
 
 proc `lineNumber=`*(n: XmlNode, data: int) {.inline.} =
-  ## Sets the client data of `n`.
+  ## Sets the line number of `n`.
   ##
-  ## The client data field is used by the HTML parser and generator.
+  ## The line number field is used by the HTML parser and generator.
   n.flineNumber = data
 
 proc addEscaped*(result: var string, s: string) =
