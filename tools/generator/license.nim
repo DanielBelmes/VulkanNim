@@ -1,7 +1,7 @@
 # std dependencies
 import std/strutils
 import std/strformat
-import std/xmltree
+import ../customxmlParsing/xmltree
 # Generator dependencies
 import ../helpers
 

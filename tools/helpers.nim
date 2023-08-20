@@ -1,6 +1,5 @@
 # std dependencies
-import std/xmlparser
-import std/xmltree
+import customxmlParsing/xmltree
 import std/tables
 import std/re
 import std/strutils

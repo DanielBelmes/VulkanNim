@@ -1,5 +1,5 @@
 # std dependencies
-import strutils, os, xmlparser, xmltree, strformat, streams, tables, sequtils
+import strutils, os, customxmlParsing/xmlparser, customxmlParsing/xmltree, strformat, streams, tables, sequtils
 # External dependencies
 import nstd
 # Generator dependencies
@@ -69,6 +69,8 @@ proc readTags *(gen :var Generator; tags :XmlNode) :void=
         contact: tag.attr("contact").removeExtraSpace())): raise newException(ParsingError, &"Tried to add a repeated Tag that already exists inside the generator : {tag.attr(\"name\")}.")
 
 proc readComment *(gen :var Generator; comment :XmlNode) :void=
+  echo comment
+  echo comment.lineNumber
   if comment.innerText.contains("Copyright"):
     gen.registry.vulkanLicenseHeader = comment.innerText.getMIT()
 
