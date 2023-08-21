@@ -34,7 +34,20 @@ proc readTypeBase *(gen :var Generator, basetype :XmlNode) :void=
   baseTypeData.xmlLine = basetype.lineNumber
   if gen.registry.baseTypes.containsOrIncl(name.name,baseTypeData):
     raise newException(ParsingError,"Tried to add a repeated Platform that already exists inside the generator : " & name.name)
-proc readTypeBitmask *(gen :var Generator, types :XmlNode) :void=discard
+proc readTypeBitmask *(gen :var Generator, bitmask :XmlNode) :void=
+  let lineNumber = bitmask.lineNumber
+  let alias = bitmask.attr("alias")
+  if(alias != ""):
+    let name = bitmask.attr("name")
+    if gen.registry.bitmaskAliases.containsOrIncl(name, AliasData(name: alias, xmlLine: lineNumber)):
+      raise newException(ParsingError,"Tried to add a repeated Bitmask Alias that already exists inside the generator : " & name)
+  else:
+    let requires = bitmask.attr("requires")
+    let api = bitmask.attr("requires")
+    let (name, typeinfo) = readNameAndType(bitmask)
+    if api == "" or api == gen.api:
+      if gen.registry.bitmasks.containsOrIncl(name.name,BitmaskData(require: requires, `type`: typeinfo.`type`, xmlLine: lineNumber)):
+        raise newException(ParsingError,"Tried to add a repeated bitmask that already exists inside the generator : " & name.name)
 proc readTypeDefine *(gen :var Generator, types :XmlNode) :void=discard
 proc readTypeEnum *(gen :var Generator, types :XmlNode) :void=discard
 proc readTypeFuncPointer *(gen :var Generator, types :XmlNode) :void=discard
