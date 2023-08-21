@@ -22,12 +22,12 @@ proc readFeatures *(gen :var Generator; feature :XmlNode) :void=
   featureData.name = feature.attr("name")
   featureData.api = feature.attr("api").split(",")
   featureData.number = feature.attr("number")
-  featureData.xmlLine = -1
+  featureData.xmlLine = feature.lineNumber
   for requireOrRemove in feature:
     if requireOrRemove.tag == "require":
       var requireData: RequireData
       requireData.depends = requireOrRemove.attr("depends")
-      requireData.xmlLine = -1
+      requireData.xmlLine = requireOrRemove.lineNumber
       for commandConstantType in requireOrRemove:
         if commandConstantType.kind != xnElement: continue
         if commandConstantType.tag == "type":
@@ -39,7 +39,7 @@ proc readFeatures *(gen :var Generator; feature :XmlNode) :void=
       featureData.requireData.add(requireData)
     else:
       var removeData: RemoveData
-      removeData.xmlLine = -1
+      removeData.xmlLine = requireOrRemove.lineNumber
       for commandEnumType in requireOrRemove:
         if commandEnumType.kind != xnElement: continue
         if commandEnumType.tag == "type":
@@ -56,7 +56,8 @@ proc readPlatforms *(gen :var Generator; platforms :XmlNode) :void=
     if gen.registry.platforms.containsOrIncl(platform.attr("name"),
       PlatformData(
         protect: platform.attr("protect"),
-        comment: platform.attr("comment")
+        comment: platform.attr("comment"),
+        xmlLine: platform.lineNumber
         )): raise newException(ParsingError, &"Tried to add a repeated Platform that already exists inside the generator : {platform.attr(\"name\")}.")
 
 proc readSync *(gen :var Generator; node :XmlNode) :void=  discard #relies on enum
@@ -65,12 +66,11 @@ proc readTags *(gen :var Generator; tags :XmlNode) :void=
   for tag in tags:
     if gen.registry.tags.containsOrIncl(tag.attr("name").removeExtraSpace(),
       TagData(
+        xmlLine: tag.lineNumber,
         author: tag.attr("author").removeExtraSpace(),
         contact: tag.attr("contact").removeExtraSpace())): raise newException(ParsingError, &"Tried to add a repeated Tag that already exists inside the generator : {tag.attr(\"name\")}.")
 
 proc readComment *(gen :var Generator; comment :XmlNode) :void=
-  echo comment
-  echo comment.lineNumber
   if comment.innerText.contains("Copyright"):
     gen.registry.vulkanLicenseHeader = comment.innerText.getMIT()
 

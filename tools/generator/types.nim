@@ -31,6 +31,7 @@ proc readTypeBase *(gen :var Generator, basetype :XmlNode) :void=
   assert nameOption.isSome
   let (name, typeinfo) = readNameAndType(basetype)
   baseTypeData.typeInfo = typeinfo
+  baseTypeData.xmlLine = basetype.lineNumber
   if gen.registry.baseTypes.containsOrIncl(name.name,baseTypeData):
     raise newException(ParsingError,"Tried to add a repeated Platform that already exists inside the generator : " & name.name)
 proc readTypeBitmask *(gen :var Generator, types :XmlNode) :void=discard

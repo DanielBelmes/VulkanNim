@@ -25,7 +25,7 @@ proc addConsts *(gen :var Generator; node :XmlNode) :void=
     if gen.registry.constants.containsOrIncl(entry.attr("name"), ConstantData(
       typ     : entry.attr("type"),
       value   : entry.attr("value"),
-      xmlLine : -1,
+      xmlLine : entry.lineNumber,
       )): raise newException(ParsingError, &"Tried to add a constant that already exists inside the generator : {entry.attr(\"name\")}")
 
 proc addAlias *(gen :var Generator; node :XmlNode) :void=  discard
@@ -40,7 +40,7 @@ proc addNormalEnum *(gen :var Generator; node :XmlNode) :void=
   var data = EnumData(
     bitwidth  : node.attr("bitwidth"),
     isBitmask : node.attr("type") == "bitmask",
-    xmlLine   : -1,
+    xmlLine   : node.lineNumber,
     ) # << EnumData( .. )
   for entry in node:
     if entry.tag() == "comment": continue  # Infix Comment, inbetween enum fields
@@ -50,7 +50,7 @@ proc addNormalEnum *(gen :var Generator; node :XmlNode) :void=
       name     : entry.attr("name"),
       protect  : entry.attr("protect"),
       value    : entry.attr("value"),
-      xmlLine  : -1,
+      xmlLine  : entry.lineNumber,
       )):
       echo "\n",entry,"\n"
       echo "\n",node, "\n"

@@ -14,14 +14,14 @@ proc readFormats *(gen :var Generator; formats :XmlNode) :void=
         formatData.planes.add(PlaneData(
           compatible: dataChild.attr("compatible"),
           heightDivisor: dataChild.attr("heightDivisor"),
-          widthDivisor: dataChild.attr("protect"), xmlLine: -1))
+          widthDivisor: dataChild.attr("protect"), xmlLine: dataChild.lineNumber))
       of "component":
         formatData.components.add(ComponentData(
             bits: dataChild.attr("bits"),
             name: dataChild.attr("name"),
             numericFormat: dataChild.attr("numericFormat"),
             planeIndex: dataChild.attr("planeIndex"),
-            xmlLine: -1
+            xmlLine: dataChild.lineNumber
         ))
       of "spirvimageformat":
         formatData.spirvImageFormat = dataChild.attr("name")
@@ -34,7 +34,7 @@ proc readFormats *(gen :var Generator; formats :XmlNode) :void=
       formatData.compressed = dataChild.attr("compressed")
       formatData.packed = dataChild.attr("packed")
       formatData.texelsPerBlock = dataChild.attr("texelsPerBlock")
-      formatData.xmlLine = -1
+      formatData.xmlLine = dataChild.lineNumber
     if gen.registry.formats.containsOrIncl(format.attr("name"),formatData):
       raise newException(ParsingError,&"Tried to add a repeated Format that already exists inside the generator : {format.attr(\"name\")}.")
 

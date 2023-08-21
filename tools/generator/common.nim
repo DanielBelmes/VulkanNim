@@ -199,6 +199,7 @@ type IncludeData* = object
 type PlatformData* = object
   protect*: string
   comment*: string
+  xmlLine*: int
 
 type MemberData* = object
   `type`*: TypeInfo
@@ -225,6 +226,7 @@ type StructureData* = object
   xmlLine*: int
 
 type TagData* = object
+  xmlLine*: int
   author*: string
   contact*: string
 
