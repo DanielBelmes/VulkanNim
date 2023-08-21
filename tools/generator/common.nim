@@ -139,7 +139,7 @@ type FeatureData* = object
 
 type ExternalTypeData* = object
   require*: string
-  xmlLine*: int = 0
+  xmlLine*: int
 
 type ComponentData* = object
   bits*: string

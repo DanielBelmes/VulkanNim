@@ -2,6 +2,7 @@
 import customxmlParsing/xmltree
 import std/tables
 import std/re
+import std/strformat
 import std/strutils
 # Generator dependencies
 import ./generator/common
@@ -22,6 +23,8 @@ proc containsOrIncl *[A, B](table :var SomeTable[A,B]; key :A; value :B) :bool=
 template unreachable *(msg :string= "")=  raise newException(Unreachable, msg)
   ## Used to mark a block of code as unreachable, and raise an exception when actually entering the block.
   ## Useful to debug for difficult to track edge cases and work in progress sections of parsing.
+
+proc duplicateAdd*(item: string, name: string, lineNumber: int): void = raise newException(ParsingError, fmt"Tried to add a repeated {item} that already exists inside the generator. Name: {name}, Line Number: {lineNumber}")
 
 proc toplevelText*(node: XmlNode): string =
   ## Used to get just the top level text out of a xnElement. (see xmltree/InnerText for getting all text recursively)

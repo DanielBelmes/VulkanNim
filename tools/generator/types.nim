@@ -33,21 +33,21 @@ proc readTypeBase *(gen :var Generator, basetype :XmlNode) :void=
   baseTypeData.typeInfo = typeinfo
   baseTypeData.xmlLine = basetype.lineNumber
   if gen.registry.baseTypes.containsOrIncl(name.name,baseTypeData):
-    raise newException(ParsingError,"Tried to add a repeated Platform that already exists inside the generator : " & name.name)
+    duplicateAdd("Basetype",name.name,basetype.lineNumber)
 proc readTypeBitmask *(gen :var Generator, bitmask :XmlNode) :void=
   let lineNumber = bitmask.lineNumber
   let alias = bitmask.attr("alias")
   if(alias != ""):
     let name = bitmask.attr("name")
     if gen.registry.bitmaskAliases.containsOrIncl(name, AliasData(name: alias, xmlLine: lineNumber)):
-      raise newException(ParsingError,"Tried to add a repeated Bitmask Alias that already exists inside the generator : " & name)
+      duplicateAdd("BitmaskAlias",name,lineNumber)
   else:
     let requires = bitmask.attr("requires")
     let api = bitmask.attr("requires")
     let (name, typeinfo) = readNameAndType(bitmask)
     if api == "" or api == gen.api:
       if gen.registry.bitmasks.containsOrIncl(name.name,BitmaskData(require: requires, `type`: typeinfo.`type`, xmlLine: lineNumber)):
-        raise newException(ParsingError,"Tried to add a repeated bitmask that already exists inside the generator : " & name.name)
+        duplicateAdd("Bitmask",name.name,lineNumber)
 proc readTypeDefine *(gen :var Generator, types :XmlNode) :void=discard
 proc readTypeEnum *(gen :var Generator, types :XmlNode) :void=discard
 proc readTypeFuncPointer *(gen :var Generator, types :XmlNode) :void=discard
@@ -81,8 +81,8 @@ proc readTypes *(gen :var Generator, types :XmlNode) :void=
             raise newException(ParsingError,"Can not identify category of type: " & category)
       else:
         let requires = `type`.attr("requires").removeExtraSpace()
-        if gen.registry.externalTypes.containsOrIncl(`type`.attr("name").removeExtraSpace(),ExternalTypeData(require: requires)):
-          raise newException(ParsingError,&"Tried to add a repeated Platform that already exists inside the generator : {`type`.attr(\"name\")}.")
+        if gen.registry.externalTypes.containsOrIncl(`type`.attr("name").removeExtraSpace(),ExternalTypeData(require: requires, xmlLine: `type`.lineNumber)):
+          duplicateAdd("externalTypes",`type`.attr("name"),`type`.lineNumber)
 
 proc generateTypesFile *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_types.nim"
