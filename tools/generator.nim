@@ -58,7 +58,7 @@ proc readPlatforms *(gen :var Generator; platforms :XmlNode) :void=
         protect: platform.attr("protect"),
         comment: platform.attr("comment"),
         xmlLine: platform.lineNumber
-        )): duplicateAdd("Platform",platform.attr("name"),platform.lineNumber)
+        )): duplicateAddError("Platform",platform.attr("name"),platform.lineNumber)
 
 proc readSync *(gen :var Generator; node :XmlNode) :void=  discard #relies on enum
 
@@ -68,7 +68,7 @@ proc readTags *(gen :var Generator; tags :XmlNode) :void=
       TagData(
         xmlLine: tag.lineNumber,
         author: tag.attr("author").removeExtraSpace(),
-        contact: tag.attr("contact").removeExtraSpace())): duplicateAdd("Tag",tag.attr("name"),tag.lineNumber)
+        contact: tag.attr("contact").removeExtraSpace())): duplicateAddError("Tag",tag.attr("name"),tag.lineNumber)
 
 proc readComment *(gen :var Generator; comment :XmlNode) :void=
   if comment.innerText.contains("Copyright"):

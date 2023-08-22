@@ -24,7 +24,7 @@ template unreachable *(msg :string= "")=  raise newException(Unreachable, msg)
   ## Used to mark a block of code as unreachable, and raise an exception when actually entering the block.
   ## Useful to debug for difficult to track edge cases and work in progress sections of parsing.
 
-proc duplicateAdd*(item: string, name: string, lineNumber: int): void = raise newException(ParsingError, fmt"Tried to add a repeated {item} that already exists inside the generator. Name: {name}, Line Number: {lineNumber}")
+proc duplicateAddError*(item: string, name: string, lineNumber: int): void = raise newException(ParsingError, fmt"Tried to add a repeated {item} that already exists inside the generator. Name: {name}, Line Number: {lineNumber}")
   ## Used when a duplcate node is attemtping to be added into the registery
 
 proc toplevelText*(node: XmlNode): string =

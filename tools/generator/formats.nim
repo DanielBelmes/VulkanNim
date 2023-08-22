@@ -36,7 +36,7 @@ proc readFormats *(gen :var Generator; formats :XmlNode) :void=
       formatData.texelsPerBlock = dataChild.attr("texelsPerBlock")
       formatData.xmlLine = format.lineNumber
     if gen.registry.formats.containsOrIncl(format.attr("name"),formatData):
-      duplicateAdd("Format",format.attr("name"),format.lineNumber)
+      duplicateAddError("Format",format.attr("name"),format.lineNumber)
 
 proc generateFormatsFile *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_formats.nim"

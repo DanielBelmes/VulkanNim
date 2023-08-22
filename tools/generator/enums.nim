@@ -26,7 +26,7 @@ proc addConsts *(gen :var Generator; node :XmlNode) :void=
       typ     : entry.attr("type"),
       value   : entry.attr("value"),
       xmlLine : entry.lineNumber,
-      )): duplicateAdd("Enum constant",entry.attr("name"),entry.lineNumber)
+      )): duplicateAddError("Enum constant",entry.attr("name"),entry.lineNumber)
 
 proc addAlias *(gen :var Generator; node :XmlNode) :void=  discard
   ## Treats the given node as an alias, and adds its contents to the respective generator registry field.
@@ -52,7 +52,7 @@ proc addNormalEnum *(gen :var Generator; node :XmlNode) :void=
       value    : entry.attr("value"),
       xmlLine  : entry.lineNumber,
       )):
-      duplicateAdd("Enum field",entry.attr("name"),entry.lineNumber)
+      duplicateAddError("Enum field",entry.attr("name"),entry.lineNumber)
   # for name,field in data.fieldPairs:
   #   echo "______________________________"
   #   echo name," : ",field,"\n"
