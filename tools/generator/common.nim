@@ -234,6 +234,12 @@ type VectorParamData* = object
   lenParam*: csize_t = -1
   strideParam*: csize_t = -1
 
+type MacroData* = object
+  deprecatedComment*: string
+  calleeMacro*: string
+  params*: seq[string]
+  definition*: string
+
 
 type Registry * = object
   api*: string

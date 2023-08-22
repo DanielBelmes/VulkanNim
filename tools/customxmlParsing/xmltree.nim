@@ -845,6 +845,20 @@ proc `$`*(n: XmlNode): string =
   result = ""
   result.add(n)
 
+proc lastChild*(n: XmlNode): XmlNode =
+  ## Returns the last child element of n
+  ## Returns `nil` on failure
+  runnableExamples:
+    var f = newElement("myTag")
+    f.add newElement("firstSon")
+    f.add newElement("secondSon")
+    f.add newElement("thirdSon")
+    assert $(f.lastChild()) == "<thirdSon />"
+
+  n.expect xnElement
+  if n.len <= 0: return nil
+  return n.s[^1]
+
 proc child*(n: XmlNode, name: string): XmlNode =
   ## Finds the first child element of `n` with a name of `name`.
   ## Returns `nil` on failure.
