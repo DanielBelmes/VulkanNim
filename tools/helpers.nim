@@ -32,7 +32,7 @@ proc toplevelText*(node: XmlNode): string =
   assert node.kind == xnElement
   for elem in node:
     if elem.kind == xnText:
-      result &= elem.rawText()
+      result &= elem.text()
 
 iterator pairs*(node: XmlNode): (int,XmlNode) {.inline.} =
   ## Enables you to take out the index with a for in statement
@@ -45,3 +45,20 @@ iterator pairs*(node: XmlNode): (int,XmlNode) {.inline.} =
 proc removeExtraSpace*(str: string): string =
   ## Changes all multi spaces and tabs into one space. Trims trailing and appending whitespace as well
   return str.strip().replacef(re"[ 	]+"," ")
+
+proc removePrefix*(s: string, prefix: string): string =
+  ## Removes prefix and returns modified string
+  if s.startsWith(prefix) and prefix.len > 0:
+    return s[prefix.len..^1]
+  else:
+    return s
+
+proc removeSuffix*(s: string, prefix: string): string =
+  # Removes suffix and returns modified string
+  if s.endsWith(prefix) and prefix.len > 0:
+    return s[0..((len(s) - 1) - prefix.len)] # ^1 macro wasn't working here
+  else:
+    return s
+
+proc removeSlashNewLine*(s:string): string =
+  return s.replace(re"\\\n","")

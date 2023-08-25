@@ -10,6 +10,7 @@ license       = "MIT"
 
 # Build Requirements
 requires "nim >= 2.0.0"
+requires "https://github.com/nitely/nim-regex#head"
 
 # Folders
 srcDir          = "src"
@@ -54,14 +55,14 @@ task git, "Internal:  Updates the Vulkan spec submodule.":
   withDir specDir:
     exec "git submodule update --remote --merge"
 #___________________
-taskRequires "genvk", "https://github.com/heysokam/nstd#head" # For parseopts extensions
+taskRequires "genvk", "https://github.com/heysokam/nstd >= 0.1.8" # For parseopts extensions
 task genvk, "Internal:  Generates the vk bindings, using the currently tracked vk.xml file.":
-  exec "nimble git"
+  #exec "nimble git"
   exec &"{nimcr} {generatorVk} {vkSpecXML}"
 #___________________
-taskRequires "genvideo", "https://github.com/heysokam/nstd" # For parseopts extensions
+taskRequires "genvideo", "https://github.com/heysokam/nstd >= 0.1.8" # For parseopts extensions
 task genvideo, "Internal:  Generates the vk video bindings, using the currently tracked video.xml file.":
-  exec "nimble git"
+  #exec "nimble git"
   exec &"{nimcr} {generatorVideo} {videoSpecXML}"
 #___________________
 # Build the examples binaries

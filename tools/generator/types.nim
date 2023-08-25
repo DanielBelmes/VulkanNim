@@ -1,16 +1,47 @@
 # std dependencies
 import std/strformat
-import std/re
+import regex
 import std/strutils
 # Generator dependencies
 import ../customxmlParsing/xmltree
 import ./common
 import ../helpers
 import options
+import nstd/format
 
-proc parseDefineMacro*(node: XmlNode): MacroData =
+proc parseDefineMacro*(define: XmlNode): MacroData =
+  ## parses macros from the spec
   # [TODO] Actually parse define macros
-  return MacroData()
+  let paramsRegex  = re2"(\(.*?\))"
+  let commentRegex = re2"(\s*//.*)"
+  let text = define.innerText()
+  var depreciationMatch: RegexMatch2
+  var deprecationReason: string
+  deprecationReason.setLen(1) #Memory has to be set beforehand. If memory isn't there it will fail
+  if text.find(re2"// DEPRECATED: (.*)\n",depreciationMatch):
+    deprecationReason = text[depreciationMatch.captures[0]]
+
+  if define.len == 3:
+    var paramsAndDefinitionAndTrailingComment = define[2].innerText().strip().removeSlashNewLine().removeExtraSpace()
+    if not paramsAndDefinitionAndTrailingComment.contains("("):
+      #No parameters found
+      return (deprecationReason,"",@[],paramsAndDefinitionAndTrailingComment.replace(commentRegex,""))
+    var argMatch: RegexMatch2
+    var args : seq[string] = @[""]
+    if paramsAndDefinitionAndTrailingComment.find(paramsRegex,argMatch):
+      args = paramsAndDefinitionAndTrailingComment[argMatch.captures[0]].removePrefix("(").removeSuffix(")").split(", ")
+    var implementation = paramsAndDefinitionAndTrailingComment.replace(paramsRegex,"",1).replace(commentRegex,"")
+    return (deprecationReason,"",args,implementation)
+  elif define.len == 4:
+    let
+      calledMacro: string = define[2].innerText().removePrefix("VK_").change(SCREAM_CASE, camelCase)
+      argsAndTrailingComment: string = define[3].innerText()
+    var argMatch: RegexMatch2
+    var args : seq[string] = @[""]
+    if argsAndTrailingComment.find(paramsRegex,argMatch):
+      args = argsAndTrailingComment[argMatch.captures[0]].removePrefix("(").removeSuffix(")").split(", ")
+    return (deprecationReason,calledMacro,args,"")
+  return (deprecationReason,"",@[],"")
 
 proc readNameAndType *(node: XmlNode): (NameData, TypeInfo) =
   ## Extracts <name></name> and <type></type> from certain elements
@@ -68,11 +99,6 @@ proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
   let require: string = define.attr("requires")
   let api: string = define.attr("api")
   let deprecated: bool = define.attr("deprecated") == "true"
-  var deprecationReason: seq[string]
-  deprecationReason.setLen(1) #Memory has to be set beforehand. If memory isn't there it will fail
-  if deprecated:
-    if define.innerText().find(re"// DEPRECATED: (.*)\n",deprecationReason) == -1 and deprecationReason.len == 1:
-      raise newException(ParsingError, "Wasn't able to find Depreciation reason for line: " & $lineNumber)
   if name != "":
     if name == "VK_USE_64_BIT_PTR_DEFINES":
       gen.registry.typesafeCheck = "#if ( VK_USE_64_BIT_PTR_DEFINES == 1 )"
@@ -82,23 +108,21 @@ proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
     # [TODO?] There are some struct typedef we could move to gen.reg.types
     name = define.child("name").innerText().removeExtraSpace()
     if name == "VK_HEADER_VERSION" and (api == "" or api == gen.api):
-      gen.registry.version = define.lastChild.rawText().removeExtraSpace()
+      gen.registry.version = define.lastChild().text().removeExtraSpace()
   assert(name != "")
 
   if api == "" or api == gen.api:
-    let macroData = parseDefineMacro(define)
+    let (deprecationReason, possibleCallee, params, possibleDefinition) = parseDefineMacro(define)
     if gen.registry.defines.containsOrIncl(name, DefineData(
       deprecated: deprecated,
       require: require,
       xmlLine: lineNumber,
-      deprecationReason: deprecationReason[0],
-      possibleCallee: macroData.possibleCalle,
-      params: macroData.params,
-      possibleDefinition: macroData.possibleDefinition,
+      deprecationReason: deprecationReason,
+      possibleCallee: possibleCallee,
+      params: params,
+      possibleDefinition: possibleDefinition,
     )):
       duplicateAddError("Define",name,lineNumber)
-
-  discard
 
 proc readTypeEnum *(gen :var Generator, types :XmlNode) :void=discard
 proc readTypeFuncPointer *(gen :var Generator, types :XmlNode) :void=discard

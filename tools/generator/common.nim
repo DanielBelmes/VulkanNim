@@ -1,5 +1,5 @@
 # std dependencies
-import ../customxmlParsing/xmltree, std/tables, std/sets, std/strutils
+import ../customxmlParsing/xmltree, std/tables, std/sets
 
 
 type ArgsError     * = object of CatchableError  ## For errors in input arguments into the generator
@@ -234,11 +234,11 @@ type VectorParamData* = object
   lenParam*: csize_t = -1
   strideParam*: csize_t = -1
 
-type MacroData* = object
-  deprecatedComment*: string
-  calleeMacro*: string
-  params*: seq[string]
-  definition*: string
+type MacroData* = tuple
+  deprecatedComment: string
+  calleeMacro: string
+  params: seq[string]
+  definition: string
 
 
 type Registry * = object

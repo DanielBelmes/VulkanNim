@@ -9,7 +9,7 @@
 
 ## This module parses an XML document and creates its XML tree representation. Also parses lineNumber
 
-import streams, parsexml, strtabs, ./xmltree
+import streams, parsexml, strtabs, ./xmltree, strutils
 
 when defined(nimPreviewSlimSystem):
   import std/syncio
@@ -57,6 +57,13 @@ proc parse(x: var XmlParser, errors: var seq[string]): XmlNode =
   of xmlCharData, xmlWhitespace:
     result = newText(x.charData)
     next(x)
+    while true: #Before xnText would be created for every whitespace. Now Append text until end
+      case x.kind
+      of xmlCharData, xmlWhitespace:
+        result.text= result.text & x.charData
+        next(x)
+      else:
+        break
   of xmlPI, xmlSpecial:
     # we just ignore processing instructions for now
     next(x)
