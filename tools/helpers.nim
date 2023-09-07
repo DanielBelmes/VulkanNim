@@ -4,6 +4,8 @@ import std/tables
 import std/re
 import std/strformat
 import std/strutils
+# External dependencies
+import nstd/format as nstdFormat ; export nstdFormat
 # Generator dependencies
 import ./generator/common
 

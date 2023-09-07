@@ -10,7 +10,7 @@ import ./common
 import ./license
 
 
-const genTemplate = """
+const GenTempl = """
 {VulkanNimHeader}
 import std/sets
 
@@ -106,37 +106,64 @@ proc readEnum *(gen :var Generator; node :XmlNode) :void=
   elif node.attr("name")  == ""              : unreachable "readEnum->node.attr() section. The enum name should never be empty."
   else:unreachable &"addEnum->node.attr() section. else case. Failing XmlNode contains: \n\n{$node}\n\n"
 
-##[ TODO
-type Registry * = object
-  constantAliases *:OrderedTable[string, AliasData]
-  # constants       *:OrderedTable[string, ConstantData]
-  # bitmaskAliases  *:OrderedTable[string, AliasData]
-  # bitmasks        *:OrderedTable[string, BitmaskData]
-  # enumAliases     *:OrderedTable[string, AliasData]
-  # enums           *:OrderedTable[string, EnumData]
-]##
-
 proc generateEnumFile *(gen: Generator) :void=
   # Configuration
   let outputDir = fmt"./src/VulkanNim/{gen.api}_enums.nim"
   var enums :string  # Output string
-  # Generation subprocs
-  proc genEnum (node :XmlNode) :string=
-    let name  = node.attr("name")
-    if name == "API Constants": return ""
-    let bits  = node.attr("type") == "bitmask"
-    let typ   = if bits: &"set[{name.replace(\"Bits\", \"Bit\")}]" else: "enum"
-    let width = node.attr("bitwidth")
-    let pure  = if bits: " " elif width != "": "{.pure, size: $1.}" % [width] else: "{.pure.}"
-    result    = "type $1 *$2= $3\n" % [name, pure, typ]
-    for key,val in node.attrs().pairs:
-      case key
-      of "type": discard
-      of "name": discard
-      else: discard #echo key, " ", val
-  # Find the enums
-  for node in gen.doc.findElems("enums"):
-    enums.add node.genEnum()
+
+  #_______________________________________
+  # TODO: Move to somewhere else
+  #_______________________________________
+  func getDeprecated (data :AliasData; name :string) :string=
+    if data.deprecated == "": return ""
+    var reason :string= case data.deprecated:
+    of "aliased":  &"{data.deprecated}:  {name}  has been aliased to  {data.name}"
+    else: raise newException(CodegenError, &"Tried to add codegen for a deprecated alias, but it contains an unknown reason:\n └─> {data.deprecated}\n")
+    result = &" {{.deprecated: \"{reason}\".}}"
+  #_______________________________________
+  func cTypeToNim (typ :string) :string=
+    case typ
+    of "uint32_t" : "uint32"
+    of "uint64_t" : "uint64"
+    of "float"    : "float32"
+    else: raise newException(CodegenError, &"Tried to convert a C type to Nim, but it is not a recognized as a known type:\n{typ}")
+  func cValueToNim (val :string) :string=
+    if "." in val: return val.replace("F", "'f32")
+    case val
+    of "(~0U)"   : "not 0'u32"
+    of "(~1U)"   : "not 1'u32"
+    of "(~2U)"   : "not 2'u32"
+    of "(~0ULL)" : "not 0'u64"
+    else: val
+  #_______________________________________
+  func getType (data :ConstantData) :string=  data.typ.cTypeToNim()
+  func getValue (data :ConstantData) :string=  data.value.cValueToNim()
+  func fromScream (sym :string) :string=
+    if sym.startsWith("VK_"): result = sym[3..^1].change(SCREAM_CASE, PascalCase)
+  #_______________________________________
+  const ConstHeader      = "## API Constants\n"
+  const ConstTempl       = "const {name.fromScream} *:{entry.getType}= {entry.getValue()}\n"
+  const ConstAliasHeader = "## API Constant Aliases\n"
+  const ConstAliasTempl  = "const {alias.name.fromScream} *:{entry.getType}{alias.getDeprecated(name)}= {name.fromScream}\n"
+
+  #_______________________________________
+  # Codegen Constants
+  enums.add ConstHeader
+  for name in gen.registry.constants.keys():
+    let entry = gen.registry.constants[name]
+    enums.add fmt ConstTempl
+  enums.add "\n"
+
+  #_______________________________________
+  # Codegen Constant Aliases
+  enums.add ConstAliasHeader
+  for name in gen.registry.constantAliases.keys():
+    let entry = gen.registry.constants[name]
+    let alias = gen.registry.constantAliases[name]
+    enums.add fmt ConstAliasTempl
+  enums.add "\n"
+
+  #_______________________________________
   # Write the enums to the output file
-  writeFile(outputDir, fmt genTemplate)
+  writeFile(outputDir, fmt GenTempl)
 
