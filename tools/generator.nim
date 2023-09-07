@@ -42,15 +42,17 @@ proc readRegistry *(gen :var Generator) :void=
 # Generator Entry Point
 #___________________
 # CLI helper docs
-const ValidAPIs = ["vulkan", "vulkansc"]
+const DefaultAPI = "vulkan" 
+const ValidAPIs  = ["vulkan", "vulkansc"]
 const Help = &"""
 Usage:
 - First argument:  Must always be a valid vk.xml spec file.
   Note: Validity of the file is only checked by extension, and will crash the XML parser if its has invalid xml contents.
 - Second argument (optional):
   A targetAPI keyword can be provided. Valid keywords:  {ValidAPIs}
-  Will default to "vulkan" when omitted.
+  Will default to "{DefaultAPI}" when omitted.
 """
+static:assert DefaultAPI in ValidAPIs
 #___________________
 # Entry Point
 proc main=
@@ -61,10 +63,10 @@ proc main=
     if not args[0].endsWith(".xml"): raise newException(ArgsError, &"The first argument input must be a valid .xml file. See {Help}")
     XML = args[0]
   if args.len == 2:
-    if args[1] notin ValidAPIs: raise newException(ArgsError, "The desired API target needs to be either omitted, or passed to the generator as its second argument. The known valid options are:\n{ValidAPIs}")
+    if args[1] notin ValidAPIs: raise newException(ArgsError, "The desired target API needs to be either omitted, or passed to the generator as its second argument. The known valid options are:\n{ValidAPIs}")
     targetAPI = args[1]
   elif args.len == 1:
-    targetAPI = "vulkan" # Assume normal vulkan (not sc) when omitted.
+    targetAPI = DefaultAPI # Assume normal vulkan (not sc) when omitted.
   elif args.len == 0 : raise newException(ArgsError, &"No arguments provided. See {Help}")
   else               : raise newException(ArgsError, &"Too many arguments provided. See {Help}")
 
