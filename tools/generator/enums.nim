@@ -122,7 +122,7 @@ func getValue (data :ConstantData) :string=  data.value.cValueToNim()
 #_______________________________________
 # Codegen Entry Point
 #_____________________________
-proc generateEnumFile *(gen: Generator) :void=
+proc generateEnums *(gen: Generator) :void=
   # Configuration
   let outputDir = fmt"./src/VulkanNim/{gen.api}_enums.nim"
   var enums :string  # Output string

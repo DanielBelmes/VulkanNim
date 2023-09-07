@@ -1,127 +1,91 @@
 # std dependencies
-import strutils, os, customxmlParsing/xmlparser, customxmlParsing/xmltree, strformat, streams, tables, sequtils
+import strutils, strformat, streams
 # External dependencies
 import nstd
 # Generator dependencies
+import ./customxmlParsing/xmlparser, ./customxmlParsing/xmltree
 import ./generator/common
 import ./generator/api
 import ./generator/enums
 import ./generator/extensions
+import ./generator/features
 import ./generator/formats
 import ./generator/handles
+import ./generator/platforms
 import ./generator/procs
 import ./generator/structs
 import ./generator/types
 import ./generator/spirv
+import ./generator/sync
 import ./generator/license
-import ./helpers
-
-# TODO: Move to the ./generator/*.nim file they should belong to
-proc readFeatures *(gen :var Generator; feature :XmlNode) :void=
-  var featureData: FeatureData
-  featureData.name = feature.attr("name")
-  featureData.api = feature.attr("api").split(",")
-  featureData.number = feature.attr("number")
-  featureData.xmlLine = feature.lineNumber
-  for requireOrRemove in feature:
-    if requireOrRemove.tag == "require":
-      var requireData: RequireData
-      requireData.depends = requireOrRemove.attr("depends")
-      requireData.xmlLine = requireOrRemove.lineNumber
-      for commandConstantType in requireOrRemove:
-        if commandConstantType.kind != xnElement: continue
-        if commandConstantType.tag == "type":
-          requireData.types.add(commandConstantType.attr("name"))
-        if commandConstantType.tag == "enum":
-          requireData.constants.add(commandConstantType.attr("name"))
-        if commandConstantType.tag == "command":
-          requireData.commands.add(commandConstantType.attr("name"))
-      featureData.requireData.add(requireData)
-    else:
-      var removeData: RemoveData
-      removeData.xmlLine = requireOrRemove.lineNumber
-      for commandEnumType in requireOrRemove:
-        if commandEnumType.kind != xnElement: continue
-        if commandEnumType.tag == "type":
-          removeData.types.add(commandEnumType.attr("name"))
-        if commandEnumType.tag == "enum":
-          removeData.enums.add(commandEnumType.attr("name"))
-        if commandEnumType.tag == "command":
-          removeData.commands.add(commandEnumType.attr("name"))
-      featureData.removeData.add(removeData)
-  gen.registry.features.add(featureData)
-
-proc readPlatforms *(gen :var Generator; platforms :XmlNode) :void=
-  for platform in platforms:
-    if gen.registry.platforms.containsOrIncl(platform.attr("name"),
-      PlatformData(
-        protect: platform.attr("protect"),
-        comment: platform.attr("comment"),
-        xmlLine: platform.lineNumber
-        )): duplicateAddError("Platform",platform.attr("name"),platform.lineNumber)
-
-proc readSync *(gen :var Generator; node :XmlNode) :void=  discard #relies on enum
-
-proc readTags *(gen :var Generator; tags :XmlNode) :void=
-  for tag in tags:
-    if gen.registry.tags.containsOrIncl(tag.attr("name").removeExtraSpace(),
-      TagData(
-        xmlLine: tag.lineNumber,
-        author: tag.attr("author").removeExtraSpace(),
-        contact: tag.attr("contact").removeExtraSpace())): duplicateAddError("Tag",tag.attr("name"),tag.lineNumber)
-
-proc readComment *(gen :var Generator; comment :XmlNode) :void=
-  if comment.innerText.contains("Copyright"):
-    gen.registry.vulkanLicenseHeader = comment.innerText.getMIT()
+import ./generator/vendors
 
 proc readRegistry *(gen :var Generator) :void=
   ## Reads the XML file and puts into intermediate representation
   for child in gen.doc:
     case child.tag
-    of "commands"          : discard
-    of "comment"           : gen.readComment(child)
-    of "enums"             : gen.readEnum(child)
-    of "extensions"        : gen.readExtensions(child)
-    of "feature"           : gen.readFeatures(child)
-    of "formats"           : gen.readFormats(child)
     of "platforms"         : gen.readPlatforms(child)
+    of "tags"              : gen.readVendorTags(child)
+    of "types"             : gen.readTypes(child)
+    of "enums"             : gen.readEnum(child)
+    of "commands"          : discard  # TODO: Why are they discarded ?
+    of "feature"           : gen.readFeatures(child)
+    of "extensions"        : gen.readExtensions(child)
+    of "formats"           : gen.readFormats(child)
     of "spirvcapabilities" : gen.readSpirvCapabilities(child)
     of "spirvextensions"   : gen.readSpirvExtensions(child)
     of "sync"              : gen.readSync(child)
-    of "tags"              : gen.readTags(child)
-    of "types"             : gen.readTypes(child)
+    of "comment"           : gen.readLicense(child) # TODO : What to do with infix comments at XML root.
     else: raise newException(ParsingError, &"Unknown tag {child.tag} in readRegistry")
 
-
-proc main() =
-  let args = getArgs()
-  var XML, api: string
-  if args.len == 2:
-    if args[1] != "vulkan" or args[1] != "vulkansc":
-      raise newException(ArgsError, "The vk.xml spec file path needs to be passed to the generator as its first argument.")
-    api = args[1]
-  elif args.len == 1:
-    if not args[0].endsWith(".xml"): raise newException(ArgsError, "The vk.xml spec file path needs to be passed to the generator as its first argument.")
-    api = "vulkan"
+#_______________________________________
+# Generator Entry Point
+#___________________
+# CLI helper docs
+const ValidAPIs = ["vulkan", "vulkansc"]
+const Help = &"""
+Usage:
+- First argument:  Must always be a valid vk.xml spec file.
+  Note: Validity of the file is only checked by extension, and will crash the XML parser if its has invalid xml contents.
+- Second argument (optional):
+  A targetAPI keyword can be provided. Valid keywords:  {ValidAPIs}
+  Will default to "vulkan" when omitted.
+"""
+#___________________
+# Entry Point
+proc main=
+  # Interpret the arguments given to the generator
+  let args = nstd.getArgs()
+  var XML, targetAPI: string
+  if args.len in 1..2:
+    if not args[0].endsWith(".xml"): raise newException(ArgsError, &"The first argument input must be a valid .xml file. See {Help}")
     XML = args[0]
-  elif args.len == 0:
-    raise newException(ArgsError, "No arguments provided [TODO] be more helpful")
-  else:
-    raise newException(ArgsError, "I don't know why you have so many arguments")
-  let file = newFileStream(XML, fmRead)
+  if args.len == 2:
+    if args[1] notin ValidAPIs: raise newException(ArgsError, "The desired API target needs to be either omitted, or passed to the generator as its second argument. The known valid options are:\n{ValidAPIs}")
+    targetAPI = args[1]
+  elif args.len == 1:
+    targetAPI = "vulkan" # Assume normal vulkan (not sc) when omitted.
+  elif args.len == 0 : raise newException(ArgsError, &"No arguments provided. See {Help}")
+  else               : raise newException(ArgsError, &"Too many arguments provided. See {Help}")
 
-  var generator = Generator(doc: file.parseXml(), api: api)
+  # Read the file into an XML tree
+  var file = newFileStream(XML,fmRead)
+  var generator = Generator(
+    doc : file.parseXml(),
+    api : targetAPI  )
 
+  # Parse the XML into our Intermediate Representation objects
   generator.readRegistry()
 
-  generator.generateApiFile()
-  generator.generateTypesFile()
-  generator.generateExtensionInspectionFile()
-  generator.generateFormatsFile()
-  generator.generateEnumFile()
-  generator.generateProcsFile()
-  generator.generateHandlesFile()
-  generator.generateStructsFile()
+  # Generate the code files
+  generator.generateAPI()
+  generator.generateExtensionInspection()
+  generator.generateTypes()
+  generator.generateFormats()
+  generator.generateEnums()
+  generator.generateProcs()
+  generator.generateHandles()
+  generator.generateStructs()
 
 
 when isMainModule: main()

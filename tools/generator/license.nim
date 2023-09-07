@@ -2,7 +2,9 @@
 import std/strutils
 import std/strformat
 # Generator dependencies
+import ../customxmlParsing/xmlparser, ../customxmlParsing/xmltree
 import ../helpers
+import ./common
 
 
 const VulkanNimHeader * = """
@@ -40,4 +42,8 @@ proc getMIT *(text :string) :string=
     elif "SPDX-License-Identifier" in line and "MIT" notin line:
       unreachable &"Tried to get MIT license text from an xml spec file that does not list support for MIT. Text contains:\n{text}\nLine contains:\n{line}"
   result = fmt( MITtemplate )
+
+proc readLicense *(gen :var Generator; comment :XmlNode) :void=
+  if comment.innerText.contains("Copyright"):
+    gen.registry.vulkanLicenseHeader = comment.innerText.getMIT()
 

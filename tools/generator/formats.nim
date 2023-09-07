@@ -38,7 +38,7 @@ proc readFormats *(gen :var Generator; formats :XmlNode) :void=
     if gen.registry.formats.containsOrIncl(format.attr("name"),formatData):
       duplicateAddError("Format",format.attr("name"),format.lineNumber)
 
-proc generateFormatsFile *(gen :Generator) :void=
+proc generateFormats *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_formats.nim"
   const genTemplate = """
 #[

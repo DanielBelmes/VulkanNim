@@ -4,7 +4,7 @@ import std/strformat
 import ./common
 
 
-proc generateApiFile *(gen: Generator): void =
+proc generateAPI *(gen: Generator): void =
   let outputDir = fmt"./src/VulkanNim/{gen.api}.nim"
   const genTemplate = """
 include ./dynamic

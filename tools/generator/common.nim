@@ -1,6 +1,7 @@
 # std dependencies
 import ../customxmlParsing/xmltree, std/tables, std/sets
 import std/strformat
+import std/strtabs
 
 
 type TypeCategory* {.pure.}= enum
@@ -110,17 +111,19 @@ type DefinesPartition* = object
   values*: OrderedTable[string, DefineData]
 
 type RemoveData* = object
-  commands*: seq[string]
-  enums*: seq[string]
-  types*: seq[string]
-  xmlLine*: int
+  comment  *:string
+  commands *:seq[string]
+  enums    *:seq[string]
+  types    *:seq[string]
+  xmlLine  *:int
 
 type RequireData* = object
-  depends*: string
-  commands*: seq[string]
-  constants*: seq[string]
-  types*: seq[string]
-  xmlLine*: int
+  depends   *:string
+  comment   *:string
+  commands  *:seq[string]
+  constants *:seq[string]
+  types     *:seq[string]
+  xmlLine   *:int
 
 type ExtensionData* = object
   deprecatedBy*: string
@@ -136,12 +139,13 @@ type ExtensionData* = object
   xmlLine*: int = 0
 
 type FeatureData* = object
-  name*: string
-  api*: seq[string]
-  number*: string
-  removeData*: seq[RemoveData]
-  requireData*: seq[RequireData]
-  xmlLine*: int
+  name        *:string
+  comment     *:string
+  number      *:string
+  api         *:seq[string]
+  removeData  *:seq[RemoveData]
+  requireData *:seq[RequireData]
+  xmlLine     *:int
 
 type ExternalTypeData* = object
   require*: string
@@ -306,6 +310,7 @@ proc checkKnownKeys *[T](node :XmlNode; _:typedesc[T]; KnownKeys :openArray[stri
   ##   node.checkKnownKeys(EnumValueData, [ "comment", "value", "protect", "name", "alias", "deprecated" ])
   if node.attrs.isNil:
     if node.tag() == "comment": return  # We know that comment nodes can sometimes contain no attributes, so don't segfault on them.
+    if node.tag() == "require": return  # We know that require nodes only contain subnodes and no attributes, so don't error because they are missing.
     else: raise newException(ParsingError, &"Tried to get {$T} information from a node that contains a tag that has no attributes:\n  └─> {node.tag()}\nIts XML data is:\n{$node}\n")
   for key in node.attrs.keys():
     if key notin KnownKeys: raise newException(ParsingError, &"Tried to get {$T} information from a node that contains an unknown key:\n  └─> {key}\nIts XML data is:\n{$node}\n")

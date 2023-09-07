@@ -4,7 +4,7 @@ import std/strformat
 import ./common
 
 
-proc generateProcsFile *(gen :Generator) :void=
+proc generateProcs *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_procs.nim"
   const genTemplate = """
 #[
