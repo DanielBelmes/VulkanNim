@@ -1,8 +1,9 @@
 # std dependencies
 import std/strformat
 import std/strutils
-import ../customxmlParsing/xmltree
 import std/strtabs
+import ../customxmlParsing/xmltree
+import std/tables
 # Generator dependencies
 import ../helpers
 import ./common
@@ -15,8 +16,7 @@ import std/sets
 
 {enums}
 """
-##[
-]##
+
 
 proc addConsts *(gen :var Generator; node :XmlNode) :void=
   ## Treats the given node as a constants block, and adds its contents to the generator registry.
@@ -35,33 +35,39 @@ proc addBitmask *(gen :var Generator; node :XmlNode) :void=  discard
 
 proc addNormalEnum *(gen :var Generator; node :XmlNode) :void=
   ## Treats the given node as a normal enum, and adds its contents to the respective generator registry field.
-  # Add normal enum
+  node.checkKnownKeys(EnumData, [ "comment", "unused", "type", "name" ])
   var data = EnumData(
-    bitwidth  : node.attr("bitwidth"),
-    isBitmask : node.attr("type") == "bitmask",
+    comment   : node.attr("comment"),
     xmlLine   : node.lineNumber,
     ) # << EnumData( .. )
   for entry in node:
-    if entry.tag() == "comment": continue  # Infix Comment, inbetween enum fields
-    if data.values.containsOrIncl( entry.attr("name"), EnumValueData(
-      alias    : entry.attr("alias"),
-      bitpos   : entry.attr("bitpos"),
-      name     : entry.attr("name"),
-      protect  : entry.attr("protect"),
+    if not node.attrs.isNil and node.attr("unused") != "":
+      echo node.attr("unused")
+    entry.checkKnownKeys(EnumValueData, [ "comment", "value", "protect", "name", "alias", "deprecated", "start", "api" ])
+    if   entry.tag() == "comment" : continue  # Infix Comment, inbetween enum fields
+    elif entry.tag() == "unused"  : data.unused = entry.attr("start")
+    # Add EnumValue alias to the registry and skip to the next entry
+    if entry.attr("alias") != "":
+      gen.registry.enumAliases[ entry.attr("alias") ] = AliasData(
+        name       : entry.attr("name"),
+        deprecated : entry.attr("deprecated"),
+        api        : entry.attr("api"),
+        xmlLine    : entry.lineNumber )
+      continue
+    # Normal EnumValue entry
+    elif data.values.containsOrIncl( entry.attr("name"), EnumValueData(
+      comment  : entry.attr("comment"),
       value    : entry.attr("value"),
+      protect  : entry.attr("protect"),
       xmlLine  : entry.lineNumber,
-      )):
-      duplicateAddError("Enum field",entry.attr("name"),entry.lineNumber)
-  # for name,field in data.fieldPairs:
-  #   echo "______________________________"
-  #   echo name," : ",field,"\n"
-
+      )): duplicateAddError("Enum field",entry.attr("name"),entry.lineNumber)
+  if gen.registry.enums.containsOrIncl( node.attr("name"), data):
+    duplicateAddError("Enum",node.attr("name"),node.lineNumber)
 
 proc readEnum *(gen :var Generator; node :XmlNode) :void=
   ## Treats the given node as an enum block, and adds its contents to the respective generator registry field.
   # Add constants, alias or bitmasks, and return early
   if   node.attr("name")  == "API Constants" : gen.addConsts(node)     ; return
-  elif node.attr("alias") != ""              : gen.addAlias(node)      ; return
   elif node.attr("type")  == "bitmask"       : gen.addBitmask(node)    ; return
   elif node.attr("type")  == "enum"          : gen.addNormalEnum(node) ; return
   elif node.attr("name")  == ""              : unreachable "readEnum->node.attr() section. The enum name should never be empty."

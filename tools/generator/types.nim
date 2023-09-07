@@ -83,7 +83,7 @@ proc readTypeBitmask *(gen :var Generator, bitmask :XmlNode) :void=
     let api = bitmask.attr("requires")
     let (name, typeinfo) = readNameAndType(bitmask)
     if api == "" or api == gen.api:
-      if gen.registry.bitmasks.containsOrIncl(name.name,BitmaskData(require: requires, `type`: typeinfo.`type`, xmlLine: lineNumber)):
+      if gen.registry.bitmasks.containsOrIncl(name.name,BitmaskData(require: requires, typ: typeinfo.`type`, xmlLine: lineNumber)):
         duplicateAddError("Bitmask",name.name,lineNumber)
 proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
   # type DefineData* = object

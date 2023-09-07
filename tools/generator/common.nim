@@ -2,10 +2,26 @@
 import ../customxmlParsing/xmltree, std/tables, std/sets
 
 
+# Error Management
 type ArgsError     * = object of CatchableError  ## For errors in input arguments into the generator
 type ParsingError  * = object of CatchableError  ## For errors when parsing the spec XML tree into its IR data
 type CodegenError  * = object of CatchableError  ## For errors during Nim code generation from the IR data
 type Unreachable   * = object of Defect          ## For use inside the `unreachable "msg"` template
+proc checkKnownKeys *[T](node :XmlNode; _:typedesc[T]; KnownKeys :openArray[string]) :void=
+  ## Checks that all the keys in the given node are contained in the input KnownKeys.
+  ## Raises an exception otherwise (for the case of newly added or changed keys in the spec)
+  ## Any attribute found in the node, which is not in the list, will raise an exception
+  ## and report its name and XML contents to console.
+  ## The type is used as a reference for the section where the check is called from.
+  ##
+  ## Example Usage:
+  ##   node.checkKnownKeys(EnumValueData, [ "comment", "value", "protect", "name", "alias", "deprecated" ])
+  if node.attrs.isNil:
+    if node.tag() == "comment": return  # We know that comment nodes can sometimes contain no attributes, so don't segfault on them.
+    else: raise newException(ParsingError, &"Tried to get {$T} information from a node that contains a tag that has no attributes:\n  └─> {node.tag()}\nIts XML data is:\n{$node}\n")
+  for key in node.attrs.keys():
+    if key notin KnownKeys: raise newException(ParsingError, &"Tried to get {$T} information from a node that contains an unknown key:\n  └─> {key}\nIts XML data is:\n{$node}\n")
+
 
 type TypeCategory* {.pure.}= enum
   Bitmask,
@@ -31,35 +47,51 @@ type TypeInfo* = object
   `type`*: string
   postfix*: string
 
-type AliasData* = object
-  name*: string
-  xmlLine*: int
-
 type BaseTypeData* = object
-  typeInfo*: TypeInfo
-  xmlLine*: int
+  typeInfo  *:TypeInfo
+  xmlLine   *:int
 
-type BitmaskData* = object
-  require  *:string
-  `type`   *:string
-  xmlLine  *:int
+type AliasData * = object
+  name       *:string
+  deprecated *:string  # Information for adding the {.deprecated: reason.} pragma. Contained in the XML, useful for nim too
+  api        *:string  # Known values: "vulkan" and "vulkansc"
+  xmlLine    *:int
 
-type EnumValueData* = object
-  alias    *:string
+type BitmaskValueData * = object
+  comment  *:string
   bitpos   *:string
-  name     *:string
-  protect  *:string
-  value    *:string
+  protect  *:string  # Only bitmask values added by the Extensions section have this field active. Not in the main list.
   xmlLine  *:int
 
+type BitmaskData * = object
+  bitwidth  *:string
+  require   *:string  # Not used in the main enum-bitmask list. Added only in the types section.
+  typ       *:string
+  xmlLine   *:int
+
+type EnumValueData * = object
+  ## Represents the IR data for a single field in a Vulkan Enum set
+  comment  *:string
+  value    *:string
+  protect  *:string  # Only enum values added by the Extensions section have this field active. Not in the main list.
+  xmlLine  *:int
+
+type EnumData * = object
+  ## Represents the IR data for a Vulkan Enum set, and all of its contained fields.
+  comment  *:string
+  values   *:OrderedTable[string, EnumValueData]
+  unused   *:string
+  xmlLine  *:int
+
+##[ OLD ]#______________________________________________________________________
+# TODO: Remove
 type EnumData* = object
-  #void addEnumAlias( int line, string const & name, string const & alias, string const & protect, bool supported );
-  #void addEnumValue(int line, string const & valueName, string const & protect, string const & bitpos, string const & value, bool supported );
-  bitwidth           *:string
-  isBitmask          *:bool
+  # bitwidth           *:string
+  # isBitmask          *:bool
   unsupportedValues  *:seq[EnumValueData]
-  values             *:OrderedTable[string, EnumValueData]
-  xmlLine            *:int
+  # values             *:OrderedTable[string, EnumValueData]
+  # xmlLine            *:int
+]###______________________________________________________________________
 
 type NameData* = object
   name*: string
@@ -242,38 +274,38 @@ type MacroData* = tuple
 
 
 type Registry * = object
-  api*: string
-  baseTypes*: OrderedTable[string, BaseTypeData]
-  bitmaskAliases *:OrderedTable[string, AliasData]
-  bitmasks       *:OrderedTable[string, BitmaskData]
-  commandAliases*: OrderedTable[string, AliasData]
-  commands*: OrderedTable[string, CommandData]
-  constantAliases *:OrderedTable[string, AliasData]
-  constants       *:OrderedTable[string, ConstantData]
-  defines*: OrderedTable[string, DefineData]
-  definesPartition*: DefinesPartition  # partition defined macros into mutually-exclusive sets of callees, callers, and values
-  enumAliases *:OrderedTable[string, AliasData]
-  enums       *:OrderedTable[string, EnumData]
-  extendedStructs*:  OrderedSet[string]
-  extensions*: seq[ExtensionData]
-  externalTypes*: OrderedTable[string, ExternalTypeData]
-  features*: seq[FeatureData] #Done
-  formats*: OrderedTable[string, FormatData] #Done
-  funcPointers*: OrderedTable[string, FuncPointerData]
-  handleAliases*: OrderedTable[string, AliasData]
-  handles*: OrderedTable[string, HandleData]
-  includes*: OrderedTable[string, IncludeData]
-  platforms*: OrderedTable[string, PlatformData] #Done
-  RAIISpecialFunctions*: OrderedSet[string]
-  structAliases*: OrderedTable[string, AliasData]
-  structs*: OrderedTable[string, StructureData]
-  tags*: OrderedTable[string, TagData] #Done
-  types*: OrderedTable[string, TypeData]
-  typesafeCheck*: string
-  unsupportedExtensions*: OrderedSet[string]
-  unsupportedFeatures*: OrderedSet[string]
-  version*: string
-  vulkanLicenseHeader*: string
+  api                   *:string
+  baseTypes             *:OrderedTable[string, BaseTypeData]
+  bitmaskAliases        *:OrderedTable[string, AliasData]
+  bitmasks              *:OrderedTable[string, BitmaskData]
+  commandAliases        *:OrderedTable[string, AliasData]
+  commands              *:OrderedTable[string, CommandData]
+  constantAliases       *:OrderedTable[string, AliasData]
+  constants             *:OrderedTable[string, ConstantData]
+  defines               *:OrderedTable[string, DefineData]
+  definesPartition      *:DefinesPartition  # partition defined macros into mutually-exclusive sets of callees, callers, and values
+  enumAliases           *:OrderedTable[string, AliasData]
+  enums                 *:OrderedTable[string, EnumData]
+  extendedStructs       *:OrderedSet[string]
+  extensions            *:seq[ExtensionData]
+  externalTypes         *:OrderedTable[string, ExternalTypeData]
+  features              *:seq[FeatureData] #Done
+  formats               *:OrderedTable[string, FormatData] #Done
+  funcPointers          *:OrderedTable[string, FuncPointerData]
+  handleAliases         *:OrderedTable[string, AliasData]
+  handles               *:OrderedTable[string, HandleData]
+  includes              *:OrderedTable[string, IncludeData]
+  platforms             *:OrderedTable[string, PlatformData] #Done
+  RAIISpecialFunctions  *:OrderedSet[string]
+  structAliases         *:OrderedTable[string, AliasData]
+  structs               *:OrderedTable[string, StructureData]
+  tags                  *:OrderedTable[string, TagData] #Done
+  types                 *:OrderedTable[string, TypeData]
+  typesafeCheck         *:string
+  unsupportedExtensions *:OrderedSet[string]
+  unsupportedFeatures   *:OrderedSet[string]
+  version               *:string
+  vulkanLicenseHeader   *:string
 
 type Generator * = object
   doc *:XmlNode
