@@ -25,7 +25,7 @@ template unreachable *(msg :string= "")=  raise newException(Unreachable, msg)
   ## Useful to debug for difficult to track edge cases and work in progress sections of parsing.
 
 proc duplicateAddError*(item: string, name: string, lineNumber: int): void = raise newException(ParsingError, fmt"Tried to add a repeated {item} that already exists inside the generator. Name: {name}, Line Number: {lineNumber}")
-  ## Used when a duplcate node is attemtping to be added into the registery
+  ## Used when a duplcate node is attemtping to be added into the registry
 
 proc toplevelText*(node: XmlNode): string =
   ## Used to get just the top level text out of a xnElement. (see xmltree/InnerText for getting all text recursively)
