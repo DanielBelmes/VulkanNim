@@ -21,7 +21,15 @@ import std/sets
 proc addConsts *(gen :var Generator; node :XmlNode) :void=
   ## Treats the given node as a constants block, and adds its contents to the generator registry.
   for entry in node:
-    if gen.registry.constants.containsOrIncl(entry.attr("name"), ConstantData(
+    # Add Constant alias to the registry and skip to the next entry
+    if entry.attr("alias") != "":
+      gen.registry.constantAliases[ entry.attr("alias") ] = AliasData(
+        name       : entry.attr("name"),
+        deprecated : entry.attr("deprecated"),
+        api        : entry.attr("api"),
+        xmlLine    : entry.lineNumber )
+    # Normal Constant entry
+    elif gen.registry.constants.containsOrIncl(entry.attr("name"), ConstantData(
       typ     : entry.attr("type"),
       value   : entry.attr("value"),
       xmlLine : entry.lineNumber,
@@ -49,7 +57,7 @@ proc addBitmask *(gen :var Generator; node :XmlNode) :void=
         xmlLine    : entry.lineNumber )
       continue
     # Normal BitmasValue entry
-    if data.values.containsOrIncl( entry.attr("name"), BitmaskValueData(
+    elif data.values.containsOrIncl( entry.attr("name"), BitmaskValueData(
       isValue  : entry.attr("value") != "",
       value    : entry.attr("value"),
       comment  : entry.attr("comment"),
