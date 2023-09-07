@@ -10,14 +10,6 @@ import ./common
 import ./license
 
 
-const GenTempl = """
-{VulkanNimHeader}
-import std/sets
-
-{enums}
-"""
-
-
 proc addConsts *(gen :var Generator; node :XmlNode) :void=
   ## Treats the given node as a constants block, and adds its contents to the generator registry.
   for entry in node:
@@ -106,45 +98,34 @@ proc readEnum *(gen :var Generator; node :XmlNode) :void=
   elif node.attr("name")  == ""              : unreachable "readEnum->node.attr() section. The enum name should never be empty."
   else:unreachable &"addEnum->node.attr() section. else case. Failing XmlNode contains: \n\n{$node}\n\n"
 
+#_________________________________________________
+# Codegen
+#_______________________________________
+# Templates
+const ConstHeader      = "## API Constants\n"
+const ConstTempl       = "const {name.symbolToNim} *:{entry.getType}= {entry.getValue()}\n"
+const ConstAliasHeader = "## API Constant Aliases\n"
+const ConstAliasTempl  = "const {alias.name.symbolToNim} *:{entry.getType}{alias.getDeprecated(name)}= {name.symbolToNim}\n"
+const EnumHeader       = "## Value Enums\n"
+const GenTempl         = """
+{VulkanNimHeader}
+import std/sets
+
+{enums}
+"""
+#_____________________________
+# Tools
+func getType  (data :ConstantData) :string=  data.typ.cTypeToNim()
+func getValue (data :ConstantData) :string=  data.value.cValueToNim()
+
+
+#_______________________________________
+# Codegen Entry Point
+#_____________________________
 proc generateEnumFile *(gen: Generator) :void=
   # Configuration
   let outputDir = fmt"./src/VulkanNim/{gen.api}_enums.nim"
   var enums :string  # Output string
-
-  #_______________________________________
-  # TODO: Move to somewhere else
-  #_______________________________________
-  func getDeprecated (data :AliasData; name :string) :string=
-    if data.deprecated == "": return ""
-    var reason :string= case data.deprecated:
-    of "aliased":  &"{data.deprecated}:  {name}  has been aliased to  {data.name}"
-    else: raise newException(CodegenError, &"Tried to add codegen for a deprecated alias, but it contains an unknown reason:\n └─> {data.deprecated}\n")
-    result = &" {{.deprecated: \"{reason}\".}}"
-  #_______________________________________
-  func cTypeToNim (typ :string) :string=
-    case typ
-    of "uint32_t" : "uint32"
-    of "uint64_t" : "uint64"
-    of "float"    : "float32"
-    else: raise newException(CodegenError, &"Tried to convert a C type to Nim, but it is not a recognized as a known type:\n{typ}")
-  func cValueToNim (val :string) :string=
-    if "." in val: return val.replace("F", "'f32")
-    case val
-    of "(~0U)"   : "not 0'u32"
-    of "(~1U)"   : "not 1'u32"
-    of "(~2U)"   : "not 2'u32"
-    of "(~0ULL)" : "not 0'u64"
-    else: val
-  #_______________________________________
-  func getType (data :ConstantData) :string=  data.typ.cTypeToNim()
-  func getValue (data :ConstantData) :string=  data.value.cValueToNim()
-  func fromScream (sym :string) :string=
-    if sym.startsWith("VK_"): result = sym[3..^1].change(SCREAM_CASE, PascalCase)
-  #_______________________________________
-  const ConstHeader      = "## API Constants\n"
-  const ConstTempl       = "const {name.fromScream} *:{entry.getType}= {entry.getValue()}\n"
-  const ConstAliasHeader = "## API Constant Aliases\n"
-  const ConstAliasTempl  = "const {alias.name.fromScream} *:{entry.getType}{alias.getDeprecated(name)}= {name.fromScream}\n"
 
   #_______________________________________
   # Codegen Constants
@@ -164,6 +145,40 @@ proc generateEnumFile *(gen: Generator) :void=
   enums.add "\n"
 
   #_______________________________________
+  # Codegen Enum
+  # TODO: Enum reordering for negative values
+  enums.add EnumHeader
+  for name in gen.registry.enums.keys():
+    var tmp :string
+    tmp.add &"type {name} * = enum\n"
+    for field in gen.registry.enums[name].values.keys():
+      if field == "": continue
+      let val = gen.registry.enums[name].values[field].value
+      let cmt = if gen.registry.enums[name].values[field].comment == "": "" else:
+        &"  ## {gen.registry.enums[name].values[field].comment}"
+      tmp.add &"  {field} = {val}{cmt}\n"
+    enums.add &"{tmp}\n"
+
+  #_______________________________________
+  # Codegen EnumAliases
+
+
+  #_______________________________________
   # Write the enums to the output file
   writeFile(outputDir, fmt GenTempl)
 
+##[ TODO ]#
+type EnumValueData * = object
+  ## Represents the IR data for a single field in a Vulkan Enum set
+  comment  *:string
+  value    *:string
+  protect  *:string  # Only enum values added by the Extensions section have this field active. Not in the main list.
+  xmlLine  *:int
+
+type EnumData * = object
+  ## Represents the IR data for a Vulkan Enum set, and all of its contained fields.
+  comment  *:string
+  values   *:OrderedTable[string, EnumValueData]
+  unused   *:string
+  xmlLine  *:int
+]##

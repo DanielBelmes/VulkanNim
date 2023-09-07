@@ -64,3 +64,22 @@ proc removeSuffix*(s: string, prefix: string): string =
 
 proc removeSlashNewLine*(s:string): string =
   return s.replace(re"\\\n","")
+
+func symbolToNim *(sym :string) :string=
+  ## Converts the given Vulkan Symbol format to our Nim styling convention
+  ## TODO: Keep Vendor symbols and EXT in ALLCAPS
+  #   Algorithm:    (requires having (or passing) a list of vendors to this function)
+  #   1. Check for whether sym.endsWith(SomeVendor)
+  #   2. Store SomeVendor string
+  #   3. Remove it from the end of the string
+  #   4. Reformat the string
+  #   5. Add it back
+  ##
+  ## `VK_`, `Vk` and `vk` are removed.
+  ## `VK_SCREAM_CASE` and `VkPascalCase` are converted to PascalCase.
+  ## `vkCamelCase` is converted to `camelCase`
+  if    sym.startsWith("VK_") : result = sym[3..^1].change( SCREAM_CASE, PascalCase )
+  elif  sym.startsWith("Vk")  : result = sym[2..^1].change(  PascalCase, PascalCase )
+  elif  sym.startsWith("vk")  : result = sym[2..^1].change(  PascalCase, camelCase  )
+  else: raise newException(CodegenError, &"Tried to convert a symbol name with a condition that hasn't been mapped yet:\n  {sym}")
+
