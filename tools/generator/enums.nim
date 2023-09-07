@@ -27,11 +27,38 @@ proc addConsts *(gen :var Generator; node :XmlNode) :void=
       xmlLine : entry.lineNumber,
       )): duplicateAddError("Enum constant",entry.attr("name"),entry.lineNumber)
 
-proc addAlias *(gen :var Generator; node :XmlNode) :void=  discard
-  ## Treats the given node as an alias, and adds its contents to the respective generator registry field.
-
-proc addBitmask *(gen :var Generator; node :XmlNode) :void=  discard
+proc addBitmask *(gen :var Generator; node :XmlNode) :void=
   ## Treats the given node as a bitmask enum, and adds its contents to the respective generator registry field.
+  node.checkKnownKeys(BitmaskData, [ "comment", "bitwidth", "require", "type", "name" ])
+  var data = BitmaskData(
+    comment   : node.attr("comment"),
+    bitwidth  : node.attr("bitwidth"),
+    require   : node.attr("require"),
+    typ       : node.attr("type"),
+    xmlLine   : node.lineNumber,
+    ) # << BitmaskData( ... )
+  for entry in node:
+    entry.checkKnownKeys(BitmaskValueData, [ "comment", "bitpos", "name", "protect", "value", "alias", "api", "deprecated" ])
+    if entry.tag() == "comment" : continue  # Infix Comment, inbetween enum fields
+    # Add EnumValue alias to the registry and skip to the next entry
+    if entry.attr("alias") != "":
+      gen.registry.bitmaskAliases[ entry.attr("alias") ] = AliasData(
+        name       : entry.attr("name"),
+        deprecated : entry.attr("deprecated"),
+        api        : entry.attr("api"),
+        xmlLine    : entry.lineNumber )
+      continue
+    # Normal BitmasValue entry
+    if data.values.containsOrIncl( entry.attr("name"), BitmaskValueData(
+      isValue  : entry.attr("value") != "",
+      value    : entry.attr("value"),
+      comment  : entry.attr("comment"),
+      bitpos   : entry.attr("bitpos"),
+      protect  : entry.attr("protect"),
+      xmlLine  : entry.lineNumber,
+      )): duplicateAddError("Bitmask field",entry.attr("name"),entry.lineNumber)
+  if gen.registry.bitmasks.containsOrIncl( node.attr("name"), data):
+    duplicateAddError("Bitmask",node.attr("name"),node.lineNumber)
 
 proc addNormalEnum *(gen :var Generator; node :XmlNode) :void=
   ## Treats the given node as a normal enum, and adds its contents to the respective generator registry field.
@@ -41,8 +68,6 @@ proc addNormalEnum *(gen :var Generator; node :XmlNode) :void=
     xmlLine   : node.lineNumber,
     ) # << EnumData( .. )
   for entry in node:
-    if not node.attrs.isNil and node.attr("unused") != "":
-      echo node.attr("unused")
     entry.checkKnownKeys(EnumValueData, [ "comment", "value", "protect", "name", "alias", "deprecated", "start", "api" ])
     if   entry.tag() == "comment" : continue  # Infix Comment, inbetween enum fields
     elif entry.tag() == "unused"  : data.unused = entry.attr("start")
@@ -74,34 +99,13 @@ proc readEnum *(gen :var Generator; node :XmlNode) :void=
   else:unreachable &"addEnum->node.attr() section. else case. Failing XmlNode contains: \n\n{$node}\n\n"
 
 ##[ TODO
-type AliasData* = object
-  name     *:string
-  xmlLine  *:int
-type BitmaskData* = object
-  require  *:string
-  `type`   *:string
-  xmlLine  *:int
-
-type EnumValueData* = object
-  alias    *:string
-  bitpos   *:string
-  name     *:string
-  protect  *:string
-  value    *:string
-  xmlLine  *:int
-type EnumData* = object
-  # bitwidth          *:string
-  # isBitmask         *:bool = false
-  unsupportedValues *:seq[EnumValueData]
-  values            *:OrderedTable[string, EnumValueData]
-  # xmlLine           *:int
 type Registry * = object
   constantAliases *:OrderedTable[string, AliasData]
-  constants       *:OrderedTable[string, ConstantData]
-  bitmaskAliases  *:OrderedTable[string, AliasData]
-  bitmasks        *:OrderedTable[string, BitmaskData]
-  enumAliases     *:OrderedTable[string, AliasData]
-  enums           *:OrderedTable[string, EnumData]
+  # constants       *:OrderedTable[string, ConstantData]
+  # bitmaskAliases  *:OrderedTable[string, AliasData]
+  # bitmasks        *:OrderedTable[string, BitmaskData]
+  # enumAliases     *:OrderedTable[string, AliasData]
+  # enums           *:OrderedTable[string, EnumData]
 ]##
 
 proc generateEnumFile *(gen: Generator) :void=

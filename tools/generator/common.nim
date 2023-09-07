@@ -57,16 +57,25 @@ type AliasData * = object
   api        *:string  # Known values: "vulkan" and "vulkansc"
   xmlLine    *:int
 
+type ConstantData* = object
+  typ      *:string
+  value    *:string
+  xmlLine  *:int
+
 type BitmaskValueData * = object
-  comment  *:string
+  isValue  *:bool    # Marks the bitmask as being a preset value (eg: FLAG1 | FLAG2 | FLAG3 )
+  value    *:string  # Stores the value of the bitflags group represented by this entry. Maps to a separate template in nim (unlike in C)
   bitpos   *:string
+  comment  *:string
   protect  *:string  # Only bitmask values added by the Extensions section have this field active. Not in the main list.
   xmlLine  *:int
 
 type BitmaskData * = object
+  comment   *:string
   bitwidth  *:string
   require   *:string  # Not used in the main enum-bitmask list. Added only in the types section.
   typ       *:string
+  values    *:OrderedTable[string, BitmaskValueData]
   xmlLine   *:int
 
 type EnumValueData * = object
@@ -82,16 +91,6 @@ type EnumData * = object
   values   *:OrderedTable[string, EnumValueData]
   unused   *:string
   xmlLine  *:int
-
-##[ OLD ]#______________________________________________________________________
-# TODO: Remove
-type EnumData* = object
-  # bitwidth           *:string
-  # isBitmask          *:bool
-  unsupportedValues  *:seq[EnumValueData]
-  # values             *:OrderedTable[string, EnumValueData]
-  # xmlLine            *:int
-]###______________________________________________________________________
 
 type NameData* = object
   name*: string
@@ -115,11 +114,6 @@ type CommandData* = object
   returnType*: string
   successCodes*: seq[string]
   xmlLine*: int
-
-type ConstantData* = object
-  typ      *:string
-  value    *:string
-  xmlLine  *:int
 
 type DefineData* = object
   deprecated*: bool = false
