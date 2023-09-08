@@ -43,6 +43,9 @@ Work on parsing the spec can be started.
 ## TODO
 - [ ] Types
 - [ ] Extensions
+  - [x] Error Check skeleton
+  - [ ] Contents data prototype
+  - [ ] Store data into IR
 - [ ] Commands
   - [x] Error Check skeleton
   - [ ] Contents data prototype

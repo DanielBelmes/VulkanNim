@@ -133,7 +133,14 @@ type EnumFeatureData * = object
   value     *:string
   xmlLine   *:int
 
-type RequireData* = object
+type RequireEnumData * = object
+  xmlLine   *:int
+type RequireTypeData * = object
+  xmlLine   *:int
+type RequireCommandData * = object
+  xmlLine   *:int
+
+type RequireData * = object
   depends   *:string
   comment   *:string
   missing   *:seq[string] # Information about missing entries that are listed as an infix comment instead.
@@ -152,7 +159,7 @@ type ExtensionData* = object
   promotedTo   *:string
   depends      *:OrderedTable[string, seq[seq[string]]]
   requireData  *:seq[RequireData]
-  `type`       *:string
+  typ          *:string
   xmlLine      *:int = 0
 
 type FeatureData* = object
