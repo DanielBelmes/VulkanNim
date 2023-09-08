@@ -28,10 +28,10 @@ type TypeData* = object
   requiredBy: OrderedSet[string]
   xmlLine: int
 
-type TypeInfo* = object
-  prefix*: string
-  `type`*: string
-  postfix*: string
+type TypeInfo * = object
+  prefix  *:string
+  `type`  *:string
+  postfix *:string
 
 type BaseTypeData* = object
   typeInfo  *:TypeInfo
@@ -82,24 +82,24 @@ type NameData* = object
   name*: string
   arraySizes*: seq[string]
 
-type ParamData* = object
-  `type`*: TypeInfo
-  name*: string
-  arraySizes*: seq[string]
-  lenExpression*: string
-  lenParams*: seq[(string, csize_t)]
-  optional*: bool = false
-  strideParam*: (string, csize_t)
-  xmlLine*: int
+type ParamData * = object
+  typ           *:TypeInfo
+  name          *:string
+  arraySizes    *:seq[string]
+  lenExpression *:string
+  lenParams     *:seq[(string, csize_t)]
+  optional      *:bool = false
+  strideParam   *:(string, csize_t)
+  xmlLine       *:int
 
 type CommandData* = object
-  errorCodes*: seq[string]
-  handle*: string
-  params*: seq[ParamData]
-  requiredBy*: OrderedSet[string]
-  returnType*: string
-  successCodes*: seq[string]
-  xmlLine*: int
+  errorCodes   *:seq[string]
+  handle       *:string
+  params       *:seq[ParamData]
+  requiredBy   *:OrderedSet[string]
+  returnType   *:string
+  successCodes *:seq[string]
+  xmlLine      *:int
 
 type DefineData* = object
   deprecated*: bool = false

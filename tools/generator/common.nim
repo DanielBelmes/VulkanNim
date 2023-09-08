@@ -7,7 +7,7 @@ import ./base          ; export base
 #_______________________________________
 # Error Management
 #___________________
-proc checkKnownKeys *[T](node :XmlNode; _:typedesc[T]; KnownKeys :openArray[string]) :void=
+proc checkKnownKeys *[T](node :XmlNode; _:typedesc[T]; KnownKeys :openArray[string]; KnownEmpty :openArray[string]= []) :void=
   ## Checks that all the keys in the given node are contained in the input KnownKeys.
   ## Raises an exception otherwise (for the case of newly added or changed keys in the spec)
   ## Any attribute found in the node, which is not in the list, will raise an exception
@@ -17,11 +17,15 @@ proc checkKnownKeys *[T](node :XmlNode; _:typedesc[T]; KnownKeys :openArray[stri
   ## Example Usage:
   ##   node.checkKnownKeys(EnumValueData, [ "comment", "value", "protect", "name", "alias", "deprecated" ])
   if node.attrs.isNil:
-    if node.tag() == "comment": return  # We know that comment nodes can sometimes contain no attributes, so don't segfault on them.
-    if node.tag() == "require": return  # We know that require nodes only contain subnodes and no attributes, so don't error because they are missing.
-    else: raise newException(ParsingError, &"Tried to get {$T} information from a node that contains a tag that has no attributes:\n  └─> {node.tag()}\nIts XML data is:\n{$node}\n")
+    if   node.tag() == "comment"  : return  # We know that comment nodes can sometimes contain no attributes, so don't segfault on them.
+    elif node.tag() == "require"  : return  # We know that require nodes only contain subnodes and no attributes, so don't error because they are missing.
+    elif node.tag() == "command"  : return  # Command nodes sometimes only have subtrees without any attributes, so don't error on them.
+    elif node.tag() == "proto"    : return  # We send empty error checks into this function for the proto tag, so dont fail on isNil for them.
+    elif node.tag() == "param"    : return  # We send empty error checks into this function for the param tag, so dont fail on isNil for them.
+    elif node.tag() in KnownEmpty : return  # Skip all tags that we send as KnownEmpty
+    else: raise newException(ParsingError, &"XML data:\n{$node}\n\nError when getting {$T} information from a node that contains a tag that has no attributes:\n  └─> {node.tag()}\n")
   for key in node.attrs.keys():
-    if key notin KnownKeys: raise newException(ParsingError, &"Tried to get {$T} information from a node that contains an unknown key:\n  └─> {key}\nIts XML data is:\n{$node}\n")
+    if key notin KnownKeys: raise newException(ParsingError, &"XML data:\n{$node}\n\nError when getting {$T} information from a node that contains an unknown key:\n  └─> {key}\n")
 
 #_______________________________________
 # Generator Tools used by all modules
