@@ -272,6 +272,9 @@ type CommentData * = object
   text    *:string
   xmlLine *:int
 
+type SyncData * = object
+  xmlLine *:int
+
 type Registry * = object
   api                   *:string
   baseTypes             *:OrderedTable[string, BaseTypeData]
@@ -299,6 +302,7 @@ type Registry * = object
   structAliases         *:OrderedTable[string, AliasData]
   structs               *:OrderedTable[string, StructureData]
   tags                  *:OrderedTable[string, TagData]
+  sync                  *:OrderedTable[string, SyncData]
   types                 *:OrderedTable[string, TypeData]
   typesafeCheck         *:string
   unsupportedExtensions *:OrderedSet[string]
