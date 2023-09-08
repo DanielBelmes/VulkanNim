@@ -25,9 +25,9 @@ Work on parsing the spec can be started.
 ```
 
 ```md
+## Done
 - [x] Platforms
 - [x] Vendor Tags
-- [ ] Types
 - [x] Enums
   - [x] Constants
   - [x] Constant Aliases
@@ -35,20 +35,22 @@ Work on parsing the spec can be started.
   - [x] Enum Aliases
   - [x] Bitmasks
   - [x] BitmaskAliases
+- [x] Formats
+- [x] Features
+- [x] Comments
+  - [x] License
+  - [x] Are there other useful root infix comments?
+## TODO
+- [ ] Types
 - [ ] Commands
   - [x] Error Check skeleton
   - [ ] Contents data prototype
   - [ ] Store data into IR
-- [x] Features
 - [ ] Extensions
-- [x] Formats
 - [ ] Spir-V
   - [ ] Capabilities
   - [ ] Extensions
 - [ ] Sync
-- [ ] Comments
-  - [x] License
-  - [ ] Are there other useful root infix comments?
 # 0.5.0 Itermediate Representation (aka: Spec parsing) complete
 The full IR is complete, and work on the final Codegen can be properly started.
 ```

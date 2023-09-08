@@ -268,6 +268,9 @@ type MacroData* = tuple
   params: seq[string]
   definition: string
 
+type CommentData * = object
+  text    *:string
+  xmlLine *:int
 
 type Registry * = object
   api                   *:string
@@ -302,6 +305,7 @@ type Registry * = object
   unsupportedFeatures   *:OrderedSet[string]
   version               *:string
   vulkanLicenseHeader   *:string
+  rootComments          *:seq[CommentData]
 
 type Generator * = object
   doc      *:XmlNode

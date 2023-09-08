@@ -19,8 +19,15 @@ import ./generator/sync
 import ./generator/license
 import ./generator/vendors
 
+proc readComments (gen :var Generator; node :XmlNode) :void=
+  ## Treats the given node as a comment block, and adds its contents to the generator registry.
+  if node.innerText.contains("Copyright"): gen.readLicense(node); return
+  gen.registry.rootComments.add CommentData(
+    text    : node.innerText,
+    xmlLine : node.lineNumber )
+
 proc readRegistry *(gen :var Generator) :void=
-  ## Reads the XML file and puts into intermediate representation
+  ## Reads the XML file and converts its data into our Intermediate Representation object format
   for child in gen.doc:
     case child.tag
     of "platforms"         : gen.readPlatforms(child)
@@ -34,8 +41,8 @@ proc readRegistry *(gen :var Generator) :void=
     of "spirvcapabilities" : gen.readSpirvCapabilities(child)
     of "spirvextensions"   : gen.readSpirvExtensions(child)
     of "sync"              : gen.readSync(child)
-    of "comment"           : gen.readLicense(child) # TODO : What to do with infix comments at XML root.
-    else: raise newException(ParsingError, &"Unknown tag {child.tag} in readRegistry")
+    of "comment"           : gen.readComments(child)
+    else: raise newException(ParsingError, &"Unknown tag in readRegistry:\n └─> {child.tag}\n")
 
 #_______________________________________
 # Generator Entry Point
