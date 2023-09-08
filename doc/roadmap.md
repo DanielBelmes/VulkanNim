@@ -36,10 +36,12 @@ Work on parsing the spec can be started.
   - [x] Bitmasks
   - [x] BitmaskAliases
 - [ ] Commands
-  - [ ] Why are they discarded?
+  - [x] Error Check skeleton
+  - [ ] Contents data prototype
+  - [ ] Store data into IR
 - [x] Features
 - [ ] Extensions
-- [ ] Formats
+- [x] Formats
 - [ ] Spir-V
   - [ ] Capabilities
   - [ ] Extensions

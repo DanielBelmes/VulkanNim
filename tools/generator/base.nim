@@ -143,17 +143,17 @@ type RequireData* = object
   xmlLine   *:int
 
 type ExtensionData* = object
-  deprecatedBy*: string
-  isDeprecated*: bool = false
-  name*: string
-  number*: string
-  obsoletedBy*: string
-  platform*: string
-  promotedTo*: string
-  depends*: OrderedTable[string, seq[seq[string]]]
-  requireData*: seq[RequireData]
-  `type`*: string
-  xmlLine*: int = 0
+  deprecatedBy *:string
+  isDeprecated *:bool = false
+  name         *:string
+  number       *:string
+  obsoletedBy  *:string
+  platform     *:string
+  promotedTo   *:string
+  depends      *:OrderedTable[string, seq[seq[string]]]
+  requireData  *:seq[RequireData]
+  `type`       *:string
+  xmlLine      *:int = 0
 
 type FeatureData* = object
   name        *:string
@@ -165,34 +165,35 @@ type FeatureData* = object
   xmlLine     *:int
 
 type ExternalTypeData* = object
-  require*: string
-  xmlLine*: int
+  require *:string
+  xmlLine *:int
 
-type ComponentData* = object
-  bits*: string
-  name*: string
-  numericFormat*: string
-  planeIndex*: string
-  xmlLine*: int
+type ComponentData * = object
+  bits          *:string
+  numericFormat *:string
+  planeIndex    *:string
+  xmlLine       *:int
 
-type PlaneData* = object
-  compatible*: string
-  heightDivisor*: string
-  widthDivisor*: string
-  xmlLine*: int
+type PlaneData * = object
+  index         *:string
+  compatible    *:string
+  heightDivisor *:string
+  widthDivisor  *:string
+  xmlLine       *:int
 
-type FormatData* = object
-  blockExtent*: string
-  blockSize*: string
-  chroma*: string
-  classAttribute*: string
-  components*: seq[ComponentData]
-  compressed*: string
-  packed*: string
-  planes*: seq[PlaneData]
-  spirvImageFormat*: string
-  texelsPerBlock*: string
-  xmlLine*: int
+type FormatData * = object
+  class            *:string
+  blockExtent      *:string
+  blockSize        *:string
+  chroma           *:string
+  classAttribute   *:string
+  components       *:OrderedTable[string, ComponentData]
+  compressed       *:string
+  packed           *:string
+  planes           *:OrderedTable[string, PlaneData]
+  spirvImageFormat *:string
+  texelsPerBlock   *:string
+  xmlLine          *:int
 
 type FuncPointerArgumentData* = object
   name*: string
