@@ -1,10 +1,5 @@
-# std dependencies
-import std/strutils
-import std/strformat
 # Generator dependencies
-import ../customxmlParsing/xmlparser, ../customxmlParsing/xmltree
-import ../helpers
-import ./common
+import ./base
 
 
 const VulkanNimHeader * = """

@@ -1,9 +1,5 @@
-# std dependencies
-import std/strformat
-import ../customxmlParsing/xmltree
 # Generator dependencies
 import ./common
-import ../helpers
 
 proc readFormats *(gen :var Generator; formats :XmlNode) :void=
   for format in formats:

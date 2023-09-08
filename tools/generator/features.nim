@@ -1,14 +1,9 @@
-# std dependencies
-import std/strformat
-import std/strutils
-import std/strtabs
 # Generator dependencies
-import ../customxmlParsing/xmlparser, ../customxmlParsing/xmltree
-import ../helpers
 import ./common
 
 
 proc readFeatures *(gen :var Generator; node :XmlNode) :void=
+  ## Treats the given node as a features block, and adds its contents to the generator registry.
   if node.tag != "feature": raise newException(ParsingError, &"Tried to read features data from a node that is not known to contain features:\n  └─> {node.tag}\nIts XML data is:\n{$node}\n")
   node.checkKnownKeys(FeatureData, ["name", "api", "number", "comment"])
   var featureData = FeatureData(

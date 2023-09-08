@@ -1,6 +1,3 @@
-# std dependencies
-import std/strformat
-import ../customxmlParsing/xmltree
 # Generator dependencies
 import ./common
 

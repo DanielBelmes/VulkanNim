@@ -1,5 +1,4 @@
 # std dependencies
-import customxmlParsing/xmltree
 import std/tables
 import std/re
 import std/strformat
@@ -7,7 +6,15 @@ import std/strutils
 # External dependencies
 import nstd/format as nstdFormat ; export nstdFormat
 # Generator dependencies
+import ./customxml
 import ./generator/common
+
+#___________________
+type ArgsError     * = object of CatchableError  ## For errors in input arguments into the generator
+type ParsingError  * = object of CatchableError  ## For errors when parsing the spec XML tree into its IR data
+type CodegenError  * = object of CatchableError  ## For errors during Nim code generation from the IR data
+type Unreachable   * = object of Defect          ## For use inside the `unreachable "msg"` template
+#___________________
 
 iterator findElems *(node :XmlNode; name :string) :XmlNode=
   ## Yields all xnElement nodes contained in the given XmlNode that match the given name.

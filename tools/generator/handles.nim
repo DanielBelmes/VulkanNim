@@ -1,5 +1,3 @@
-# std dependencies
-import std/strformat
 # Generator dependencies
 import ./common
 

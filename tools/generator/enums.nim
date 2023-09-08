@@ -1,13 +1,5 @@
-# std dependencies
-import std/strformat
-import std/strutils
-import std/strtabs
-import ../customxmlParsing/xmltree
-import std/tables
 # Generator dependencies
-import ../helpers
 import ./common
-import ./license
 
 
 proc addConsts *(gen :var Generator; node :XmlNode) :void=

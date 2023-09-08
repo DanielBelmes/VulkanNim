@@ -1,13 +1,5 @@
-# std dependencies
-import std/strformat
-import regex
-import std/strutils
 # Generator dependencies
-import ../customxmlParsing/xmltree
 import ./common
-import ../helpers
-import options
-import nstd/format
 
 proc parseDefineMacro*(define: XmlNode): MacroData =
   ## parses macros from the spec

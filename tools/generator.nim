@@ -1,9 +1,8 @@
 # std dependencies
-import strutils, strformat, streams
+import std/streams
 # External dependencies
 import nstd
 # Generator dependencies
-import ./customxmlParsing/xmlparser, ./customxmlParsing/xmltree
 import ./generator/common
 import ./generator/api
 import ./generator/enums
@@ -28,7 +27,7 @@ proc readRegistry *(gen :var Generator) :void=
     of "tags"              : gen.readVendorTags(child)
     of "types"             : gen.readTypes(child)
     of "enums"             : gen.readEnum(child)
-    of "commands"          : discard  # TODO: Why are they discarded ?
+    of "commands"          : gen.readProcs(child)
     of "feature"           : gen.readFeatures(child)
     of "extensions"        : gen.readExtensions(child)
     of "formats"           : gen.readFormats(child)

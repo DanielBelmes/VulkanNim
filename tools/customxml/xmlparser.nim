@@ -10,6 +10,7 @@
 ## This module parses an XML document and creates its XML tree representation. Also parses lineNumber
 
 import streams, parsexml, strtabs, ./xmltree, strutils
+export strutils # Silence import warning
 
 when defined(nimPreviewSlimSystem):
   import std/syncio
