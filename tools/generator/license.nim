@@ -1,4 +1,6 @@
 # Generator dependencies
+import ../dependencies
+import ../helpers
 import ./base
 
 

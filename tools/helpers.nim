@@ -7,7 +7,6 @@ import std/strutils
 import nstd/format as nstdFormat ; export nstdFormat
 # Generator dependencies
 import ./customxml
-import ./generator/common
 
 #___________________
 type ArgsError     * = object of CatchableError  ## For errors in input arguments into the generator
