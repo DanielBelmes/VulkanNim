@@ -37,7 +37,7 @@ Work on parsing the spec can be started.
   - [x] BitmaskAliases
 - [ ] Commands
   - [ ] Why are they discarded?
-- [ ] Features
+- [x] Features
 - [ ] Extensions
 - [ ] Formats
 - [ ] Spir-V

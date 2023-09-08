@@ -117,11 +117,23 @@ type RemoveData* = object
   types    *:seq[string]
   xmlLine  *:int
 
+type EnumFeatureData * = object
+  extends   *:string
+  extnumber *:string
+  offset    *:string
+  bitpos    *:string
+  alias     *:string
+  dir       *:string
+  api       *:string
+  value     *:string
+  xmlLine   *:int
+
 type RequireData* = object
   depends   *:string
   comment   *:string
+  missing   *:seq[string] # Information about missing entries that are listed as an infix comment instead.
   commands  *:seq[string]
-  constants *:seq[string]
+  constants *:OrderedTable[string, EnumFeatureData]
   types     *:seq[string]
   xmlLine   *:int
 
