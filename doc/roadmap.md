@@ -42,15 +42,24 @@ Work on parsing the spec can be started.
   - [x] Are there other useful root infix comments?
 ## TODO
 - [ ] Types
+- [ ] Extensions
 - [ ] Commands
   - [x] Error Check skeleton
   - [ ] Contents data prototype
   - [ ] Store data into IR
-- [ ] Extensions
 - [ ] Spir-V
   - [ ] Capabilities
+    - [x] Error Check skeleton
+    - [ ] Contents data prototype
+    - [ ] Store data into IR
   - [ ] Extensions
+    - [x] Error Check skeleton
+    - [ ] Contents data prototype
+    - [ ] Store data into IR
 - [ ] Sync
+  - [x] Error Check skeleton
+  - [ ] Contents data prototype
+  - [ ] Store data into IR
 # 0.5.0 Itermediate Representation (aka: Spec parsing) complete
 The full IR is complete, and work on the final Codegen can be properly started.
 ```

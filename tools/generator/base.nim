@@ -274,6 +274,10 @@ type CommentData * = object
 
 type SyncData * = object
   xmlLine *:int
+type SpirvCapData * = object
+  xmlLine *:int
+type SpirvExtData * = object
+  xmlLine *:int
 
 type Registry * = object
   api                   *:string
@@ -301,9 +305,11 @@ type Registry * = object
   RAIISpecialFunctions  *:OrderedSet[string]
   structAliases         *:OrderedTable[string, AliasData]
   structs               *:OrderedTable[string, StructureData]
+  types                 *:OrderedTable[string, TypeData]
   tags                  *:OrderedTable[string, TagData]
   sync                  *:OrderedTable[string, SyncData]
-  types                 *:OrderedTable[string, TypeData]
+  spirvCapabilities     *:OrderedTable[string, SpirvCapData]
+  spirvExtensions       *:OrderedTable[string, SpirvExtData]
   typesafeCheck         *:string
   unsupportedExtensions *:OrderedSet[string]
   unsupportedFeatures   *:OrderedSet[string]
