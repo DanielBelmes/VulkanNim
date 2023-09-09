@@ -71,7 +71,7 @@ proc readSync *(gen :var Generator; node :XmlNode) :void=
             xmlLine : pipel.lineNumber,
             ) # << SyncPipelineData( ... )
         else: pipel.checkKnownKeys(SyncPipelineStageData, [], KnownEmpty=["syncpipelinestage"])
-      #Add the sync pipeline data to the SyncData object
+      # Add the sync pipeline data to the SyncData object
       if data.pipelines.containsOrIncl( entry.attr("name"), pipeline): duplicateAddError("SyncStageData", entry.attr("name"), entry.lineNumber)
   # Apply the IR to the generator
   gen.registry.sync = data

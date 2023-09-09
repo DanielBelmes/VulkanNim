@@ -323,9 +323,29 @@ type SyncData * = object
   pipelines *:OrderedTable[string, SyncPipelineData]
   xmlLine   *:int
 
+type SpirvCapEnableData * = object
+  version   *:string
+  feature   *:string
+  requires  *:string
+  struct    *:string
+  extension *:string
+  member    *:string
+  property  *:string
+  value     *:string
+  alias     *:string
+  xmlLine   *:int
+
+type SpirvExtEnableData * = object
+  version   *:string
+  extension *:string
+  xmlLine   *:int
+
 type SpirvCapData * = object
+  enable  *:seq[SpirvCapEnableData]
   xmlLine *:int
+
 type SpirvExtData * = object
+  enable  *:seq[SpirvExtEnableData]
   xmlLine *:int
 
 type Registry * = object

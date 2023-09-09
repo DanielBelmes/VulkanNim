@@ -41,6 +41,8 @@ Work on parsing the spec can be started.
   - [x] License
   - [x] Are there other useful root infix comments?
 - [x] Sync
+- [x] Spir-V: Capabilities
+- [x] Spir-V: Extensions
 ## TODO
 - [ ] Types
   - [x] Basetype
@@ -58,15 +60,6 @@ Work on parsing the spec can be started.
   - [x] Error Check skeleton
   - [ ] Contents data prototype
   - [ ] Store data into IR
-- [ ] Spir-V
-  - [ ] Capabilities
-    - [x] Error Check skeleton
-    - [ ] Contents data prototype
-    - [ ] Store data into IR
-  - [ ] Extensions
-    - [x] Error Check skeleton
-    - [ ] Contents data prototype
-    - [ ] Store data into IR
 # 0.5.0 Itermediate Representation (aka: Spec parsing) complete
 The full IR is complete, and work on the final Codegen can be properly started.
 ```
