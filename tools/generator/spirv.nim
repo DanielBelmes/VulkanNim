@@ -52,6 +52,6 @@ proc readSpirvExtensions *(gen :var Generator; node :XmlNode) :void=
         ) # << SpirvExtEnableData( ... )
     # Add the extension to the registry
     if gen.registry.spirvExtensions.containsOrIncl( ext.attr("name"), extension):
-      duplicateAddError("SpirvCapData", ext.attr("name"), ext.lineNumber)
+      duplicateAddError("SpirvExtData", ext.attr("name"), ext.lineNumber)
 
 
