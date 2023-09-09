@@ -45,7 +45,7 @@ Work on parsing the spec can be started.
   - [x] Basetype
   - [x] Define
   - [x] Enum
-  - [ ] Funcpointer
+  - [x] Funcpointer
   - [ ] Handle
   - [ ] Include
   - [ ] Struct/Union

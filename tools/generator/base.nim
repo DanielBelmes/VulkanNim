@@ -63,6 +63,7 @@ type BitmaskData * = object
   typ       *:string
   values    *:OrderedTable[string, BitmaskValueData]
   xmlLine   *:int
+  bitvalues *: string
 
 type EnumValueData * = object
   ## Represents the IR data for a single field in a Vulkan Enum set
@@ -205,11 +206,13 @@ type FormatData * = object
 type FuncPointerArgumentData* = object
   name*: string
   `type`*: string
+  isPtr*: bool
   xmlLine*: int
 
 type FuncPointerData* = object
   arguments*: seq[FuncPointerArgumentData]
   require*: string
+  `type`*: string
   xmlLine*: int
 
 type HandleData* = object

@@ -3,7 +3,8 @@ import ./common
 
 proc parseDefineMacro*(define: XmlNode): MacroData =
   ## parses macros from the spec
-  # [TODO] Actually parse define macros
+  # TODO Actually parse define macros
+  # TODO ensure proper error handling
   let paramsRegex  = re2"(\(.*?\))"
   let commentRegex = re2"(\s*//.*)"
   let text = define.innerText()
@@ -37,6 +38,7 @@ proc parseDefineMacro*(define: XmlNode): MacroData =
 
 proc readNameAndType *(node: XmlNode): (NameData, TypeInfo) =
   ## Extracts <name></name> and <type></type> from certain elements
+  # TODO ensure this has error handling
   var name: NameData
   var typeInfo: TypeInfo
   for index, enumNameType in node:
@@ -67,25 +69,21 @@ proc readTypeBitmask *(gen :var Generator, bitmask :XmlNode) :void=
   let lineNumber = bitmask.lineNumber
   let alias = bitmask.attr("alias")
   if(alias != ""):
+    bitmask.checkKnownKeys(string, ["name","alias","category"])
     let name = bitmask.attr("name")
     if gen.registry.bitmaskAliases.containsOrIncl(name, AliasData(name: alias, xmlLine: lineNumber)):
       duplicateAddError("BitmaskAlias",name,lineNumber)
   else:
+    bitmask.checkKnownKeys(string, ["api", "requires","category","bitvalues"])
     let requires = bitmask.attr("requires")
-    let api = bitmask.attr("requires")
+    let api = bitmask.attr("api")
+    let bitvalues = bitmask.attr("bitvalues")
     let (name, typeinfo) = readNameAndType(bitmask)
     if api == "" or api == gen.api:
-      if gen.registry.bitmasks.containsOrIncl(name.name,BitmaskData(require: requires, typ: typeinfo.`type`, xmlLine: lineNumber)):
+      if gen.registry.bitmasks.containsOrIncl(name.name,BitmaskData(require: requires, typ: typeinfo.`type`, xmlLine: lineNumber, bitvalues: bitvalues)):
         duplicateAddError("Bitmask",name.name,lineNumber)
 proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
-  # type DefineData* = object
-  #   deprecated*: bool = false
-  #   require*: string
-  #   xmlLine*: int
-  #   deprecationReason*: string
-  #   possibleCallee*: string
-  #   params*: seq[string]
-  #   possibleDefinition*: string
+  define.checkKnownKeys(string, ["name", "requires", "deprecated", "category", "api", "comment"])
   var name: string = define.attr("name")
   let lineNumber: int = define.lineNumber
   let require: string = define.attr("requires")
@@ -100,7 +98,7 @@ proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
     # [TODO?] There are some struct typedef we could move to gen.reg.types
     name = define.child("name").innerText().removeExtraSpace()
     if name == "VK_HEADER_VERSION" and (api == "" or api == gen.api):
-      gen.registry.version = define.lastChild().text().removeExtraSpace()
+      gen.registry.version = define.lastChild().innerText().removeExtraSpace()
   assert(name != "")
 
   if api == "" or api == gen.api:
@@ -116,8 +114,53 @@ proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
     )):
       duplicateAddError("Define",name,lineNumber)
 
-proc readTypeEnum *(gen :var Generator, types :XmlNode) :void=discard
-proc readTypeFuncPointer *(gen :var Generator, types :XmlNode) :void=discard
+proc readTypeEnum *(gen :var Generator, enumNode :XmlNode) :void=
+  enumNode.checkKnownKeys(string, ["name", "alias", "category"])
+  let name = enumNode.attr("name")
+  let alias = enumNode.attr("alias")
+
+  if alias != "":
+    if gen.registry.enumAliases.containsOrIncl(name,AliasData(name: alias,xmlline: enumNode.lineNumber)):
+      duplicateAddError("Enum Alias",name,enumNode.lineNumber)
+
+proc readTypeFuncPointer *(gen :var Generator, funcPointer :XmlNode) :void=
+  funcPointer.checkKnownKeys(string, ["requires", "category"], KnownEmpty=[])
+  let
+    requires: string = funcPointer.attr("requires")
+    lineNumber: int = funcPointer.lineNumber
+  var
+    name: string
+    arguments: seq[FuncPointerArgumentData]
+    argMatch: RegexMatch2
+  let typedefRegex = re2"typedef\s(.*[^\s]) \("
+  let typedeftext = funcPointer[0].innerText()
+  var funcptrtype: string
+  if(typedeftext.find(typedefRegex,argMatch)):
+    assert(argMatch.captures.len == 1)
+    funcptrtype = typedeftext[argMatch.captures[0]]
+  assert(funcptrtype != "")
+
+  for index, child in funcPointer:
+    if child.kind == xnText:
+      discard #needed to prevent errors calling .tag on non element
+    elif child.tag == "name":
+      name = child.innerText()
+    elif child.tag == "type":
+      let `type` = child.innerText()
+      let lineNumber = child.lineNumber
+      let nametext = funcPointer[index+1].innerText().removeExtraSpace()
+      let nameptrRegex: Regex2 = re2"(?P<ptr>\**) *(?P<name>\w+)"
+      var nameptrMatch: RegexMatch2
+      if(nametext.find(nameptrRegex,nameptrMatch)):
+        assert(nameptrMatch.captures.len > 0 and nameptrMatch.captures.len <= 2)
+        let isPtr = nametext[nameptrMatch.group("ptr")] == "*"
+        let name = nametext[nameptrMatch.group("name")]
+        assert(name != "")
+        arguments.add(FuncPointerArgumentData(name: name, `type`: `type`, isPtr: isPtr, xmlline: lineNumber))
+  assert(name != "")
+  if gen.registry.funcPointers.containsOrIncl(name,FuncPointerData(arguments: arguments, require: requires, `type`: funcptrtype, xmlline: lineNumber)):
+      duplicateAddError("FuncPointer",name,lineNumber)
+
 proc readTypeHandle *(gen :var Generator, types :XmlNode) :void=discard
 proc readTypeInclude *(gen :var Generator, types :XmlNode) :void=discard
 proc readTypeStructOrUnion *(gen :var Generator, types :XmlNode) :void=discard
