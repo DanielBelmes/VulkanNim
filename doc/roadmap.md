@@ -40,6 +40,7 @@ Work on parsing the spec can be started.
 - [x] Comments
   - [x] License
   - [x] Are there other useful root infix comments?
+- [x] Sync
 ## TODO
 - [ ] Types
   - [x] Basetype
@@ -66,10 +67,6 @@ Work on parsing the spec can be started.
     - [x] Error Check skeleton
     - [ ] Contents data prototype
     - [ ] Store data into IR
-- [ ] Sync
-  - [x] Error Check skeleton
-  - [ ] Contents data prototype
-  - [ ] Store data into IR
 # 0.5.0 Itermediate Representation (aka: Spec parsing) complete
 The full IR is complete, and work on the final Codegen can be properly started.
 ```

@@ -282,8 +282,47 @@ type CommentData * = object
   text    *:string
   xmlLine *:int
 
-type SyncData * = object
+type SyncSupportData * = object
+  queues  *:string
+  stage   *:string
   xmlLine *:int
+
+type SyncEquivalentData * = object
+  stage   *:string
+  access  *:string
+  xmlLine *:int
+
+type SyncStageData * = object
+  alias       *:string
+  support     *:OrderedTable[string, SyncSupportData]
+  equivalent  *:OrderedTable[string, SyncEquivalentData]
+  xmlLine     *:int
+
+type SyncAccessData * = object
+  alias       *:string
+  support     *:OrderedTable[string, SyncSupportData]
+  equivalent  *:OrderedTable[string, SyncEquivalentData]
+  comment     *:string
+  xmlLine     *:int
+
+type SyncPipelineStageData * = object
+  order       *:string
+  before      *:string
+  xmlLine     *:int
+
+type SyncPipelineData * = object
+  alias       *:string
+  depends     *:string
+  stage       *:seq[SyncPipelineStageData]
+  xmlLine     *:int
+
+type SyncData * = object
+  comment   *:string
+  stages    *:OrderedTable[string, SyncStageData]
+  access    *:OrderedTable[string, SyncAccessData]
+  pipelines *:OrderedTable[string, SyncPipelineData]
+  xmlLine   *:int
+
 type SpirvCapData * = object
   xmlLine *:int
 type SpirvExtData * = object
@@ -317,7 +356,7 @@ type Registry * = object
   structs               *:OrderedTable[string, StructureData]
   types                 *:OrderedTable[string, TypeData]
   tags                  *:OrderedTable[string, TagData]
-  sync                  *:OrderedTable[string, SyncData]
+  sync                  *:SyncData
   spirvCapabilities     *:OrderedTable[string, SpirvCapData]
   spirvExtensions       *:OrderedTable[string, SpirvExtData]
   typesafeCheck         *:string
