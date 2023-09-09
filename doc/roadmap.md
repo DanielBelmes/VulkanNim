@@ -42,6 +42,13 @@ Work on parsing the spec can be started.
   - [x] Are there other useful root infix comments?
 ## TODO
 - [ ] Types
+  - [x] Basetype
+  - [x] Define
+  - [x] Enum
+  - [ ] Funcpointer
+  - [ ] Handle
+  - [ ] Include
+  - [ ] Struct/Union
 - [ ] Extensions
   - [x] Error Check skeleton
   - [ ] Contents data prototype
