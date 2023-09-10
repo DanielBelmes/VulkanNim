@@ -44,6 +44,7 @@ Work on parsing the spec can be started.
 - [x] Spir-V: Capabilities
 - [x] Spir-V: Extensions
 - [x] Extensions
+- [x] Commands
 ## TODO
 - [ ] Types
   - [x] Basetype
@@ -53,13 +54,6 @@ Work on parsing the spec can be started.
   - [x] Handle
   - [x] Include
   - [ ] Struct/Union
-- [ ] Commands
-  - [x] Error Check skeleton
-  - [x] Contents data prototype
-  - [ ] Store data into IR
-    - [x] Commands data
-    - [x] Parameter data
-    - [ ] Parameter types
 # 0.5.0 Itermediate Representation (aka: Spec parsing) complete
 The full IR is complete, and work on the final Codegen can be properly started.
 ```

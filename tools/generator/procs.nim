@@ -1,5 +1,8 @@
+# std dependencies
+import std/strscans
 # Generator dependencies
 import ./common
+import ./types
 
 
 proc readProcs *(gen :var Generator; node :XmlNode) :void=
@@ -27,6 +30,7 @@ proc readProcs *(gen :var Generator; node :XmlNode) :void=
        xmlLine        : entry.lineNumber(),
        ) # << CommandData( ... )
 
+    # Add prototype/parameter/asyncParams to the command
     for arg in entry:
       if arg.tag notin ["proto", "param", "implicitexternsyncparams"]: raise newException(ParsingError, &"XML data:\n{$arg}\nError when reading argument data from an arg that is not known to contain arguments:\n  └─> {arg.tag}\n")
       arg.checkKnownKeys(ParamData,
@@ -46,19 +50,18 @@ proc readProcs *(gen :var Generator; node :XmlNode) :void=
           of "name":
             if command.proto.name != "": raise newException(ParsingError, &"XML data:\nTried to add ProtoData Name information to a command that already has it.\n  └─> {command}")
             command.proto.name = field.innerText()
+        # -> Continue to the next proto attempt (should only have one)
 
-      # TODO arg.param (tree)
       # Add parameters info to the command
       elif arg.tag == "param":
         arg.checkKnownKeys(ParamData,
           ["optional", "externsync", "noautovalidity", "stride", "objecttype", "altlen", "api", "len", "validstructs"],
           KnownEmpty=[])
-        command.params.add ParamData(
+        var param = ParamData(
           optional       : arg.attr("optional").split(","),
           externsync     : arg.attr("externsync").split(","),
           noautovalidity : if arg.attr("noautovalidity") != "": arg.attr("noautovalidity").parseBool() else: false,
           stride         : arg.attr("stride"),
-          objecttype     : arg.attr("objecttype"),
           altlen         : arg.attr("altlen"),
           api            : arg.attr("api").split(","),
           length         : arg.attr("len"),
@@ -66,20 +69,35 @@ proc readProcs *(gen :var Generator; node :XmlNode) :void=
           xmlLine        : arg.lineNumber(),
           ) # << ParamData( ... )
 
-
+        # decide if its an object
+        param.isObject = arg.attr("objecttype") == "objectType"
+        # get type, name and decide if it has infix information
+        var hasInfix :bool
         for field in arg:
-
-          # TODO param.infix_information
-          if field.kind == xnText: continue#echo "--------->\n",field.innerText(); continue
-
-          if field.tag() == "name":
-            let tmp = field.innerText()
-            if tmp != "": echo tmp, "\n",arg,"\n\n"
-
-          field.checkKnownKeys(ParamData, [], KnownEmpty=["type","name"])
+          if field.kind == xnText: hasInfix = true; continue
           if field.tag notin ["type","name"]: raise newException(ParsingError, &"XML data:\n{$field}\nError when reading argument data from a subnode that is not known to contain field information:\n  └─> {field.tag}\n")
-          # TODO param.type
-          # TODO param.name
+          field.checkKnownKeys(ParamData, [], KnownEmpty=["type","name"])
+          case field.tag
+          of "type": param.typ.typ  = field.innerText
+          of "name": param.typ.name = field.innerText
+        # get prefix/postfix type info from infix text
+        for field in arg:
+          if not hasInfix : break
+          let content = field.innerText().removeExtraSpace()
+          if   content == "const"        : param.typ.prefix = content
+          elif content == "struct"       : param.typ.prefix = content
+          elif content == "const struct" : param.typ.prefix = content
+          elif content == param.typ.typ  : continue
+          elif content == param.typ.name : continue
+          elif content == "*"            : param.typ.postfix = content
+          elif content == "**"           : param.typ.postfix = content
+          elif content == "* const*"     : param.typ.postfix = content
+          elif "[" in content and "]" in content: param.typ.postfix = content
+          else: raise newException(ParsingError, &"XML data:\n{$field}\nError when parsing pre/post type information from a parameter that is not mapped:\n  └─> {content}\n")
+
+        # Add parameter to the command
+        command.params.add param
+        # -> Continue to the next parameter
 
       # Add implicit extern sync params info to the command
       elif arg.tag == "implicitexternsyncparams":
@@ -88,7 +106,10 @@ proc readProcs *(gen :var Generator; node :XmlNode) :void=
           field.checkKnownKeys(ParamData, [], KnownEmpty=[])
           if field.tag notin ["param"]: raise newException(ParsingError, &"XML data:\n{$field}\nError when reading implicitexternsyncparams data from a subnode that is not known to contain them:\n  └─> {field.tag}\n")
           command.asyncParams.param.add field.innerText()
+        # -> Continue to the next implicit extern async parameter
 
+      # -> Continue to the command argument
+    # <- Command components loop done.
     # Add the command to the registry
     gen.registry.commands.add command
 

@@ -33,6 +33,7 @@ type TypeInfo * = object
   `type`  *:string
   postfix *:string
 
+
 type BaseTypeData* = object
   typeInfo  *:TypeInfo
   xmlLine   *:int
@@ -93,6 +94,12 @@ type ImplicitExternSyncParamsData * = object
   param          *:seq[string]
   xmlLine        *:int
 
+type ParamTypeInfo * = object
+  prefix  *:string
+  typ     *:string
+  postfix *:string
+  name    *:string
+
 type ParamData * = object
   optional       *:seq[string]
   externsync     *:seq[string]
@@ -103,13 +110,11 @@ type ParamData * = object
   api            *:seq[string]
   length         *:string
   validstructs   *:string
+  isObject       *:bool
+  typ            *:ParamTypeInfo
   xmlLine        *:int
   #???????????????????????????????
-  # objecttype     *:TypeInfo
   # arraySizes     *:seq[string]
-  # lenExpression  *:string
-  # lenParams      *:seq[(string, csize_t)]
-  # strideParam    *:(string, csize_t)
   #???????????????????????????????
 
 type CommandData * = object
