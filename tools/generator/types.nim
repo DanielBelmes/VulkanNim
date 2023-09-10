@@ -75,6 +75,8 @@ proc readTypeBitmask *(gen :var Generator, bitmask :XmlNode) :void=
   if(alias != ""):
     bitmask.checkKnownKeys(AliasData, ["name","alias","category"])
     let name = bitmask.attr("name")
+    if gen.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Bitmask,xmlLine: lineNumber)):
+      duplicateAddError("BitmaskAlias",name,lineNumber)
     if gen.registry.bitmaskAliases.containsOrIncl(name, AliasData(name: alias, xmlLine: lineNumber)):
       duplicateAddError("BitmaskAlias",name,lineNumber)
   else:
@@ -85,6 +87,8 @@ proc readTypeBitmask *(gen :var Generator, bitmask :XmlNode) :void=
     let bitvalues = bitmask.attr("bitvalues")
     let (name, typeinfo) = readNameAndType(bitmask)
     if api == "" or api == gen.api:
+      if gen.registry.types.containsOrIncl(name.name,TypeData(category: TypeCategory.Bitmask,xmlLine: lineNumber)):
+        duplicateAddError("Bitmask",name.name,lineNumber)
       if gen.registry.bitmasks.containsOrIncl(name.name,BitmaskData(require: requires, typ: typeinfo.`type`, xmlLine: lineNumber, bitvalues: bitvalues)):
         duplicateAddError("Bitmask",name.name,lineNumber)
 proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
@@ -107,6 +111,8 @@ proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
   assert(name != "")
 
   if api == "" or api == gen.api:
+    if gen.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Define,xmlLine: lineNumber)):
+      duplicateAddError("Define",name,lineNumber)
     let (deprecationReason, possibleCallee, params, possibleDefinition) = parseDefineMacro(define)
     if gen.registry.defines.containsOrIncl(name, DefineData(
       deprecated: deprecated,
@@ -124,10 +130,14 @@ proc readTypeEnum *(gen :var Generator, enumNode :XmlNode) :void=
   enumNode.checkKnownNodes(AliasData,[])
   let name = enumNode.attr("name")
   let alias = enumNode.attr("alias")
+  let lineNumber = enumNode.lineNumber
+
+  if gen.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Enum,xmlLine: lineNumber)):
+    duplicateAddError("EnumType",name,lineNumber)
 
   if alias != "":
-    if gen.registry.enumAliases.containsOrIncl(name,AliasData(name: alias,xmlline: enumNode.lineNumber)):
-      duplicateAddError("Enum Alias",name,enumNode.lineNumber)
+    if gen.registry.enumAliases.containsOrIncl(name,AliasData(name: alias,xmlline: lineNumber)):
+      duplicateAddError("Enum Alias",name,lineNumber)
 
 proc readTypeFuncPointer *(gen :var Generator, funcPointer :XmlNode) :void=
   funcPointer.checkKnownKeys(FuncPointerData, ["requires", "category"], KnownEmpty=[])
@@ -165,6 +175,8 @@ proc readTypeFuncPointer *(gen :var Generator, funcPointer :XmlNode) :void=
         assert(name != "")
         arguments.add(FuncPointerArgumentData(name: name, `type`: `type`, isPtr: isPtr, xmlline: lineNumber))
   assert(name != "")
+  if gen.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.FuncPointer,xmlLine: lineNumber)):
+    duplicateAddError("FuncPointer",name,lineNumber)
   if gen.registry.funcPointers.containsOrIncl(name,FuncPointerData(arguments: arguments, require: requires, `type`: funcptrtype, xmlline: lineNumber)):
       duplicateAddError("FuncPointer",name,lineNumber)
 
@@ -203,7 +215,15 @@ proc readTypeHandle *(gen :var Generator, handle :XmlNode) :void=
     if gen.registry.handles.containsOrIncl(name.name, HandleData(parent: parent, objTypeEnum: objTypeEnum, isDispatchable: isDispatchable, xmlLine: lineNumber)):
       duplicateAddError("HandleData",name.name,lineNumber)
 
-proc readTypeInclude *(gen :var Generator, types :XmlNode) :void=discard
+proc readTypeInclude *(gen :var Generator, includes :XmlNode) :void=
+  includes.checkKnownKeys(HandleData, ["name","category"], KnownEmpty=[])
+  includes.checkKnownNodes(HandleData,[])
+  let name = includes.attr("name")
+  let lineNumber = includes.lineNumber
+  if gen.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Include,xmlLine: lineNumber)):
+    duplicateAddError("IncludeData",name,lineNumber)
+  if gen.registry.includes.containsOrIncl(name,IncludeData(xmlLine: lineNumber)):
+    duplicateAddError("IncludeData",name,lineNumber)
 proc readTypeStructOrUnion *(gen :var Generator, types :XmlNode) :void=discard
 
 proc readTypes *(gen :var Generator, types :XmlNode) :void=

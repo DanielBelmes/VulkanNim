@@ -49,8 +49,8 @@ Work on parsing the spec can be started.
   - [x] Define
   - [x] Enum
   - [x] Funcpointer
-  - [ ] Handle
-  - [ ] Include
+  - [x] Handle
+  - [x] Include
   - [ ] Struct/Union
 - [ ] Extensions
   - [x] Error Check skeleton
