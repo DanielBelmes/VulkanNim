@@ -83,24 +83,56 @@ type NameData* = object
   name*: string
   arraySizes*: seq[string]
 
-type ParamData * = object
-  typ           *:TypeInfo
-  name          *:string
-  arraySizes    *:seq[string]
-  lenExpression *:string
-  lenParams     *:seq[(string, csize_t)]
-  optional      *:bool = false
-  strideParam   *:(string, csize_t)
-  xmlLine       *:int
 
-type CommandData* = object
-  errorCodes   *:seq[string]
-  handle       *:string
-  params       *:seq[ParamData]
-  requiredBy   *:OrderedSet[string]
-  returnType   *:string
-  successCodes *:seq[string]
-  xmlLine      *:int
+type ProtoData * = object
+  name           *:string
+  typ            *:string
+  xmlLine        *:int
+
+type ImplicitExternSyncParamsData * = object
+  param          *:seq[string]
+  xmlLine        *:int
+
+type ParamData * = object
+  optional       *:seq[string]
+  externsync     *:seq[string]
+  noautovalidity *:bool
+  stride         *:string
+  objecttype     *:string
+  altlen         *:string
+  api            *:seq[string]
+  length         *:string
+  validstructs   *:string
+  xmlLine        *:int
+  #???????????????????????????????
+  # objecttype     *:TypeInfo
+  # arraySizes     *:seq[string]
+  # lenExpression  *:string
+  # lenParams      *:seq[(string, csize_t)]
+  # strideParam    *:(string, csize_t)
+  #???????????????????????????????
+
+type CommandData * = object
+  name           *:string
+  errorCodes     *:seq[string]
+  successCodes   *:seq[string]
+  api            *:seq[string]
+  queues         *:seq[string]
+  alias          *:string
+  cmdbufferlevel *:seq[string]
+  tasks          *:seq[string]
+  renderpass     *:string
+  comment        *:string
+  videocoding    *:string
+  proto          *:ProtoData  # Single Proto definition for entry
+  params         *:seq[ParamData]
+  asyncParams    *:ImplicitExternSyncParamsData
+  xmlLine        *:int
+  #???????????????????????????????
+  # handle       *:string
+  # requiredBy   *:OrderedSet[string]
+  # returnType   *:string
+  #???????????????????????????????
 
 type DefineData* = object
   deprecated*: bool = false
@@ -388,7 +420,7 @@ type Registry * = object
   bitmaskAliases        *:OrderedTable[string, AliasData]
   bitmasks              *:OrderedTable[string, BitmaskData]
   commandAliases        *:OrderedTable[string, AliasData]
-  commands              *:OrderedTable[string, CommandData]
+  commands              *:seq[CommandData]
   constantAliases       *:OrderedTable[string, AliasData]
   constants             *:OrderedTable[string, ConstantData]
   defines               *:OrderedTable[string, DefineData]

@@ -55,8 +55,11 @@ Work on parsing the spec can be started.
   - [ ] Struct/Union
 - [ ] Commands
   - [x] Error Check skeleton
-  - [ ] Contents data prototype
+  - [x] Contents data prototype
   - [ ] Store data into IR
+    - [x] Commands data
+    - [x] Parameter data
+    - [ ] Parameter types
 # 0.5.0 Itermediate Representation (aka: Spec parsing) complete
 The full IR is complete, and work on the final Codegen can be properly started.
 ```
