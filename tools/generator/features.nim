@@ -22,7 +22,7 @@ proc readFeatures *(gen :var Generator; node :XmlNode) :void=
       entry.checkKnownKeys(RequireData, ["comment","require"])
       var data = RequireData(
         comment : entry.attr("comment"),
-        depends : entry.attr("depends"),
+        depends : entry.attr("depends").split(if '+' in entry.attr("depends"): "+" else: ","),
         xmlLine : entry.lineNumber,
         ) # << RequireData( ... )
       for cct in entry: # For each command/constant/type in the require tag of the feature

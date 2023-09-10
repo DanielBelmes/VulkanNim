@@ -10,62 +10,82 @@ proc readExtensions *(gen :var Generator; node :XmlNode) :void=
     entry.checkKnownKeys(ExtensionData,
       ["supported", "contact", "type", "number", "ratified", "name", "author", "depends", "platform", "comment",
        "specialuse", "deprecatedby", "promotedto", "obsoletedby", "provisional", "sortorder"], KnownEmpty=[])
-    # TODO extension.supported
-    # TODO extension.contact
-    # TODO extension.type
-    # TODO extension.number
-    # TODO extension.ratified
-    # TODO extension.name
-    # TODO extension.author
-    # TODO extension.depends
-    # TODO extension.platform
-    # TODO extension.comment
-    # TODO extension.specialuse
-    # TODO extension.deprecatedby
-    # TODO extension.promotedto
-    # TODO extension.obsoletedby
-    # TODO extension.provisional
-    # TODO extension.sortorder
+    var data = ExtensionData(
+      supported    : entry.attr("supported").split(","),
+      contact      : entry.attr("contact"),
+      typ          : entry.attr("type"),
+      number       : entry.attr("number"),
+      ratified     : entry.attr("ratified").split(","),
+      author       : entry.attr("author"),
+      depends      : entry.attr("depends"),
+      platform     : entry.attr("platform"),
+      comment      : entry.attr("comment"),
+      specialuse   : entry.attr("specialuse").split(","),
+      deprecatedby : entry.attr("deprecatedby"),
+      promotedto   : entry.attr("promotedto"),
+      obsoletedby  : entry.attr("obsoletedby"),
+      provisional  : if entry.attr("provisional") == "": false else: entry.attr("provisional").parseBool(),
+      sortorder    : entry.attr("sortorder"),
+      xmlLine      : entry.lineNumber,
+      ) # << ExtensionData( ... )
+    # Populate the requireData field
     for sub in entry:
-      # TODO extension.require (list)
       if sub.tag notin ["require"]: raise newException(ParsingError, &"XML data:\n{$sub}\n\nTried to read extension subdata from a subnode that is not known to contain them:\n  └─> {sub.tag}\n")
       sub.checkKnownKeys(RequireData, ["depends", "api", "comment"], KnownEmpty=[])
-      # TODO req.depends
-      # TODO req.api
-      # TODO req.comment
+      var require = ExtensionRequireData(
+        depends : sub.attr("depends").split(if '+' in sub.attr("depends"): "+" else: ","),
+        api     : sub.attr("api").split(","),
+        comment : sub.attr("comment"),
+        xmlLine : sub.lineNumber,
+        ) # << RequireData( ... )
       for it in sub:
-        if it.kind == xnComment : continue # TODO req.comment (innerText)
-        if it.kind == xnText    : continue # TODO req.comment (innerText)
+        if it.kind == xnComment : continue #ignore : They are all empty
+        if it.kind == xnText    : continue #ignore : They are all empty
         if it.tag notin ["enum", "type", "command", "comment"]: raise newException(ParsingError, &"XML data:\n{$it}\n\nTried to read extension sub-subdata from a second level subnode that is not known to contain them:\n  └─> {it.tag}\n")
-        # TODO req.comment (innerText)
-        # TODO req.enum (list)
+
         case it.tag
         of "enum":
           it.checkKnownKeys(RequireEnumData,
             ["value", "name", "extends", "offset", "dir", "extnumber", "comment", "bitpos", "alias", "deprecated", "api",
              "protect"], KnownEmpty=[])
-          # TODO enum.value
-          # TODO enum.name
-          # TODO enum.extends
-          # TODO enum.offset
-          # TODO enum.dir
-          # TODO enum.extnumber
-          # TODO enum.comment
-          # TODO enum.bitpos
-          # TODO enum.alias
-          # TODO enum.deprecated
-          # TODO enum.api
-          # TODO enum.protect
-        # TODO req.type (list)
+          require.enums.add RequireEnumData(
+            name       : it.attr("name"),
+            comment    : it.attr("comment"),
+            value      : it.attr("value"),
+            extends    : it.attr("extends"),
+            offset     : if it.attr("offset") != "": it.attr("offset").parseInt() else: 0,
+            dir        : it.attr("dir"),
+            extnumber  : if it.attr("extnumber") != "": it.attr("extnumber").parseInt() else: -42,
+            bitpos     : it.attr("bitpos"),
+            alias      : it.attr("alias"),
+            deprecated : it.attr("deprecated"),
+            api        : it.attr("api").split(","),
+            protect    : it.attr("protect"),
+            xmlLine    : it.lineNumber,
+            ) # << RequireEnumData( ... )
+
         of "type":
           it.checkKnownKeys(RequireTypeData, ["name", "comment"], KnownEmpty=[])
-          # TODO type.name
-          # TODO type.comment
-        # TODO req.command (list)
+          if require.types.containsOrIncl( it.attr("name"), RequireTypeData(
+            comment : it.attr("comment"),
+            xmlLine : it.lineNumber,
+            )): duplicateAddError("RequireTypeData", it.attr("name"), it.lineNumber)
+
         of "command":
           it.checkKnownKeys(RequireCommandData, ["name", "comment"], KnownEmpty=[])
-          # TODO cmd.name
-          # TODO cmd.comment
+          if require.commands.containsOrIncl( it.attr("name"), RequireCommandData(
+            comment : it.attr("comment"),
+            xmlLine : it.lineNumber,
+            )): duplicateAddError("RequireCommandData", it.attr("name"), it.lineNumber)
+
+      # Add the created requireData entry
+      data.requireData.add require
+      # -> Continue to next require entry iteration
+
+    # <- requireData for loop done
+    # Add the extension to the registry
+    if gen.registry.extensions.containsOrIncl( entry.attr("name"), data ):
+       duplicateAddError("ExtensionData", entry.attr("name"), entry.lineNumber)
 
 
 const genTemplate = """

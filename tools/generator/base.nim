@@ -134,15 +134,9 @@ type EnumFeatureData * = object
   value     *:string
   xmlLine   *:int
 
-type RequireEnumData * = object
-  xmlLine   *:int
-type RequireTypeData * = object
-  xmlLine   *:int
-type RequireCommandData * = object
-  xmlLine   *:int
-
 type RequireData * = object
-  depends   *:string
+  depends   *:seq[string]
+  api       *:seq[string]
   comment   *:string
   missing   *:seq[string] # Information about missing entries that are listed as an infix comment instead.
   commands  *:seq[string]
@@ -150,18 +144,58 @@ type RequireData * = object
   types     *:seq[string]
   xmlLine   *:int
 
+
+type RequireEnumData * = object
+  name       *:string
+  comment    *:string
+  value      *:string
+  extends    *:string
+  offset     *:int
+  dir        *:string
+  extnumber  *:int
+  bitpos     *:string
+  alias      *:string
+  deprecated *:string
+  api        *:seq[string]
+  protect    *:string
+  xmlLine    *:int
+
+type RequireTypeData * = object
+  comment    *:string
+  xmlLine    *:int
+
+type RequireCommandData * = object
+  comment    *:string
+  xmlLine    *:int
+
+
+type ExtensionRequireData * = object
+  depends   *:seq[string]
+  api       *:seq[string]
+  comment   *:string
+  enums     *:seq[RequireEnumData]
+  types     *:OrderedTable[string, RequireTypeData]
+  commands  *:OrderedTable[string, RequireCommandData]
+  xmlLine   *:int
+
 type ExtensionData* = object
-  deprecatedBy *:string
-  isDeprecated *:bool = false
-  name         *:string
-  number       *:string
-  obsoletedBy  *:string
-  platform     *:string
-  promotedTo   *:string
-  depends      *:OrderedTable[string, seq[seq[string]]]
-  requireData  *:seq[RequireData]
+  supported    *:seq[string]
+  contact      *:string
   typ          *:string
-  xmlLine      *:int = 0
+  number       *:string
+  ratified     *:seq[string]
+  author       *:string
+  depends      *:string  # depends *:OrderedTable[string, seq[seq[string]]]
+  platform     *:string
+  comment      *:string
+  specialuse   *:seq[string]
+  deprecatedby *:string
+  promotedTo   *:string
+  obsoletedBy  *:string
+  provisional  *:bool
+  sortorder    *:string
+  requireData  *:seq[ExtensionRequireData]
+  xmlLine      *:int
 
 type FeatureData* = object
   name        *:string
@@ -362,7 +396,7 @@ type Registry * = object
   enumAliases           *:OrderedTable[string, AliasData]
   enums                 *:OrderedTable[string, EnumData]
   extendedStructs       *:OrderedSet[string]
-  extensions            *:seq[ExtensionData]
+  extensions            *:OrderedTable[string, ExtensionData]
   externalTypes         *:OrderedTable[string, ExternalTypeData]
   features              *:seq[FeatureData]
   formats               *:OrderedTable[string, FormatData]

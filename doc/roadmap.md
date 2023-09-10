@@ -43,6 +43,7 @@ Work on parsing the spec can be started.
 - [x] Sync
 - [x] Spir-V: Capabilities
 - [x] Spir-V: Extensions
+- [x] Extensions
 ## TODO
 - [ ] Types
   - [x] Basetype
@@ -52,10 +53,6 @@ Work on parsing the spec can be started.
   - [x] Handle
   - [x] Include
   - [ ] Struct/Union
-- [ ] Extensions
-  - [x] Error Check skeleton
-  - [ ] Contents data prototype
-  - [ ] Store data into IR
 - [ ] Commands
   - [x] Error Check skeleton
   - [ ] Contents data prototype
