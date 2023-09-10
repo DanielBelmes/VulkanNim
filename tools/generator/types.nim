@@ -49,7 +49,7 @@ proc readNameAndType *(node: XmlNode): (NameData, TypeInfo) =
       of "name":
         name.name = enumNameType.innerText().removeExtraSpace()
       of "type":
-        if(index-1 > 0):
+        if(index-1 >= 0):
           typeInfo.prefix = node[index-1].innerText().removeExtraSpace()
         typeInfo.type = enumNameType.innerText().removeExtraSpace()
         if(index+1 < node.len):
