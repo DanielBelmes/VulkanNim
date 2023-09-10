@@ -310,29 +310,29 @@ type PlatformData* = object
   comment*: string
   xmlLine*: int
 
-type MemberData* = object
-  `type`*: TypeInfo
-  name*: string
-  arraySizes*: seq[string]
-  bitCount*: string
-  lenExpressions*: seq[string]
-  lenMembers*: seq[(string, csize_t)]
-  noAutoValidity*: bool
-  optional*: seq[bool]
-  selection*: seq[string]
-  selector*: string
-  value*: string
-  xmlLine*: int
+type MemberData * = object
+  typ            *:TypeInfo
+  name           *:string
+  arraySizes     *:seq[string]
+  bitCount       *:string
+  lenExpressions *:seq[string]
+  lenMembers     *:seq[(string, csize_t)]
+  noAutoValidity *:bool
+  optional       *:seq[bool]
+  selection      *:seq[string]
+  selector       *:string
+  value          *:string
+  xmlLine        *:int
 
-type StructureData* = object
-  allowDuplicate*: bool
-  isUnion*: bool
-  returnedOnly*: bool
-  mutualExclusiveLens*: bool
-  members*: seq[MemberData]
-  structExtends*: seq[string]
-  subStruct*: string
-  xmlLine*: int
+type StructureData * = object
+  allowDuplicate      *:bool
+  isUnion             *:bool
+  returnedOnly        *:bool
+  mutualExclusiveLens *:bool
+  members             *:seq[MemberData]
+  structExtends       *:seq[string]
+  subStruct           *:string
+  xmlLine             *:int
 
 type TagData* = object
   xmlLine*: int

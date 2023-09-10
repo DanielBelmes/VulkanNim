@@ -224,7 +224,53 @@ proc readTypeInclude *(gen :var Generator, includes :XmlNode) :void=
     duplicateAddError("IncludeData",name,lineNumber)
   if gen.registry.includes.containsOrIncl(name,IncludeData(xmlLine: lineNumber)):
     duplicateAddError("IncludeData",name,lineNumber)
-proc readTypeStructOrUnion *(gen :var Generator, types :XmlNode) :void=discard
+
+proc readTypeStructOrUnion *(gen :var Generator; node :XmlNode) :void=
+  node.checkKnownKeys(StructureData,
+    ["name", "category", "returnedonly", "structextends", "comment", "allowduplicate", "alias"],
+    KnownEmpty=[])
+  # TODO Fix types and contents
+  var struct = StructureData(
+    category       : node.attr("category"),
+    returnedonly   : node.attr("returnedonly"),
+    structextends  : node.attr("structextends"),
+    comment        : node.attr("comment"), #(key, like normal)
+    allowduplicate : node.attr("allowduplicate"),
+    alias          : node.attr("alias"),
+    ) # << StructureData( ... )
+    # TODO struct.comment (infix??? vs key?? what are they?)
+  # TODO struct.member (list)
+  for entry in node:
+    if entry.tag notin ["member", "comment"]: raise newException(ParsingError, &"XML data:\n{$entry}\nError when reading struct data from an entry that is not known to contain them:\n  └─> {entry.tag}\n")
+    case entry.tag
+    of "member":
+      entry.checkKnownKeys(MemberData, 
+        ["optional", "noautovalidity", "limittype", "values", "deprecated", "len", "altlen", "api", "objecttype", "externsync", 
+         "selection", "selector"],
+        KnownEmpty=["member"])
+      # TODO Fix types and contents
+      var member = MemberData(
+        optional       : entry.attr("optional"),
+        noautovalidity : entry.attr("noautovalidity"),
+        limittype      : entry.attr("limittype"),
+        values         : entry.attr("values"),
+        deprecated     : entry.attr("deprecated"),
+        length         : entry.attr("length"),
+        altlen         : entry.attr("altlen"),
+        api            : entry.attr("api"),
+        objecttype     : entry.attr("objecttype"), #(aka isObject)
+        externsync     : entry.attr("externsync"),
+        selection      : entry.attr("selection"),
+        selector       : entry.attr("selector"),
+      ) # << MemberData( ... )
+    # TODO member.comment (infix)
+    of "comment":
+      entry.checkKnownKeys(string, [], KnownEmpty=[])
+    # -> Continue to the next struct member
+  # <- struct members loop done
+  # Add the struct to the registry
+  if gen.registry.structs.containsOrIncl( node.attr("name"), struct):
+    duplicateAddError("IncludeData", node.attr("name"), node.lineNumber)
 
 proc readTypes *(gen :var Generator, types :XmlNode) :void=
   for `type` in types:
@@ -232,27 +278,16 @@ proc readTypes *(gen :var Generator, types :XmlNode) :void=
       let category = `type`.attr("category")
       if category != "":
         case category:
-          of "basetype":
-            gen.readTypeBase(`type`)
-          of "bitmask":
-            gen.readTypeBitmask(`type`)
-          of "define":
-            gen.readTypeDefine(`type`)
-          of "enum":
-            gen.readTypeEnum(`type`)
-          of "funcpointer":
-            gen.readTypeFuncPointer(`type`)
-          of "handle":
-            gen.readTypeHandle(`type`)
-          of "include":
-            gen.readTypeInclude(`type`)
-          of "struct", "union":
-            gen.readTypeStructOrUnion(`type`)
-          of "":
-            # TODO Requires type notation <type requires="X11/Xlib.h" name="Display"/>
-            discard
-          else:
-            raise newException(ParsingError,"Can not identify category of type: " & category)
+          of "basetype"        : gen.readTypeBase(`type`)
+          of "bitmask"         : gen.readTypeBitmask(`type`)
+          of "define"          : gen.readTypeDefine(`type`)
+          of "enum"            : gen.readTypeEnum(`type`)
+          of "funcpointer"     : gen.readTypeFuncPointer(`type`)
+          of "handle"          : gen.readTypeHandle(`type`)
+          of "include"         : gen.readTypeInclude(`type`)
+          of "struct", "union" : gen.readTypeStructOrUnion(`type`)
+          of ""                : discard # TODO Requires type notation <type requires="X11/Xlib.h" name="Display"/>
+          else: raise newException(ParsingError,"Can not identify category of type: " & category)
       else:
         let requires = `type`.attr("requires").removeExtraSpace()
         if gen.registry.externalTypes.containsOrIncl(`type`.attr("name").removeExtraSpace(),ExternalTypeData(require: requires, xmlLine: `type`.lineNumber)):
