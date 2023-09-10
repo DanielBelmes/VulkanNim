@@ -27,6 +27,19 @@ proc checkKnownKeys *[T](node :XmlNode; _:typedesc[T]; KnownKeys :openArray[stri
   for key in node.attrs.keys():
     if key notin KnownKeys: raise newException(ParsingError, &"XML data:\n{$node}\n\nError when getting {$T} information from a node that contains an unknown key:\n  └─> {key}\n")
 
+proc checkKnownNodes *[T](node :XmlNode; _:typedesc[T]; KnownNodeKeys :openArray[string]) :void=
+  ## Checks that all the Nodes for one leve in the given node are contained in the input KnownNodeKeys.
+  ## Raises an exception otherwise (for the case of newly added or changed nodes in the spec)
+  ## Any node found in the node, which is not in the list, will raise an exception
+  ## and report its name and XML contents to console.
+  ## The type is used as a reference for the section where the check is called from.
+  ##
+  ## Example Usage:
+  ##   node.checkKnownKeys(EnumValueData, [ "name", "type" ])
+  assert(node.kind == xnElement)
+  for node in node:
+    if node.kind == xnElement and node.tag notin KnownNodeKeys: raise newException(ParsingError, &"XML data:\n{$node}\n\nError when getting {$T} information from a node that contains an unknown childs tag:\n  └─> <{node.tag}>\n")
+
 #_______________________________________
 # Generator Tools used by all modules
 #___________________

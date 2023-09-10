@@ -24,9 +24,9 @@ type TypeCategory* {.pure.}= enum
   Unknown
 
 type TypeData* = object
-  category: TypeCategory = TypeCategory.Unknown
-  requiredBy: OrderedSet[string]
-  xmlLine: int
+  category   *: TypeCategory = TypeCategory.Unknown
+  requiredBy *: OrderedSet[string]
+  xmlLine    *: int
 
 type TypeInfo * = object
   prefix  *:string

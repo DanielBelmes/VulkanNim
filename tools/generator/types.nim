@@ -49,14 +49,18 @@ proc readNameAndType *(node: XmlNode): (NameData, TypeInfo) =
       of "name":
         name.name = enumNameType.innerText().removeExtraSpace()
       of "type":
-        typeInfo.prefix = node[index-1].innerText().removeExtraSpace()
+        if(index-1 > 0):
+          typeInfo.prefix = node[index-1].innerText().removeExtraSpace()
         typeInfo.type = enumNameType.innerText().removeExtraSpace()
-        typeInfo.postfix = node[index+1].innerText().removeExtraSpace() #They trim stars?
+        if(index+1 < node.len):
+          typeInfo.postfix = node[index+1].innerText().removeExtraSpace() #They trim stars?
       else:
         discard
   return (name,typeInfo)
 
 proc readTypeBase *(gen :var Generator, basetype :XmlNode) :void=
+  basetype.checkKnownKeys(BaseTypeData, ["category"])
+  basetype.checkKnownNodes(BaseTypeData,["name","type"])
   var baseTypeData: BaseTypeData
   let nameOption = option(basetype.child("name"))
   assert nameOption.isSome
@@ -69,12 +73,13 @@ proc readTypeBitmask *(gen :var Generator, bitmask :XmlNode) :void=
   let lineNumber = bitmask.lineNumber
   let alias = bitmask.attr("alias")
   if(alias != ""):
-    bitmask.checkKnownKeys(string, ["name","alias","category"])
+    bitmask.checkKnownKeys(AliasData, ["name","alias","category"])
     let name = bitmask.attr("name")
     if gen.registry.bitmaskAliases.containsOrIncl(name, AliasData(name: alias, xmlLine: lineNumber)):
       duplicateAddError("BitmaskAlias",name,lineNumber)
   else:
-    bitmask.checkKnownKeys(string, ["api", "requires","category","bitvalues"])
+    bitmask.checkKnownKeys(BitmaskData, ["api", "requires","category","bitvalues"])
+    bitmask.checkKnownNodes(BitmaskData,["name","type"])
     let requires = bitmask.attr("requires")
     let api = bitmask.attr("api")
     let bitvalues = bitmask.attr("bitvalues")
@@ -83,7 +88,7 @@ proc readTypeBitmask *(gen :var Generator, bitmask :XmlNode) :void=
       if gen.registry.bitmasks.containsOrIncl(name.name,BitmaskData(require: requires, typ: typeinfo.`type`, xmlLine: lineNumber, bitvalues: bitvalues)):
         duplicateAddError("Bitmask",name.name,lineNumber)
 proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
-  define.checkKnownKeys(string, ["name", "requires", "deprecated", "category", "api", "comment"])
+  define.checkKnownKeys(DefineData, ["name", "requires", "deprecated", "category", "api", "comment"])
   var name: string = define.attr("name")
   let lineNumber: int = define.lineNumber
   let require: string = define.attr("requires")
@@ -115,7 +120,8 @@ proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
       duplicateAddError("Define",name,lineNumber)
 
 proc readTypeEnum *(gen :var Generator, enumNode :XmlNode) :void=
-  enumNode.checkKnownKeys(string, ["name", "alias", "category"])
+  enumNode.checkKnownKeys(AliasData, ["name", "alias", "category"])
+  enumNode.checkKnownNodes(AliasData,[])
   let name = enumNode.attr("name")
   let alias = enumNode.attr("alias")
 
@@ -124,7 +130,8 @@ proc readTypeEnum *(gen :var Generator, enumNode :XmlNode) :void=
       duplicateAddError("Enum Alias",name,enumNode.lineNumber)
 
 proc readTypeFuncPointer *(gen :var Generator, funcPointer :XmlNode) :void=
-  funcPointer.checkKnownKeys(string, ["requires", "category"], KnownEmpty=[])
+  funcPointer.checkKnownKeys(FuncPointerData, ["requires", "category"], KnownEmpty=[])
+  funcPointer.checkKnownNodes(FuncPointerData,["name","type"])
   let
     requires: string = funcPointer.attr("requires")
     lineNumber: int = funcPointer.lineNumber
@@ -161,7 +168,41 @@ proc readTypeFuncPointer *(gen :var Generator, funcPointer :XmlNode) :void=
   if gen.registry.funcPointers.containsOrIncl(name,FuncPointerData(arguments: arguments, require: requires, `type`: funcptrtype, xmlline: lineNumber)):
       duplicateAddError("FuncPointer",name,lineNumber)
 
-proc readTypeHandle *(gen :var Generator, types :XmlNode) :void=discard
+proc readTypeHandle *(gen :var Generator, handle :XmlNode) :void=
+  # childrenHandles*: OrderedSet[string]
+  # commands*: OrderedSet[string]
+  # deleteCommand*: string
+  # deleteParent*: string
+  # deletePool*: string
+  # objTypeEnum*: string
+  # parent*: string
+  # secondLevelCommands*: OrderedSet[string]
+  # isDispatchable*: bool
+  # xmlLine*: int
+  handle.checkKnownKeys(HandleData, ["name","parent", "category", "alias", "objtypeenum"], KnownEmpty=[])
+  handle.checkKnownNodes(HandleData,["name","type"])
+  let
+    alias = handle.attr("alias")
+    lineNumber = handle.lineNumber
+
+  if (alias != ""):
+    let name = handle.attr("name")
+    assert(name != "")
+    if gen.registry.handleAliases.containsOrIncl(name,AliasData(name: alias, xmlLine: lineNumber)):
+      duplicateAddError("TypeHandle",name,lineNumber)
+  else:
+    let
+      parent = handle.attr("parent")
+      objtypeenum = handle.attr("objtypeenum")
+      (name, typeInfo) = readNameAndType(handle)
+    assert(objtypeenum != "")
+    assert(name.name != "" and typeInfo.`type` != "")
+    let isDispatchable = typeInfo.`type` == "VK_DEFINE_HANDLE"
+    if gen.registry.types.containsOrIncl(name.name,TypeData(category: TypeCategory.Handle,xmlLine: lineNumber)):
+      duplicateAddError("TypeData",name.name,lineNumber)
+    if gen.registry.handles.containsOrIncl(name.name, HandleData(parent: parent, objTypeEnum: objTypeEnum, isDispatchable: isDispatchable, xmlLine: lineNumber)):
+      duplicateAddError("HandleData",name.name,lineNumber)
+
 proc readTypeInclude *(gen :var Generator, types :XmlNode) :void=discard
 proc readTypeStructOrUnion *(gen :var Generator, types :XmlNode) :void=discard
 
@@ -187,6 +228,9 @@ proc readTypes *(gen :var Generator, types :XmlNode) :void=
             gen.readTypeInclude(`type`)
           of "struct", "union":
             gen.readTypeStructOrUnion(`type`)
+          of "":
+            # TODO Requires type notation <type requires="X11/Xlib.h" name="Display"/>
+            discard
           else:
             raise newException(ParsingError,"Can not identify category of type: " & category)
       else:
