@@ -345,7 +345,8 @@ proc readTypes *(gen :var Generator, types :XmlNode) :void=
         let requires = `type`.attr("requires").removeExtraSpace()
         if gen.registry.externalTypes.containsOrIncl(`type`.attr("name").removeExtraSpace(),ExternalTypeData(require: requires, xmlLine: `type`.lineNumber)):
           duplicateAddError("externalTypes",`type`.attr("name"),`type`.lineNumber)
-proc generateTypes *(gen :Generator) :void=
+
+proc generateTypes *(gen :Generator; C_like :static bool= true) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_types.nim"
   const genTemplate = """
 #[

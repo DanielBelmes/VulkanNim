@@ -2,7 +2,7 @@
 import ./common
 
 
-proc generateHandles *(gen :Generator) :void=
+proc generateHandles *(gen :Generator; C_like :static bool= true) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_handles.nim"
   const genTemplate = """
 #[

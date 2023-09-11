@@ -2,7 +2,7 @@
 import ./common
 
 
-proc generateStructs *(gen :Generator) :void=
+proc generateStructs *(gen :Generator; C_like :static bool= true) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_structs.nim"
   const genTemplate = """
 #[

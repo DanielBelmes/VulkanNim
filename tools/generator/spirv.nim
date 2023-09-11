@@ -41,7 +41,6 @@ proc readSpirvExtensions *(gen :var Generator; node :XmlNode) :void=
     var extension = SpirvExtData(
       xmlLine : ext.lineNumber,
       ) # << SpirvExtData( ... )
-    # TODO ext.enable (list)
     for sub in ext:
       if sub.tag notin ["enable"]: raise newException(ParsingError, &"XML data:\n{$sub}\n\nTried to read spirvextension feature data from a subnode that is not known to contain them:\n  └─> {sub.tag}\n")
       sub.checkKnownKeys(SpirvExtEnableData, ["version", "extension"], KnownEmpty=[])
@@ -53,5 +52,4 @@ proc readSpirvExtensions *(gen :var Generator; node :XmlNode) :void=
     # Add the extension to the registry
     if gen.registry.spirvExtensions.containsOrIncl( ext.attr("name"), extension):
       duplicateAddError("SpirvExtData", ext.attr("name"), ext.lineNumber)
-
 

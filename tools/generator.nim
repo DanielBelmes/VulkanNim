@@ -86,14 +86,16 @@ proc main=
   generator.readRegistry()
 
   # Generate the code files
-  generator.generateAPI()
-  generator.generateExtensionInspection()
-  generator.generateTypes()
-  generator.generateFormats()
-  generator.generateEnums()
-  generator.generateProcs()
-  generator.generateHandles()
-  generator.generateStructs()
+  const C_like = true
+  generator.generateAPI( C_like )
+  generator.generateExtensionInspection( C_like )
+  generator.generateTypes( C_like )
+  generator.generateFormats( C_like )
+  generator.generateConsts( C_like )
+  generator.generateEnums( C_like )
+  generator.generateProcs( C_like )
+  generator.generateHandles( C_like )
+  generator.generateStructs( C_like )
 
 
 when isMainModule: main()

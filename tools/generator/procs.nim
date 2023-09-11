@@ -122,7 +122,7 @@ import ./dynamic
 {procs}
 """
 
-proc generateProcs *(gen :Generator) :void=
+proc generateProcs *(gen :Generator; C_like :static bool= true) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_procs.nim"
   var procs :string
   writeFile(outputDir,fmt genTemplate)
