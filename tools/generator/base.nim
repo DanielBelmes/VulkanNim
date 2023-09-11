@@ -460,6 +460,7 @@ type Registry * = object
   version               *:string
   vulkanLicenseHeader   *:string
   rootComments          *:seq[CommentData]
+  requires              *:OrderedTable[string, RequireData]
 
 type Generator * = object
   doc      *:XmlNode

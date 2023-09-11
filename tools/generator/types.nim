@@ -320,6 +320,11 @@ proc readTypeStructOrUnion *(gen :var Generator, structOrUnion :XmlNode) :void=
     if gen.registry.structs.containsOrIncl(name,structData):
       duplicateAddError("Struct Alias",name,lineNumber)
 
+proc readRequires *(gen :var Generator, requires :XmlNode) :void=
+  requires.checkKnownKeys(StructureData, ["name","requires"])
+  if gen.registry.requires.containsOrIncl(requires.attr("name"),RequireData(depends: @[requires.attr("requires")], xmlLine: requires.lineNumber)):
+    duplicateAddError("Struct Alias",requires.attr("name"),requires.lineNumber)
+
 proc readTypes *(gen :var Generator, types :XmlNode) :void=
   for `type` in types:
     if `type`.tag == "type":
@@ -334,7 +339,7 @@ proc readTypes *(gen :var Generator, types :XmlNode) :void=
           of "handle"          : gen.readTypeHandle(`type`)
           of "include"         : gen.readTypeInclude(`type`)
           of "struct", "union" : gen.readTypeStructOrUnion(`type`)
-          of ""                : discard # TODO Requires type notation <type requires="X11/Xlib.h" name="Display"/>
+          of ""                : gen.readRequires(`type`)
           else: raise newException(ParsingError,"Can not identify category of type: " & category)
       else:
         let requires = `type`.attr("requires").removeExtraSpace()
