@@ -53,6 +53,7 @@ proc readNameAndType *(node: XmlNode): (NameData, TypeInfo) =
           typeInfo.prefix = node[index-1].innerText().removeExtraSpace()
         typeInfo.type = enumNameType.innerText().removeExtraSpace()
         if(index+1 < node.len):
+          if(node[index+1].kind == xnElement): continue
           typeInfo.postfix = node[index+1].innerText().removeExtraSpace() #They trim stars?
       else:
         discard
@@ -181,16 +182,6 @@ proc readTypeFuncPointer *(gen :var Generator, funcPointer :XmlNode) :void=
       duplicateAddError("FuncPointer",name,lineNumber)
 
 proc readTypeHandle *(gen :var Generator, handle :XmlNode) :void=
-  # childrenHandles*: OrderedSet[string]
-  # commands*: OrderedSet[string]
-  # deleteCommand*: string
-  # deleteParent*: string
-  # deletePool*: string
-  # objTypeEnum*: string
-  # parent*: string
-  # secondLevelCommands*: OrderedSet[string]
-  # isDispatchable*: bool
-  # xmlLine*: int
   handle.checkKnownKeys(HandleData, ["name","parent", "category", "alias", "objtypeenum"], KnownEmpty=[])
   handle.checkKnownNodes(HandleData,["name","type"])
   let
@@ -225,52 +216,109 @@ proc readTypeInclude *(gen :var Generator, includes :XmlNode) :void=
   if gen.registry.includes.containsOrIncl(name,IncludeData(xmlLine: lineNumber)):
     duplicateAddError("IncludeData",name,lineNumber)
 
-proc readTypeStructOrUnion *(gen :var Generator; node :XmlNode) :void=
-  node.checkKnownKeys(StructureData,
-    ["name", "category", "returnedonly", "structextends", "comment", "allowduplicate", "alias"],
-    KnownEmpty=[])
-  # TODO Fix types and contents
-  var struct = StructureData(
-    category       : node.attr("category"),
-    returnedonly   : node.attr("returnedonly"),
-    structextends  : node.attr("structextends"),
-    comment        : node.attr("comment"), #(key, like normal)
-    allowduplicate : node.attr("allowduplicate"),
-    alias          : node.attr("alias"),
-    ) # << StructureData( ... )
-    # TODO struct.comment (infix??? vs key?? what are they?)
-  # TODO struct.member (list)
-  for entry in node:
-    if entry.tag notin ["member", "comment"]: raise newException(ParsingError, &"XML data:\n{$entry}\nError when reading struct data from an entry that is not known to contain them:\n  └─> {entry.tag}\n")
-    case entry.tag
-    of "member":
-      entry.checkKnownKeys(MemberData, 
-        ["optional", "noautovalidity", "limittype", "values", "deprecated", "len", "altlen", "api", "objecttype", "externsync", 
-         "selection", "selector"],
-        KnownEmpty=["member"])
-      # TODO Fix types and contents
-      var member = MemberData(
-        optional       : entry.attr("optional"),
-        noautovalidity : entry.attr("noautovalidity"),
-        limittype      : entry.attr("limittype"),
-        values         : entry.attr("values"),
-        deprecated     : entry.attr("deprecated"),
-        length         : entry.attr("length"),
-        altlen         : entry.attr("altlen"),
-        api            : entry.attr("api"),
-        objecttype     : entry.attr("objecttype"), #(aka isObject)
-        externsync     : entry.attr("externsync"),
-        selection      : entry.attr("selection"),
-        selector       : entry.attr("selector"),
-      ) # << MemberData( ... )
-    # TODO member.comment (infix)
-    of "comment":
-      entry.checkKnownKeys(string, [], KnownEmpty=[])
-    # -> Continue to the next struct member
-  # <- struct members loop done
-  # Add the struct to the registry
-  if gen.registry.structs.containsOrIncl( node.attr("name"), struct):
-    duplicateAddError("IncludeData", node.attr("name"), node.lineNumber)
+proc filterNumbers(names: seq[string]): seq[(string, int)] =
+  for name in names:
+    if not name.contains(re2"\d") and name != "":
+      result.add((name, 0))
+proc determineSubStruct*(struct: XmlNode): string =
+  discard
+proc readTypeStructOrUnion *(gen :var Generator, structOrUnion :XmlNode) :void=
+  structOrUnion.checkKnownKeys(StructureData, ["name","category","returnedonly","structextends","comment","allowduplicate","alias"])
+  structOrUnion.checkKnownNodes(StructureData, ["member","comment"])
+  let
+    alias = structOrUnion.attr("alias")
+    name = structOrUnion.attr("name")
+    isUnion = structOrUnion.attr("category") == "union"
+    allowDuplicate = structOrUnion.attr("allowduplicate") == "true"
+    returnedOnly = structOrUnion.attr("returnedOnly") == "true"
+    structextends = structOrUnion.attr("structextends").split(',')
+    lineNumber = structOrUnion.lineNumber
+  assert(name != "")
+  if gen.registry.types.containsOrIncl(name,TypeData(category: if isUnion: TypeCategory.Union else: TypeCategory.Struct,xmlLine: lineNumber)):
+    duplicateAddError("IncludeData",name,lineNumber)
+  if alias != "":
+    if gen.registry.structAliases.containsOrIncl(name,AliasData(name:alias,xmlLine:lineNumber)):
+      duplicateAddError("Struct Alias",name,lineNumber)
+  else:
+    var
+      members: seq[MemberData]
+      structData = StructureData(allowDuplicate: allowDuplicate, returnedOnly: returnedOnly, isUnion: isUnion, structExtends: structExtends, subStruct: determineSubStruct(structOrUnion), xmlLine:lineNumber)
+    for member in structOrUnion:
+      if member.kind != xnElement: continue
+      if member.tag != "member": continue
+      var memberData = MemberData()
+      member.checkKnownKeys(MemberData,["values","optional","noautovalidity","limittype","len","deprecated","altlen","api","objecttype","externsync","selection","selector"],["member"])
+      member.checkKnownNodes(MemberData,["name","type","comment","enum"])
+      let (name,typedata) = readNameAndType(member)
+      memberData.name = name.name
+      memberData.`type` = typedata
+      memberData.arraySizes = name.arraySizes
+      memberData.xmlLine = member.lineNumber
+      var api: string
+      if not member.attrs.isNil:
+        for (attr, value) in member.attrs.pairs:
+          if attr == "api":
+            api = value
+          elif attr == "altlen":
+            memberData.lenExpressions = value.split(',')
+            memberData.lenMembers = filterNumbers(value.split({' ','/','(',')','+','*'}))
+          elif attr == "deprecated":
+            memberData.deprecated = true
+          elif attr == "len":
+            memberData.lenExpressions = value.split(',')
+            if memberData.lenExpressions[0] != "null-terminated":
+              let structMemberIdx = members.find(proc (item: MemberData): bool = return item.name == memberData.lenExpressions[0])
+              memberData.lenMembers.add((memberData.lenExpressions[0], structMemberIdx)) # I think this is right
+          elif attr == "values":
+            memberData.value = value
+          elif attr == "objecttype":
+            memberData.objectType = value
+          elif attr == "externsync":
+            memberData.externSync = value == "true"
+          elif attr == "optional":
+            let optionals = value.split(',')
+            memberData.optional.setLen(optionals.len)
+            for o in optionals:
+              memberData.optional.add(true)
+          elif attr == "noautovalidity":
+            memberData.noAutoValidity = value == "true"
+          elif attr == "selector":
+            memberData.selector = value
+          elif attr == "selection":
+            memberData.selection = value.split(',')
+          elif attr == "limittype":
+            memberData.limitType = value.split(',')
+      members.add(memberData)
+    structData.members = members
+    var
+      warned = false
+    const
+      mutualExclusiveStructs: OrderedSet[string] = toOrderedSet(["VkAccelerationStructureBuildGeometryInfoKHR", "VkAccelerationStructureTrianglesOpacityMicromapEXT", "VkMicromapBuildInfoEXT", "VkWriteDescriptorSet"])
+      multipleLenStructs: OrderedSet[string] = toOrderedSet(["VkAccelerationStructureTrianglesDisplacementMicromapNV",
+                                                          "VkImageConstraintsInfoFUCHSIA",
+                                                          "VkIndirectCommandsLayoutTokenNV",
+                                                          "VkPresentInfoKHR",
+                                                          "VkSemaphoreWaitInfo",
+                                                          "VkSubmitInfo",
+                                                          "VkSubpassDescription",
+                                                          "VkSubpassDescription2",
+                                                          "VkWin32KeyedMutexAcquireReleaseInfoKHR",
+                                                          "VkWin32KeyedMutexAcquireReleaseInfoNV" ])
+    for i0, member in members:
+      if warned: break
+      if(member.lenExpressions.len != 0 and member.lenExpressions[0] != "null-terminated"):
+        for i1, member1 in members:
+          if i0 == i1: continue
+          if member1.lenExpressions.len != 0 and member.lenExpressions[0] == member1.lenExpressions[0]:
+            if mutualExclusiveStructs.contains(member.name):
+              structData.mutualExclusiveLens = true
+            else:
+              if not multipleLenStructs.contains(member.name):
+                when defined(debug):
+                  echo &"Encountered structure <:{$name}> with multiple members referencing the same member for len. Need to be checked if they are supposed to be mutually exclusive.\n"
+              warned = true
+    if gen.registry.structs.containsOrIncl(name,structData):
+      duplicateAddError("Struct Alias",name,lineNumber)
 
 proc readTypes *(gen :var Generator, types :XmlNode) :void=
   for `type` in types:
@@ -292,7 +340,6 @@ proc readTypes *(gen :var Generator, types :XmlNode) :void=
         let requires = `type`.attr("requires").removeExtraSpace()
         if gen.registry.externalTypes.containsOrIncl(`type`.attr("name").removeExtraSpace(),ExternalTypeData(require: requires, xmlLine: `type`.lineNumber)):
           duplicateAddError("externalTypes",`type`.attr("name"),`type`.lineNumber)
-
 proc generateTypes *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_types.nim"
   const genTemplate = """

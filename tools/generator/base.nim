@@ -310,19 +310,23 @@ type PlatformData* = object
   comment*: string
   xmlLine*: int
 
-type MemberData * = object
-  typ            *:TypeInfo
-  name           *:string
-  arraySizes     *:seq[string]
-  bitCount       *:string
-  lenExpressions *:seq[string]
-  lenMembers     *:seq[(string, csize_t)]
-  noAutoValidity *:bool
-  optional       *:seq[bool]
-  selection      *:seq[string]
-  selector       *:string
-  value          *:string
-  xmlLine        *:int
+type MemberData* = object
+  `type`*: TypeInfo
+  name*: string
+  arraySizes*: seq[string]
+  bitCount*: string
+  lenExpressions*: seq[string]
+  lenMembers*: seq[(string, int)]
+  noAutoValidity*: bool
+  optional*: seq[bool]
+  selection*: seq[string]
+  selector*: string
+  value*: string
+  limitType*: seq[string]
+  deprecated*: bool
+  objectType*: string
+  externSync*: bool
+  xmlLine*: int
 
 type StructureData * = object
   allowDuplicate      *:bool

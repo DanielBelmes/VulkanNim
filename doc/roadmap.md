@@ -45,15 +45,8 @@ Work on parsing the spec can be started.
 - [x] Spir-V: Extensions
 - [x] Extensions
 - [x] Commands
+- [x] Types
 ## TODO
-- [ ] Types
-  - [x] Basetype
-  - [x] Define
-  - [x] Enum
-  - [x] Funcpointer
-  - [x] Handle
-  - [x] Include
-  - [ ] Struct/Union
 # 0.5.0 Itermediate Representation (aka: Spec parsing) complete
 The full IR is complete, and work on the final Codegen can be properly started.
 ```

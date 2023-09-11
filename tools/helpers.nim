@@ -89,3 +89,10 @@ func symbolToNim *(sym :string) :string=
   elif  sym.startsWith("vk")  : result = sym[2..^1].change(  PascalCase, camelCase  )
   else: raise newException(CodegenError, &"Tried to convert a symbol name with a condition that hasn't been mapped yet:\n  {sym}")
 
+proc find*[T](s: seq[T], pred: proc(x: T): bool): int =
+  ## Finds the first item from sequence that satisfies procedure
+  ## returns index of item. If not item is found return -1
+  for index, item in s:
+    if (pred(item)):
+      return index
+  return -1
