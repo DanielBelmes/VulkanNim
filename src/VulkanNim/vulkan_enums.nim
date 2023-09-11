@@ -2,43 +2,6 @@
 # TODO: Add VulkanNim Header here
 import std/sets
 
-## API Constants
-const MaxPhysicalDeviceNameSize *:uint32= 256
-const UuidSize *:uint32= 16
-const LuidSize *:uint32= 8
-const MaxExtensionNameSize *:uint32= 256
-const MaxDescriptionSize *:uint32= 256
-const MaxMemoryTypes *:uint32= 32
-const MaxMemoryHeaps *:uint32= 16
-const LodClampNone *:float32= 1000.0'f32
-const RemainingMipLevels *:uint32= not 0'u32
-const RemainingArrayLayers *:uint32= not 0'u32
-const Remaining3dSlicesExt *:uint32= not 0'u32
-const WholeSize *:uint64= not 0'u64
-const AttachmentUnused *:uint32= not 0'u32
-const True *:uint32= 1
-const False *:uint32= 0
-const QueueFamilyIgnored *:uint32= not 0'u32
-const QueueFamilyExternal *:uint32= not 1'u32
-const QueueFamilyForeignExt *:uint32= not 2'u32
-const SubpassExternal *:uint32= not 0'u32
-const MaxDeviceGroupSize *:uint32= 32
-const MaxDriverNameSize *:uint32= 256
-const MaxDriverInfoSize *:uint32= 256
-const ShaderUnusedKhr *:uint32= not 0'u32
-const MaxGlobalPrioritySizeKhr *:uint32= 16
-const MaxShaderModuleIdentifierSizeExt *:uint32= 32
-const ShaderIndexUnusedAmdx *:uint32= not 0'u32
-
-## API Constant Aliases
-const LuidSizeKhr *:uint32= LuidSize
-const QueueFamilyExternalKhr *:uint32= QueueFamilyExternal
-const MaxDeviceGroupSizeKhr *:uint32= MaxDeviceGroupSize
-const MaxDriverNameSizeKhr *:uint32= MaxDriverNameSize
-const MaxDriverInfoSizeKhr *:uint32= MaxDriverInfoSize
-const ShaderUnusedNv *:uint32= ShaderUnusedKhr
-const MaxGlobalPrioritySizeExt *:uint32= MaxGlobalPrioritySizeKhr
-
 ## Value Enums
 type VkImageLayout * = enum
   VK_IMAGE_LAYOUT_UNDEFINED = 0  ## Implicit layout an image is when its contents are undefined due to various reasons (e.g. right after creation)
@@ -498,25 +461,25 @@ type VkSubpassContents * = enum
   VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS = 1
 
 type VkResult * = enum
+  VK_ERROR_UNKNOWN = -13  ## An unknown error has occurred, due to an implementation or application bug
+  VK_ERROR_FRAGMENTED_POOL = -12  ## A requested pool allocation has failed due to fragmentation of the pool's memory
+  VK_ERROR_FORMAT_NOT_SUPPORTED = -11  ## Requested format is not supported on this device
+  VK_ERROR_TOO_MANY_OBJECTS = -10  ## Too many objects of the type have already been created
+  VK_ERROR_INCOMPATIBLE_DRIVER = -9  ## Unable to find a Vulkan driver
+  VK_ERROR_FEATURE_NOT_PRESENT = -8  ## Requested feature is not available on this device
+  VK_ERROR_EXTENSION_NOT_PRESENT = -7  ## Extension specified does not exist
+  VK_ERROR_LAYER_NOT_PRESENT = -6  ## Layer specified does not exist
+  VK_ERROR_MEMORY_MAP_FAILED = -5  ## Mapping of a memory object has failed
+  VK_ERROR_DEVICE_LOST = -4  ## The logical device has been lost. See <<devsandqueues-lost-device>>
+  VK_ERROR_INITIALIZATION_FAILED = -3  ## Initialization of an object has failed
+  VK_ERROR_OUT_OF_DEVICE_MEMORY = -2  ## A device memory allocation has failed
+  VK_ERROR_OUT_OF_HOST_MEMORY = -1  ## A host memory allocation has failed
   VK_SUCCESS = 0  ## Command completed successfully
   VK_NOT_READY = 1  ## A fence or query has not yet completed
   VK_TIMEOUT = 2  ## A wait operation has not completed in the specified time
   VK_EVENT_SET = 3  ## An event is signaled
   VK_EVENT_RESET = 4  ## An event is unsignaled
   VK_INCOMPLETE = 5  ## A return array was too small for the result
-  VK_ERROR_OUT_OF_HOST_MEMORY = -1  ## A host memory allocation has failed
-  VK_ERROR_OUT_OF_DEVICE_MEMORY = -2  ## A device memory allocation has failed
-  VK_ERROR_INITIALIZATION_FAILED = -3  ## Initialization of an object has failed
-  VK_ERROR_DEVICE_LOST = -4  ## The logical device has been lost. See <<devsandqueues-lost-device>>
-  VK_ERROR_MEMORY_MAP_FAILED = -5  ## Mapping of a memory object has failed
-  VK_ERROR_LAYER_NOT_PRESENT = -6  ## Layer specified does not exist
-  VK_ERROR_EXTENSION_NOT_PRESENT = -7  ## Extension specified does not exist
-  VK_ERROR_FEATURE_NOT_PRESENT = -8  ## Requested feature is not available on this device
-  VK_ERROR_INCOMPATIBLE_DRIVER = -9  ## Unable to find a Vulkan driver
-  VK_ERROR_TOO_MANY_OBJECTS = -10  ## Too many objects of the type have already been created
-  VK_ERROR_FORMAT_NOT_SUPPORTED = -11  ## Requested format is not supported on this device
-  VK_ERROR_FRAGMENTED_POOL = -12  ## A requested pool allocation has failed due to fragmentation of the pool's memory
-  VK_ERROR_UNKNOWN = -13  ## An unknown error has occurred, due to an implementation or application bug
 
 type VkDynamicState * = enum
   VK_DYNAMIC_STATE_VIEWPORT = 0
@@ -1071,10 +1034,10 @@ type VkOpacityMicromapFormatEXT * = enum
   VK_OPACITY_MICROMAP_FORMAT_4_STATE_EXT = 2
 
 type VkOpacityMicromapSpecialIndexEXT * = enum
-  VK_OPACITY_MICROMAP_SPECIAL_INDEX_FULLY_TRANSPARENT_EXT = -1
-  VK_OPACITY_MICROMAP_SPECIAL_INDEX_FULLY_OPAQUE_EXT = -2
-  VK_OPACITY_MICROMAP_SPECIAL_INDEX_FULLY_UNKNOWN_TRANSPARENT_EXT = -3
   VK_OPACITY_MICROMAP_SPECIAL_INDEX_FULLY_UNKNOWN_OPAQUE_EXT = -4
+  VK_OPACITY_MICROMAP_SPECIAL_INDEX_FULLY_UNKNOWN_TRANSPARENT_EXT = -3
+  VK_OPACITY_MICROMAP_SPECIAL_INDEX_FULLY_OPAQUE_EXT = -2
+  VK_OPACITY_MICROMAP_SPECIAL_INDEX_FULLY_TRANSPARENT_EXT = -1
 
 type VkDepthBiasRepresentationEXT * = enum
   VK_DEPTH_BIAS_REPRESENTATION_LEAST_REPRESENTABLE_VALUE_FORMAT_EXT = 0
