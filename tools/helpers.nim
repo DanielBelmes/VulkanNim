@@ -129,6 +129,6 @@ proc c2NimType*(typ: string): string =
   of "float":
     return "float32"
   of "double":
-    return "float32"
+    return "float64"
   else:
     return typ
