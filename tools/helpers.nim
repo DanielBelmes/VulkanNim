@@ -96,3 +96,39 @@ proc find*[T](s: seq[T], pred: proc(x: T): bool): int =
     if (pred(item)):
       return index
   return -1
+
+proc toNimSafeIdentifier*(iden: string): string =
+  const keywords = ["addr", "and", "as", "asm", "bind", "block", "break", "case", "cast", "concept", "const", "continue", "converter", "defer", "discard", "distinct", "div", "do", "elif", "else", "end", "enum", "except", "export", "finally", "for", "from", "func", "if", "import", "in", "include", "interface", "is", "isnot", "iterator", "let", "macro", "method", "mixin", "mod", "nil", "not", "notin", "object", "of", "or", "out", "proc", "ptr", "raise", "ref", "return", "shl", "shr", "static", "template", "try", "tuple", "type", "using", "var", "when", "while", "xor", "yield"]
+  if keywords.contains(iden):
+    return fmt"`{iden}`"
+  elif iden[0] == '_':
+    return iden.removePrefix("_")
+  else:
+    return iden
+
+proc c2NimType*(typ: string): string =
+  case typ:
+  of "uint64_t":
+    return "uint64"
+  of "uint32_t":
+    return "uint32"
+  of "uint16_t":
+    return "uint16"
+  of "uint8_t":
+    return "uint8"
+  of "int64_t":
+    return "int64"
+  of "int32_t":
+    return "int32"
+  of "int16_t":
+    return "int16"
+  of "int8_t":
+    return "int8"
+  of "size_t":
+    return "uint"
+  of "float":
+    return "float32"
+  of "double":
+    return "float32"
+  else:
+    return typ
