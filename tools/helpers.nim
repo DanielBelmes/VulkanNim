@@ -125,7 +125,7 @@ proc c2NimType*(typ: string): string =
   of "int8_t":
     return "int8"
   of "size_t":
-    return "uint"
+    return "csize_t"
   of "float":
     return "float32"
   of "double":
