@@ -1,7 +1,6 @@
 # Generator dependencies
 import ../dependencies ; export dependencies
 import ./license       ; export license
-import ./base          ; export base
 
 
 #_______________________________________

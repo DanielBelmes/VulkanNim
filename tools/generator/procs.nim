@@ -78,8 +78,8 @@ proc readProcs *(gen :var Generator; node :XmlNode) :void=
           if field.tag notin ["type","name"]: raise newException(ParsingError, &"XML data:\n{$field}\nError when reading argument data from a subnode that is not known to contain field information:\n  └─> {field.tag}\n")
           field.checkKnownKeys(ParamData, [], KnownEmpty=["type","name"])
           case field.tag
-          of "type": param.typ.typ  = field.innerText
-          of "name": param.typ.name = field.innerText
+          of "type": param.typ.`type`  = field.innerText
+          of "name": param.name = field.innerText
         # get prefix/postfix type info from infix text
         for field in arg:
           if not hasInfix : break
@@ -87,8 +87,8 @@ proc readProcs *(gen :var Generator; node :XmlNode) :void=
           if   content == "const"        : param.typ.prefix = content
           elif content == "struct"       : param.typ.prefix = content
           elif content == "const struct" : param.typ.prefix = content
-          elif content == param.typ.typ  : continue
-          elif content == param.typ.name : continue
+          elif content == param.typ.`type`  : continue
+          elif content == param.name : continue
           elif content == "*"            : param.typ.postfix = content
           elif content == "**"           : param.typ.postfix = content
           elif content == "* const*"     : param.typ.postfix = content
@@ -126,16 +126,11 @@ const procTemplate = "proc {name}*({args}): {returnType} {{.cdecl, importc, dynl
 
 proc generateProc(`proc`: CommandData): string =
   let name: string = toNimSafeIdentifier(`proc`.proto.name)
-  let returnType: string = c2NimType(`proc`.proto.typ)
+  let returnType: string = c2NimType(TypeInfo(`type`: `proc`.proto.typ))
   var args: string = ""
   let paramLen = `proc`.params.len-1
   for index, arg in `proc`.params:
-    var prefix = ""
-    if arg.typ.postfix == "*":
-      prefix = "ptr "
-    elif arg.typ.postfix == "**":
-      prefix = "ptr ptr "
-    args &= fmt"{toNimSafeIdentifier(arg.typ.name)}: {prefix}{c2NimType(arg.typ.typ)}"
+    args &= fmt"{toNimSafeIdentifier(arg.name)}: {c2NimType(arg.typ)}"
     if index < paramLen:
       args &= ", "
   return fmt(procTemplate)

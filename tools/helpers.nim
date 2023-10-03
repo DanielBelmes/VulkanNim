@@ -7,6 +7,7 @@ import std/strutils
 import nstd/format as nstdFormat ; export nstdFormat
 # Generator dependencies
 import ./customxml
+from ./base as name import nil
 
 #___________________
 type ArgsError     * = object of CatchableError  ## For errors in input arguments into the generator
@@ -106,29 +107,65 @@ proc toNimSafeIdentifier*(iden: string): string =
   else:
     return iden
 
-proc c2NimType*(typ: string): string =
-  case typ:
+proc c2NimType*(typ: name.TypeInfo): string =
+  var
+    prefix: string
+    modifier: string
+    `type`: string
+  case typ.postfix:
+  of "*":
+    prefix = "ptr "
+  of "**":
+    prefix = "ptr ptr "
+
+  case typ.prefix:
+  of "unsigned":
+    modifier = "cu"
+  of "signed":
+    if typ.`type` == "char":
+      modifier = "cs"
+  of "long":
+    modifier = "clong"
+
+  case typ.`type`:
   of "uint64_t":
-    return "uint64"
+    `type` = "uint64"
   of "uint32_t":
-    return "uint32"
+    `type` = "uint32"
   of "uint16_t":
-    return "uint16"
+    `type` = "uint16"
   of "uint8_t":
-    return "uint8"
+    `type` = "uint8"
   of "int64_t":
-    return "int64"
+    `type` = "int64"
   of "int32_t":
-    return "int32"
+    `type` = "int32"
   of "int16_t":
-    return "int16"
+    `type` = "int16"
   of "int8_t":
-    return "int8"
+    `type` = "int8"
   of "size_t":
-    return "csize_t"
+    `type` = "csize_t"
   of "float":
-    return "float32"
+    if modifier == "":
+      modifier = "c"
+    `type` = "float"
   of "double":
-    return "float64"
+    if modifier == "":
+      modifier = "c"
+    `type` = "double"
+  of "int":
+    if modifier == "":
+      modifier = "c"
+    `type` = "int"
+  of "char":
+    if modifier == "":
+      modifier = "c"
+    `type` = "char"
+  of "short":
+    if modifier == "":
+      modifier = "c"
+    `type` = "short"
   else:
-    return typ
+    `type` = typ.`type`
+  return fmt("{prefix}{modifier}{`type`}")

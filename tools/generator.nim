@@ -3,7 +3,8 @@ import std/streams
 # External dependencies
 import nstd
 # Generator dependencies
-import ./generator/base
+import ./base
+import ./helpers
 import ./generator/api
 import ./generator/enums
 import ./generator/extensions

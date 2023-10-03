@@ -5,9 +5,13 @@
 # I always call this `types` and `base (for procs)`, instead of `base (for types)` and `common (for procs)`
 # but that naming scheme conflicts with the existing `types` file for the generator, refering to Vulkan types.
 #___________________________________________________________
-# External dependencies
-import ../dependencies ; export dependencies
-
+import std/strformat ; export strformat
+import std/strutils  ; export strutils
+import std/tables    ; export tables
+import std/sets      ; export sets
+import std/strtabs   ; export strtabs
+import std/options   ; export options
+import ./customxml   ; export customxml
 
 type TypeCategory* {.pure.}= enum
   Bitmask,
@@ -28,7 +32,7 @@ type TypeData* = object
   requiredBy *: OrderedSet[string]
   xmlLine    *: int
 
-type TypeInfo * = object
+type TypeInfo* = object
   prefix  *:string
   `type`  *:string
   postfix *:string
@@ -94,12 +98,6 @@ type ImplicitExternSyncParamsData * = object
   param          *:seq[string]
   xmlLine        *:int
 
-type ParamTypeInfo * = object
-  prefix  *:string
-  typ     *:string
-  postfix *:string
-  name    *:string
-
 type ParamData * = object
   optional       *:seq[string]
   externsync     *:seq[string]
@@ -111,7 +109,8 @@ type ParamData * = object
   length         *:string
   validstructs   *:string
   isObject       *:bool
-  typ            *:ParamTypeInfo
+  typ            *:TypeInfo
+  name           *: string
   xmlLine        *:int
   #???????????????????????????????
   # arraySizes     *:seq[string]

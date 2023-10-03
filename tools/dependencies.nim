@@ -13,3 +13,4 @@ import regex         ; export regex
 # Generator dependencies
 import ./customxml   ; export customxml
 import ./helpers     ; export helpers
+import ./base        ; export base
