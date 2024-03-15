@@ -344,8 +344,8 @@ type TagData* = object
   contact*: string
 
 type VectorParamData* = object
-  lenParam*: csize_t = -1
-  strideParam*: csize_t = -1
+  lenParam*: csize_t = 0
+  strideParam*: csize_t = 0
 
 type MacroData* = tuple
   deprecatedComment: string
