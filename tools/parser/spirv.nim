@@ -1,5 +1,5 @@
 # Generator dependencies
-import ./common
+import ../common
 
 proc readSpirvCapabilities *(gen :var Generator; node :XmlNode) :void=
   if node.tag != "spirvcapabilities": raise newException(ParsingError, &"XML data:\n{$node}\n\nTried to read spirvcapability data from a node that is not known to contain them:\n  └─> {node.tag}\n")

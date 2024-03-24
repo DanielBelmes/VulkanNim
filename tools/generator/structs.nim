@@ -1,5 +1,5 @@
 # Generator dependencies
-import ./common
+import ../common
 
 
 proc generateStructs *(gen :Generator; C_like :static bool= true) :void=

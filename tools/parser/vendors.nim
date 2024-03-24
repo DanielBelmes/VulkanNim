@@ -1,5 +1,5 @@
 # Generator dependencies
-import ./common
+import ../common
 
 
 proc readVendorTags *(gen :var Generator; node :XmlNode) :void=

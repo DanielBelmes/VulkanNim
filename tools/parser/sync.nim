@@ -1,6 +1,6 @@
 # Generator dependencies
-import ./base
-import ./common
+import ../base
+import ../common
 
 proc readSync *(gen :var Generator; node :XmlNode) :void=
   if node.tag != "sync": raise newException(ParsingError, &"XML data:\n{$node}\n\nTried to read sync data from a node that is not known to contain sync information:\n  └─> {node.tag}\n")

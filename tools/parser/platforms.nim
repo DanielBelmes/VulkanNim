@@ -1,5 +1,5 @@
 # Generator dependencies
-import ./common
+import ../common
 
 
 proc readPlatforms *(gen :var Generator; platforms :XmlNode) :void=

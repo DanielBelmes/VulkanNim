@@ -6,7 +6,7 @@
 # but that naming scheme conflicts with the existing `types` file for the generator, refering to Vulkan types.
 #___________________________________________________________
 # External dependencies
-import ../dependencies ; export dependencies
+import ./dependencies ; export dependencies
 
 
 type TypeCategory* {.pure.}= enum

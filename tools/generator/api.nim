@@ -1,7 +1,7 @@
 # std dependencies
 import std/strformat
 # Generator dependencies
-import ./common
+import ../common
 
 
 proc generateAPI *(gen: Generator; C_like :static bool= true): void =
