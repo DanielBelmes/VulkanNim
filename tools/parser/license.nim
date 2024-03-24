@@ -1,6 +1,6 @@
 # Generator dependencies
-import ../dependencies
 import ../helpers
+import ./common
 
 
 const VulkanNimHeader * = """
@@ -39,7 +39,7 @@ proc getMIT *(text :string) :string=
       unreachable &"Tried to get MIT license text from an xml spec file that does not list support for MIT. Text contains:\n{text}\nLine contains:\n{line}"
   result = fmt( MITtemplate )
 
-proc readLicense *(gen :var Generator; node :XmlNode) :void=
+proc readLicense *(parser :var Parser; node :XmlNode) :void=
   if not node.innerText.contains("Copyright"): raise newException(ParsingError, &"XML contents:\n{$node}\n\nTried to get License information from a node that doesn't contain any.\n")
-  gen.registry.vulkanLicenseHeader = node.innerText.getMIT()
+  parser.registry.vulkanLicenseHeader = node.innerText.getMIT()
 

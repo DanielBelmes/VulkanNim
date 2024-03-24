@@ -2,53 +2,15 @@
 import std/streams
 # External dependencies
 import nstd
-# Generator dependencies
-import ./generator/base
-import ./generator/api
-import ./generator/enums
-import ./generator/extensions
-import ./generator/features
-import ./generator/formats
-import ./generator/handles
-import ./generator/platforms
-import ./generator/procs
-import ./generator/structs
-import ./generator/types
-import ./generator/spirv
-import ./generator/sync
-import ./generator/license
-import ./generator/vendors
-
-proc readComments (gen :var Generator; node :XmlNode) :void=
-  ## Treats the given node as a comment block, and adds its contents to the generator registry.
-  if node.innerText.contains("Copyright"): gen.readLicense(node); return
-  gen.registry.rootComments.add CommentData(
-    text    : node.innerText,
-    xmlLine : node.lineNumber )
-
-proc readRegistry *(gen :var Generator) :void=
-  ## Reads the XML file and converts its data into our Intermediate Representation object format
-  for child in gen.doc:
-    case child.tag
-    of "platforms"         : gen.readPlatforms(child)
-    of "tags"              : gen.readVendorTags(child)
-    of "types"             : gen.readTypes(child)
-    of "enums"             : gen.readEnum(child)
-    of "commands"          : gen.readProcs(child)
-    of "feature"           : gen.readFeatures(child)
-    of "extensions"        : gen.readExtensions(child)
-    of "formats"           : gen.readFormats(child)
-    of "spirvcapabilities" : gen.readSpirvCapabilities(child)
-    of "spirvextensions"   : gen.readSpirvExtensions(child)
-    of "sync"              : gen.readSync(child)
-    of "comment"           : gen.readComments(child)
-    else: raise newException(ParsingError, &"Unknown tag in readRegistry:\n └─> {child.tag}\n")
+# parser dependencies
+import ./parser/parser
+import ./generator/generator
 
 #_______________________________________
 # Generator Entry Point
 #___________________
 # CLI helper docs
-const DefaultAPI = "vulkan" 
+const DefaultAPI = "vulkan"
 const ValidAPIs  = ["vulkan", "vulkansc"]
 const Help = &"""
 Usage:
@@ -78,24 +40,13 @@ proc main=
 
   # Read the file into an XML tree
   var file = newFileStream(XML,fmRead)
+  var parser = Parser(doc : file.parseXml(),
+    api : targetAPI )
+  parser.readRegistry()
   var generator = Generator(
-    doc : file.parseXml(),
-    api : targetAPI  )
-
-  # Parse the XML into our Intermediate Representation objects
-  generator.readRegistry()
-
-  # Generate the code files
-  const C_like = true
-  generator.generateAPI( C_like )
-  generator.generateExtensionInspection( C_like )
-  generator.generateTypes( C_like )
-  generator.generateFormats( C_like )
-  generator.generateConsts( C_like )
-  generator.generateEnums( C_like )
-  generator.generateProcs( C_like )
-  generator.generateHandles( C_like )
-  generator.generateStructs( C_like )
+    api : targetAPI,
+    registry: parser.registry )
+  generator.generate()
 
 
 when isMainModule: main()
