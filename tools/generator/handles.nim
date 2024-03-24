@@ -1,5 +1,5 @@
 # Generator dependencies
-import ../common
+import ./base
 
 
 proc generateHandles *(gen :Generator; C_like :static bool= true) :void=

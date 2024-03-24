@@ -1,8 +1,8 @@
 # std dependencies
 import std/strscans
 # Generator dependencies
-import ../common
-import ../types
+import ./base
+
 
 const genTemplate = """
 {VulkanNimHeader}

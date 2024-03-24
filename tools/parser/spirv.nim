@@ -1,7 +1,7 @@
 # Generator dependencies
-import ../common
+import ./common
 
-proc readSpirvCapabilities *(gen :var Generator; node :XmlNode) :void=
+proc readSpirvCapabilities *(parser :var Parser; node :XmlNode) :void=
   if node.tag != "spirvcapabilities": raise newException(ParsingError, &"XML data:\n{$node}\n\nTried to read spirvcapability data from a node that is not known to contain them:\n  └─> {node.tag}\n")
   node.checkKnownKeys(SpirvCapData, ["comment"], KnownEmpty=[])
   #ignored: capabilities.comment
@@ -28,10 +28,10 @@ proc readSpirvCapabilities *(gen :var Generator; node :XmlNode) :void=
         xmlLine   : sub.lineNumber,
         ) # << SpirvCapEnableData( ... )
     # Add the capability to the registry
-    if gen.registry.spirvCapabilities.containsOrIncl( cap.attr("name"), capability):
+    if parser.registry.spirvCapabilities.containsOrIncl( cap.attr("name"), capability):
       duplicateAddError("SpirvCapData", cap.attr("name"), cap.lineNumber)
 
-proc readSpirvExtensions *(gen :var Generator; node :XmlNode) :void=
+proc readSpirvExtensions *(parser :var Parser; node :XmlNode) :void=
   if node.tag != "spirvextensions": raise newException(ParsingError, &"XML data:\n{$node}\n\nTried to read spirvextension data from a node that is not known to contain them:\n  └─> {node.tag}\n")
   node.checkKnownKeys(SpirvExtData, ["comment"], KnownEmpty=[])
   #ignored: extensions.comment
@@ -50,6 +50,6 @@ proc readSpirvExtensions *(gen :var Generator; node :XmlNode) :void=
         xmlLine   : ext.lineNumber,
         ) # << SpirvExtEnableData( ... )
     # Add the extension to the registry
-    if gen.registry.spirvExtensions.containsOrIncl( ext.attr("name"), extension):
+    if parser.registry.spirvExtensions.containsOrIncl( ext.attr("name"), extension):
       duplicateAddError("SpirvExtData", ext.attr("name"), ext.lineNumber)
 

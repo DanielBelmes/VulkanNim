@@ -1,13 +1,13 @@
 # Generator dependencies
-import ../common
+import ./common
 
-proc readFormats *(gen :var Generator; node :XmlNode) :void=
+proc readFormats *(parser :var Parser; node :XmlNode) :void=
   ## Treats the given node as a formats block, and adds its contents to the generator registry.
   if node.tag != "formats": raise newException(ParsingError, &"XML data:\n{$node}\nError when reading formats data from a node that is not known to contain them:\n  └─> {node.tag}\n")
   node.checkKnownKeys(FormatData, [], KnownEmpty=["formats"])
   for entry in node:
     if entry.tag notin ["format"]: raise newException(ParsingError, &"XML data:\n{$entry}\nError when reading format entry data from an entry that is not known to contain them:\n  └─> {entry.tag}\n")
-    entry.checkKnownKeys(FormatData, 
+    entry.checkKnownKeys(FormatData,
       ["blockSize", "class", "name", "packed", "texelsPerBlock", "compressed", "blockExtent", "chroma"],
       KnownEmpty=[])
     var data = FormatData(
@@ -41,5 +41,5 @@ proc readFormats *(gen :var Generator; node :XmlNode) :void=
       of "spirvimageformat":
         child.checkKnownKeys(string, ["name"], KnownEmpty=[])
         data.spirvImageFormat = child.attr("name")
-    if gen.registry.formats.containsOrIncl( entry.attr("name"), data):
+    if parser.registry.formats.containsOrIncl( entry.attr("name"), data):
       duplicateAddError("Format",entry.attr("name"),entry.lineNumber)

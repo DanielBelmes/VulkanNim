@@ -1,7 +1,5 @@
 # Generator dependencies
-import ./dependencies ; export dependencies
 import ./base          ; export base
-
 
 #_______________________________________
 # Error Management
@@ -38,15 +36,3 @@ proc checkKnownNodes *[T](node :XmlNode; _:typedesc[T]; KnownNodeKeys :openArray
   assert(node.kind == xnElement)
   for node in node:
     if node.kind == xnElement and node.tag notin KnownNodeKeys: raise newException(ParsingError, &"XML data:\n{$node}\n\nError when getting {$T} information from a node that contains an unknown childs tag:\n  └─> <{node.tag}>\n")
-
-#_______________________________________
-# Generator Tools used by all modules
-#___________________
-func getDeprecated *(data :AliasData; name :string) :string=
-  ## Returns a {.deprecated: reason.} pragma string, based on the information contained in the given AliasData
-  if data.deprecated == "": return ""
-  var reason :string= case data.deprecated:
-  of "aliased":  &"{data.deprecated}:  {name}  has been aliased to  {data.name}"
-  else: raise newException(CodegenError, &"Tried to add codegen for a deprecated alias, but it contains an unknown reason:\n └─> {data.deprecated}\n")
-  result = &" {{.deprecated: \"{reason}\".}}"
-

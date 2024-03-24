@@ -1,7 +1,7 @@
 # Generator dependencies
-import ../common
+import ./common
 
-proc readExtensions *(gen :var Generator; node :XmlNode) :void=
+proc readExtensions *(parser :var Parser; node :XmlNode) :void=
   if node.tag != "extensions": raise newException(ParsingError, &"XML data:\n{$node}\n\nTried to read extension data from a node that is not known to contain them:\n  └─> {node.tag}\n")
   node.checkKnownKeys(ExtensionData, ["comment"], KnownEmpty=[])
   # TODO extensions.comment
@@ -84,6 +84,6 @@ proc readExtensions *(gen :var Generator; node :XmlNode) :void=
 
     # <- requireData for loop done
     # Add the extension to the registry
-    if gen.registry.extensions.containsOrIncl( entry.attr("name"), data ):
+    if parser.registry.extensions.containsOrIncl( entry.attr("name"), data ):
        duplicateAddError("ExtensionData", entry.attr("name"), entry.lineNumber)
 

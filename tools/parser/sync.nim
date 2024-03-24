@@ -1,8 +1,7 @@
 # Generator dependencies
-import ../base
-import ../common
+import ./common
 
-proc readSync *(gen :var Generator; node :XmlNode) :void=
+proc readSync *(parser :var Parser; node :XmlNode) :void=
   if node.tag != "sync": raise newException(ParsingError, &"XML data:\n{$node}\n\nTried to read sync data from a node that is not known to contain sync information:\n  └─> {node.tag}\n")
   node.checkKnownKeys(SyncData, ["comment"], KnownEmpty=[])
   var data = SyncData(comment: node.attr("comment"))
@@ -74,5 +73,5 @@ proc readSync *(gen :var Generator; node :XmlNode) :void=
       # Add the sync pipeline data to the SyncData object
       if data.pipelines.containsOrIncl( entry.attr("name"), pipeline): duplicateAddError("SyncStageData", entry.attr("name"), entry.lineNumber)
   # Apply the IR to the generator
-  gen.registry.sync = data
+  parser.registry.sync = data
 

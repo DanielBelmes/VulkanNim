@@ -5,9 +5,18 @@
 # I always call this `types` and `base (for procs)`, instead of `base (for types)` and `common (for procs)`
 # but that naming scheme conflicts with the existing `types` file for the generator, refering to Vulkan types.
 #___________________________________________________________
+# std dependencies
+import std/strformat ; export strformat
+import std/strutils  ; export strutils
+import std/tables    ; export tables
+import std/sets      ; export sets
+import std/strtabs   ; export strtabs
+import std/options   ; export options
 # External dependencies
-import ./dependencies ; export dependencies
-
+import regex         ; export regex
+# Generator dependencies
+import ../customxml   ; export customxml
+import ../helpers     ; export helpers
 
 type TypeCategory* {.pure.}= enum
   Bitmask,
@@ -28,7 +37,7 @@ type TypeData* = object
   requiredBy *: OrderedSet[string]
   xmlLine    *: int
 
-type TypeInfo * = object
+type TypeInfo* = object
   prefix  *:string
   `type`  *:string
   postfix *:string
@@ -462,8 +471,8 @@ type Registry * = object
   rootComments          *:seq[CommentData]
   requires              *:OrderedTable[string, RequireData]
 
-type Generator * = object
+
+type Parser * = object
   doc      *:XmlNode
   api      *:string  ## needs to be of value "vulkan" or "vulkansc"
   registry *:Registry
-

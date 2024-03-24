@@ -1,5 +1,5 @@
 # Generator dependencies
-import ../common
+import ./common
 
 proc parseDefineMacro*(define: XmlNode): MacroData =
   ## parses macros from the spec
@@ -59,7 +59,7 @@ proc readNameAndType *(node: XmlNode): (NameData, TypeInfo) =
         discard
   return (name,typeInfo)
 
-proc readTypeBase *(gen :var Generator, basetype :XmlNode) :void=
+proc readTypeBase *(parser :var Parser, basetype :XmlNode) :void=
   basetype.checkKnownKeys(BaseTypeData, ["category"])
   basetype.checkKnownNodes(BaseTypeData,["name","type"])
   var baseTypeData: BaseTypeData
@@ -68,17 +68,17 @@ proc readTypeBase *(gen :var Generator, basetype :XmlNode) :void=
   let (name, typeinfo) = readNameAndType(basetype)
   baseTypeData.typeInfo = typeinfo
   baseTypeData.xmlLine = basetype.lineNumber
-  if gen.registry.baseTypes.containsOrIncl(name.name,baseTypeData):
+  if parser.registry.baseTypes.containsOrIncl(name.name,baseTypeData):
     duplicateAddError("Basetype",name.name,basetype.lineNumber)
-proc readTypeBitmask *(gen :var Generator, bitmask :XmlNode) :void=
+proc readTypeBitmask *(parser :var Parser, bitmask :XmlNode) :void=
   let lineNumber = bitmask.lineNumber
   let alias = bitmask.attr("alias")
   if(alias != ""):
     bitmask.checkKnownKeys(AliasData, ["name","alias","category"])
     let name = bitmask.attr("name")
-    if gen.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Bitmask,xmlLine: lineNumber)):
+    if parser.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Bitmask,xmlLine: lineNumber)):
       duplicateAddError("BitmaskAlias",name,lineNumber)
-    if gen.registry.bitmaskAliases.containsOrIncl(name, AliasData(name: alias, xmlLine: lineNumber)):
+    if parser.registry.bitmaskAliases.containsOrIncl(name, AliasData(name: alias, xmlLine: lineNumber)):
       duplicateAddError("BitmaskAlias",name,lineNumber)
   else:
     bitmask.checkKnownKeys(BitmaskData, ["api", "requires","category","bitvalues"])
@@ -87,12 +87,12 @@ proc readTypeBitmask *(gen :var Generator, bitmask :XmlNode) :void=
     let api = bitmask.attr("api")
     let bitvalues = bitmask.attr("bitvalues")
     let (name, typeinfo) = readNameAndType(bitmask)
-    if api == "" or api == gen.api:
-      if gen.registry.types.containsOrIncl(name.name,TypeData(category: TypeCategory.Bitmask,xmlLine: lineNumber)):
+    if api == "" or api == parser.api:
+      if parser.registry.types.containsOrIncl(name.name,TypeData(category: TypeCategory.Bitmask,xmlLine: lineNumber)):
         duplicateAddError("Bitmask",name.name,lineNumber)
-      if gen.registry.bitmasks.containsOrIncl(name.name,BitmaskData(require: requires, typ: typeinfo.`type`, xmlLine: lineNumber, bitvalues: bitvalues)):
+      if parser.registry.bitmasks.containsOrIncl(name.name,BitmaskData(require: requires, typ: typeinfo.`type`, xmlLine: lineNumber, bitvalues: bitvalues)):
         duplicateAddError("Bitmask",name.name,lineNumber)
-proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
+proc readTypeDefine *(parser :var Parser, define :XmlNode) :void=
   define.checkKnownKeys(DefineData, ["name", "requires", "deprecated", "category", "api", "comment"])
   var name: string = define.attr("name")
   let lineNumber: int = define.lineNumber
@@ -101,21 +101,21 @@ proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
   let deprecated: bool = define.attr("deprecated") == "true"
   if name != "":
     if name == "VK_USE_64_BIT_PTR_DEFINES":
-      gen.registry.typesafeCheck = "#if ( VK_USE_64_BIT_PTR_DEFINES == 1 )"
-    elif name == "VK_DEFINE_NON_DISPATCHABLE_HANDLE" and gen.registry.typesafeCheck != "":
+      parser.registry.typesafeCheck = "#if ( VK_USE_64_BIT_PTR_DEFINES == 1 )"
+    elif name == "VK_DEFINE_NON_DISPATCHABLE_HANDLE" and parser.registry.typesafeCheck != "":
       discard
   elif define.innerText() != "":
-    # [TODO?] There are some struct typedef we could move to gen.reg.types
+    # [TODO?] There are some struct typedef we could move to parser.reg.types
     name = define.child("name").innerText().removeExtraSpace()
-    if name == "VK_HEADER_VERSION" and (api == "" or api == gen.api):
-      gen.registry.version = define.lastChild().innerText().removeExtraSpace()
+    if name == "VK_HEADER_VERSION" and (api == "" or api == parser.api):
+      parser.registry.version = define.lastChild().innerText().removeExtraSpace()
   assert(name != "")
 
-  if api == "" or api == gen.api:
-    if gen.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Define,xmlLine: lineNumber)):
+  if api == "" or api == parser.api:
+    if parser.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Define,xmlLine: lineNumber)):
       duplicateAddError("Define",name,lineNumber)
     let (deprecationReason, possibleCallee, params, possibleDefinition) = parseDefineMacro(define)
-    if gen.registry.defines.containsOrIncl(name, DefineData(
+    if parser.registry.defines.containsOrIncl(name, DefineData(
       deprecated: deprecated,
       require: require,
       xmlLine: lineNumber,
@@ -126,21 +126,21 @@ proc readTypeDefine *(gen :var Generator, define :XmlNode) :void=
     )):
       duplicateAddError("Define",name,lineNumber)
 
-proc readTypeEnum *(gen :var Generator, enumNode :XmlNode) :void=
+proc readTypeEnum *(parser :var Parser, enumNode :XmlNode) :void=
   enumNode.checkKnownKeys(AliasData, ["name", "alias", "category"])
   enumNode.checkKnownNodes(AliasData,[])
   let name = enumNode.attr("name")
   let alias = enumNode.attr("alias")
   let lineNumber = enumNode.lineNumber
 
-  if gen.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Enum,xmlLine: lineNumber)):
+  if parser.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Enum,xmlLine: lineNumber)):
     duplicateAddError("EnumType",name,lineNumber)
 
   if alias != "":
-    if gen.registry.enumAliases.containsOrIncl(name,AliasData(name: alias,xmlline: lineNumber)):
+    if parser.registry.enumAliases.containsOrIncl(name,AliasData(name: alias,xmlline: lineNumber)):
       duplicateAddError("Enum Alias",name,lineNumber)
 
-proc readTypeFuncPointer *(gen :var Generator, funcPointer :XmlNode) :void=
+proc readTypeFuncPointer *(parser :var Parser, funcPointer :XmlNode) :void=
   funcPointer.checkKnownKeys(FuncPointerData, ["requires", "category"], KnownEmpty=[])
   funcPointer.checkKnownNodes(FuncPointerData,["name","type"])
   let
@@ -176,12 +176,12 @@ proc readTypeFuncPointer *(gen :var Generator, funcPointer :XmlNode) :void=
         assert(name != "")
         arguments.add(FuncPointerArgumentData(name: name, `type`: `type`, isPtr: isPtr, xmlline: lineNumber))
   assert(name != "")
-  if gen.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.FuncPointer,xmlLine: lineNumber)):
+  if parser.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.FuncPointer,xmlLine: lineNumber)):
     duplicateAddError("FuncPointer",name,lineNumber)
-  if gen.registry.funcPointers.containsOrIncl(name,FuncPointerData(arguments: arguments, require: requires, `type`: funcptrtype, xmlline: lineNumber)):
+  if parser.registry.funcPointers.containsOrIncl(name,FuncPointerData(arguments: arguments, require: requires, `type`: funcptrtype, xmlline: lineNumber)):
       duplicateAddError("FuncPointer",name,lineNumber)
 
-proc readTypeHandle *(gen :var Generator, handle :XmlNode) :void=
+proc readTypeHandle *(parser :var Parser, handle :XmlNode) :void=
   handle.checkKnownKeys(HandleData, ["name","parent", "category", "alias", "objtypeenum"], KnownEmpty=[])
   handle.checkKnownNodes(HandleData,["name","type"])
   let
@@ -191,7 +191,7 @@ proc readTypeHandle *(gen :var Generator, handle :XmlNode) :void=
   if (alias != ""):
     let name = handle.attr("name")
     assert(name != "")
-    if gen.registry.handleAliases.containsOrIncl(name,AliasData(name: alias, xmlLine: lineNumber)):
+    if parser.registry.handleAliases.containsOrIncl(name,AliasData(name: alias, xmlLine: lineNumber)):
       duplicateAddError("TypeHandle",name,lineNumber)
   else:
     let
@@ -201,19 +201,19 @@ proc readTypeHandle *(gen :var Generator, handle :XmlNode) :void=
     assert(objtypeenum != "")
     assert(name.name != "" and typeInfo.`type` != "")
     let isDispatchable = typeInfo.`type` == "VK_DEFINE_HANDLE"
-    if gen.registry.types.containsOrIncl(name.name,TypeData(category: TypeCategory.Handle,xmlLine: lineNumber)):
+    if parser.registry.types.containsOrIncl(name.name,TypeData(category: TypeCategory.Handle,xmlLine: lineNumber)):
       duplicateAddError("TypeData",name.name,lineNumber)
-    if gen.registry.handles.containsOrIncl(name.name, HandleData(parent: parent, objTypeEnum: objTypeEnum, isDispatchable: isDispatchable, xmlLine: lineNumber)):
+    if parser.registry.handles.containsOrIncl(name.name, HandleData(parent: parent, objTypeEnum: objTypeEnum, isDispatchable: isDispatchable, xmlLine: lineNumber)):
       duplicateAddError("HandleData",name.name,lineNumber)
 
-proc readTypeInclude *(gen :var Generator, includes :XmlNode) :void=
+proc readTypeInclude *(parser :var Parser, includes :XmlNode) :void=
   includes.checkKnownKeys(HandleData, ["name","category"], KnownEmpty=[])
   includes.checkKnownNodes(HandleData,[])
   let name = includes.attr("name")
   let lineNumber = includes.lineNumber
-  if gen.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Include,xmlLine: lineNumber)):
+  if parser.registry.types.containsOrIncl(name,TypeData(category: TypeCategory.Include,xmlLine: lineNumber)):
     duplicateAddError("IncludeData",name,lineNumber)
-  if gen.registry.includes.containsOrIncl(name,IncludeData(xmlLine: lineNumber)):
+  if parser.registry.includes.containsOrIncl(name,IncludeData(xmlLine: lineNumber)):
     duplicateAddError("IncludeData",name,lineNumber)
 
 proc filterNumbers(names: seq[string]): seq[(string, int)] =
@@ -222,7 +222,7 @@ proc filterNumbers(names: seq[string]): seq[(string, int)] =
       result.add((name, 0))
 proc determineSubStruct*(struct: XmlNode): string =
   discard
-proc readTypeStructOrUnion *(gen :var Generator, structOrUnion :XmlNode) :void=
+proc readTypeStructOrUnion *(parser :var Parser, structOrUnion :XmlNode) :void=
   structOrUnion.checkKnownKeys(StructureData, ["name","category","returnedonly","structextends","comment","allowduplicate","alias"])
   structOrUnion.checkKnownNodes(StructureData, ["member","comment"])
   let
@@ -234,10 +234,10 @@ proc readTypeStructOrUnion *(gen :var Generator, structOrUnion :XmlNode) :void=
     structextends = structOrUnion.attr("structextends").split(',')
     lineNumber = structOrUnion.lineNumber
   assert(name != "")
-  if gen.registry.types.containsOrIncl(name,TypeData(category: if isUnion: TypeCategory.Union else: TypeCategory.Struct,xmlLine: lineNumber)):
+  if parser.registry.types.containsOrIncl(name,TypeData(category: if isUnion: TypeCategory.Union else: TypeCategory.Struct,xmlLine: lineNumber)):
     duplicateAddError("IncludeData",name,lineNumber)
   if alias != "":
-    if gen.registry.structAliases.containsOrIncl(name,AliasData(name:alias,xmlLine:lineNumber)):
+    if parser.registry.structAliases.containsOrIncl(name,AliasData(name:alias,xmlLine:lineNumber)):
       duplicateAddError("Struct Alias",name,lineNumber)
   else:
     var
@@ -317,32 +317,32 @@ proc readTypeStructOrUnion *(gen :var Generator, structOrUnion :XmlNode) :void=
                 when defined(debug):
                   echo &"Encountered structure <:{$name}> with multiple members referencing the same member for len. Need to be checked if they are supposed to be mutually exclusive.\n"
               warned = true
-    if gen.registry.structs.containsOrIncl(name,structData):
+    if parser.registry.structs.containsOrIncl(name,structData):
       duplicateAddError("Struct Alias",name,lineNumber)
 
-proc readRequires *(gen :var Generator, requires :XmlNode) :void=
+proc readRequires *(parser :var Parser, requires :XmlNode) :void=
   requires.checkKnownKeys(StructureData, ["name","requires"])
-  if gen.registry.requires.containsOrIncl(requires.attr("name"),RequireData(depends: @[requires.attr("requires")], xmlLine: requires.lineNumber)):
+  if parser.registry.requires.containsOrIncl(requires.attr("name"),RequireData(depends: @[requires.attr("requires")], xmlLine: requires.lineNumber)):
     duplicateAddError("Struct Alias",requires.attr("name"),requires.lineNumber)
 
-proc readTypes *(gen :var Generator, types :XmlNode) :void=
+proc readTypes *(parser :var Parser, types :XmlNode) :void=
   for `type` in types:
     if `type`.tag == "type":
       let category = `type`.attr("category")
       if category != "":
         case category:
-          of "basetype"        : gen.readTypeBase(`type`)
-          of "bitmask"         : gen.readTypeBitmask(`type`)
-          of "define"          : gen.readTypeDefine(`type`)
-          of "enum"            : gen.readTypeEnum(`type`)
-          of "funcpointer"     : gen.readTypeFuncPointer(`type`)
-          of "handle"          : gen.readTypeHandle(`type`)
-          of "include"         : gen.readTypeInclude(`type`)
-          of "struct", "union" : gen.readTypeStructOrUnion(`type`)
-          of ""                : gen.readRequires(`type`)
+          of "basetype"        : parser.readTypeBase(`type`)
+          of "bitmask"         : parser.readTypeBitmask(`type`)
+          of "define"          : parser.readTypeDefine(`type`)
+          of "enum"            : parser.readTypeEnum(`type`)
+          of "funcpointer"     : parser.readTypeFuncPointer(`type`)
+          of "handle"          : parser.readTypeHandle(`type`)
+          of "include"         : parser.readTypeInclude(`type`)
+          of "struct", "union" : parser.readTypeStructOrUnion(`type`)
+          of ""                : parser.readRequires(`type`)
           else: raise newException(ParsingError,"Can not identify category of type: " & category)
       else:
         let requires = `type`.attr("requires").removeExtraSpace()
-        if gen.registry.externalTypes.containsOrIncl(`type`.attr("name").removeExtraSpace(),ExternalTypeData(require: requires, xmlLine: `type`.lineNumber)):
+        if parser.registry.externalTypes.containsOrIncl(`type`.attr("name").removeExtraSpace(),ExternalTypeData(require: requires, xmlLine: `type`.lineNumber)):
           duplicateAddError("externalTypes",`type`.attr("name"),`type`.lineNumber)
 

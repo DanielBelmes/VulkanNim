@@ -1,11 +1,11 @@
 # std dependencies
 import std/strscans
 # Generator dependencies
-import ../common
-import ../types
+import ./common
+import ./types
 
 
-proc readProcs *(gen :var Generator; node :XmlNode) :void=
+proc readProcs *(parser :var Parser; node :XmlNode) :void=
   ## Treats the given node as a procs block, and adds its contents to the generator registry.
   ## Vulkan procs are called commands in the spec.
   if node.tag != "commands": raise newException(ParsingError, &"XML data:\n{$node}\nError when reading commands data from a node that is not known to contain commands:\n  └─> {node.tag}\n")
@@ -111,4 +111,4 @@ proc readProcs *(gen :var Generator; node :XmlNode) :void=
       # -> Continue to the command argument
     # <- Command components loop done.
     # Add the command to the registry
-    gen.registry.commands.add command
+    parser.registry.commands.add command

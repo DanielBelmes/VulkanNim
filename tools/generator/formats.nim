@@ -1,5 +1,5 @@
 # Generator dependencies
-import ./common
+import ./base
 
 const genTemplate = """
 {VulkanNimHeader}

@@ -1,8 +1,8 @@
 # Generator dependencies
-import ../common
+import ./common
 
 
-proc readFeatures *(gen :var Generator; node :XmlNode) :void=
+proc readFeatures *(parser :var Parser; node :XmlNode) :void=
   ## Treats the given node as a features block, and adds its contents to the generator registry.
   if node.tag != "feature": raise newException(ParsingError, &"Tried to read features data from a node that is not known to contain features:\n  └─> {node.tag}\nIts XML data is:\n{$node}\n")
   node.checkKnownKeys(FeatureData, ["name", "api", "number", "comment"])
@@ -66,6 +66,6 @@ proc readFeatures *(gen :var Generator; node :XmlNode) :void=
         elif cet.tag == "command" : data.commands.add cet.attr("name")
       featureData.removeData.add( data )
     else: raise newException(ParsingError, &"Tried to read data from a Feature entry that contains an ummapped key:\n  {entry.tag}\nIts XML content is:\n{$entry}")
-  gen.registry.features.add(featureData)
+  parser.registry.features.add(featureData)
 
 
