@@ -30,7 +30,7 @@ proc generateProc(`proc`: CommandData): string =
       args &= ", "
   return fmt(procTemplate)
 
-proc generateProcs *(gen :Generator; C_like :static bool= true) :void=
+proc generateProcs *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_procs.nim"
   var procs :string = ""
   for `proc` in gen.registry.commands:

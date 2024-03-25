@@ -8,7 +8,7 @@ const genTemplate = """
 {extensions}
 """
 
-proc generateExtensionInspection *(gen :Generator; C_like :static bool= true) :void=
+proc generateExtensionInspection *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_extension_inspection.nim"
   var extensions :string
   writeFile(outputDir,fmt genTemplate)

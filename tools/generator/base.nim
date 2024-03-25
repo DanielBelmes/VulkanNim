@@ -7,6 +7,7 @@ const VulkanNimHeader * = """
 type Generator * = object
   api      *:string  ## needs to be of value "vulkan" or "vulkansc"
   registry *:Registry
+  #C_like *: bool
 
 
 #_______________________________________

@@ -1,7 +1,7 @@
 # Generator dependencies
 import ./base
 
-proc generateTypes *(gen :Generator; C_like :static bool= true) :void=
+proc generateTypes *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_types.nim"
   const genTemplate = """
 #[

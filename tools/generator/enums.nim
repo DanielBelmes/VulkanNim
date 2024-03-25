@@ -12,11 +12,11 @@ func getValue *(data :ConstantData) :string=  data.value.cValueToNim()
 #_____________________________
 # Templates: Consts
 const ConstHeader       = "## API Constants\n"
-const ConstTempl        = "const {name.symbolToNim} *:{entry.getType}= {entry.getValue()}\n"
-const ConstTemplC       = "const {name} *:{entry.getType}= {entry.getValue()}\n"
+#const ConstTempl        = "const {name.symbolToNim} *:{entry.getType}= {entry.getValue()}\n"
+const ConstTempl       = "const {name} *:{entry.getType}= {entry.getValue()}\n"
 const ConstAliasHeader  = "## API Constant Aliases\n"
-const ConstAliasTempl   = "const {alias.name.symbolToNim} *:{entry.getType()}{dep}= {name.symbolToNim}\n"
-const ConstAliasTemplC  = "const {alias.name} *:{entry.getType()}{dep}= {name}\n"
+#const ConstAliasTempl   = "const {alias.name.symbolToNim} *:{entry.getType()}{dep}= {name.symbolToNim}\n"
+const ConstAliasTempl  = "const {alias.name} *:{entry.getType()}{dep}= {name}\n"
 const ConstGenTempl     = """
 {VulkanNimHeader}
 
@@ -24,10 +24,10 @@ const ConstGenTempl     = """
 """
 #_____________________________
 # Templates: Enums
-const EnumTitleTempl    = "type {name.symbolToNim} * = enum\n"
-const EnumTitleTemplC   = "type {name} * = enum\n"
-const EnumFieldTempl    = "  {field.symbolToNim} = {val}{cmt}\n"
-const EnumFieldTemplC   = "  {field} = {val}{cmt}\n"
+#const EnumTitleTempl    = "type {name.symbolToNim} * = enum\n"
+const EnumTitleTempl   = "type {name} * = enum\n"
+#const EnumFieldTempl    = "  {field.symbolToNim} = {val}{cmt}\n"
+const EnumFieldTempl   = "  {field} = {val}{cmt}\n"
 const EnumFieldCmtTempl = "  ## {gen.registry.enums[name].values[field].comment}"  # without \n, its added by EnumFieldTempl
 const EnumHeader        = "## Value Enums\n"
 const EnumGenTempl      = """
@@ -54,7 +54,7 @@ func enumCmp *(A,B :(string, EnumValueData)) :int=
 
 
 #_______________________________________
-proc generateEnums *(gen: Generator; C_like :static bool= true) :void=
+proc generateEnums *(gen: Generator) :void=
   # Configuration
   let outputDir = fmt"./src/VulkanNim/{gen.api}_enums.nim"
   var enums :string  # Output string
@@ -65,14 +65,14 @@ proc generateEnums *(gen: Generator; C_like :static bool= true) :void=
   enums.add EnumHeader
   for name in gen.registry.enums.keys():
     var tmp :string
-    tmp.add( when C_like: fmt EnumTitleTemplC else: EnumTitleTempl )
+    tmp.add(fmt EnumTitleTempl )
     var ordered = gen.registry.enums[name].values
     ordered.sort( enumCmp )
     for field in ordered.keys():
       if field == "": continue
       let val = gen.registry.enums[name].values[field].value
       let cmt = if gen.registry.enums[name].values[field].comment == "": "" else: fmt EnumFieldCmtTempl
-      tmp.add( when C_like: fmt EnumFieldTemplC else: EnumFieldTempl )
+      tmp.add(fmt EnumFieldTempl )
     enums.add &"{tmp}\n"
 
   #_____________________________
@@ -86,7 +86,7 @@ proc generateEnums *(gen: Generator; C_like :static bool= true) :void=
 #_______________________________________
 # Codegen Entry Point
 #_____________________________
-proc generateConsts *(gen: Generator; C_like :static bool= true) :void=
+proc generateConsts *(gen: Generator) :void=
   # Configuration
   let outputDir = fmt"./src/VulkanNim/{gen.api}_consts.nim"
   var consts :string  # Output string
@@ -96,9 +96,7 @@ proc generateConsts *(gen: Generator; C_like :static bool= true) :void=
   consts.add ConstHeader
   for name in gen.registry.constants.keys():
     let entry = gen.registry.constants[name]
-    consts.add(
-      when C_like : fmt ConstTemplC
-      else        : fmt ConstTempl      )
+    consts.add(fmt ConstTempl)
   consts.add "\n"
 
   #_____________________________
@@ -108,9 +106,7 @@ proc generateConsts *(gen: Generator; C_like :static bool= true) :void=
     let entry = gen.registry.constants[name]
     let alias = gen.registry.constantAliases[name]
     let dep   = alias.getDeprecated(name)
-    consts.add(
-      when C_like : fmt ConstAliasTemplC
-      else        : fmt ConstAliasTempl      )
+    consts.add(fmt ConstAliasTempl)
 
   #_____________________________
   # Write the consts to the output file
