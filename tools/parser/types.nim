@@ -47,6 +47,12 @@ proc readNameAndType *(node: XmlNode): (NameData, TypeInfo) =
       of "enum":
         name.arraySizes.add(enumNameType.innerText)
       of "name":
+        if(index+1 < node.len):
+          let arraySizeReg = re2"\[(\d+)\]" #TODO: I don't have to use regex but I am lazy
+          var arraySizeMatch: RegexMatch2
+          let text = node[index+1].innerText()
+          if (text.find(arraySizeReg, arraySizeMatch)):
+            name.arraySizes.add(text[arraySizeMatch.captures[0]])
         name.name = enumNameType.innerText().removeExtraSpace()
       of "type":
         if(index-1 >= 0):
