@@ -7,6 +7,7 @@ const genTemplate = """
 import ./vulkan_consts
 import ./vulkan_enums
 import ./vulkan_types
+import ./vulkan_handles
 
 ## Vulkan Structs
 {structs}
