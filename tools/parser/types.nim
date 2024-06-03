@@ -69,13 +69,18 @@ proc readTypeBase *(parser :var Parser, basetype :XmlNode) :void=
   basetype.checkKnownKeys(BaseTypeData, ["category"])
   basetype.checkKnownNodes(BaseTypeData,["name","type"])
   var baseTypeData: BaseTypeData
+  var typeData: TypeData
+  typeData.category = TypeCategory.BaseType
   let nameOption = option(basetype.child("name"))
   assert nameOption.isSome
   let (name, typeinfo) = readNameAndType(basetype)
   baseTypeData.typeInfo = typeinfo
   baseTypeData.xmlLine = basetype.lineNumber
+  typeData.xmlLine = basetype.lineNumber
   if parser.registry.baseTypes.containsOrIncl(name.name,baseTypeData):
     duplicateAddError("Basetype",name.name,basetype.lineNumber)
+  if parser.registry.types.containsOrIncl(name.name,typeData):
+    duplicateAddError("type",name.name,basetype.lineNumber)
 proc readTypeBitmask *(parser :var Parser, bitmask :XmlNode) :void=
   let lineNumber = bitmask.lineNumber
   let alias = bitmask.attr("alias")
@@ -351,4 +356,6 @@ proc readTypes *(parser :var Parser, types :XmlNode) :void=
         let requires = `type`.attr("requires").removeExtraSpace()
         if parser.registry.externalTypes.containsOrIncl(`type`.attr("name").removeExtraSpace(),ExternalTypeData(require: requires, xmlLine: `type`.lineNumber)):
           duplicateAddError("externalTypes",`type`.attr("name"),`type`.lineNumber)
+        if parser.registry.types.containsOrIncl(`type`.attr("name").removeExtraSpace(),TypeData(category: TypeCategory.ExternalType, requiredBy: toOrderedSet([requires]), xmlLine: `type`.lineNumber)):
+          duplicateAddError("type",`type`.attr("name"),`type`.lineNumber)
 

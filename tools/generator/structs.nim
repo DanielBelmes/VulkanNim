@@ -20,11 +20,13 @@ type {name}* {isUnion} = object
 {members}
 """
 
-proc generateStruct *(name: string, struct :StructureData) :string=
-  if(name == "VkClearColorValue"): echo struct
+proc generateStruct *(name: string, struct :StructureData, types: OrderedTable[string, TypeData]) :string=
   var members :string = ""
   let isUnion :string = if(struct.isUnion): "{.union.}" else: ""
   for member in struct.members: #len?, Optional?, values
+    if not types.contains(member.`type`.`type`):
+      if not basicCType(member.`type`.`type`):
+        raise newException(CodegenError, &"Struct: {name} Struct Member:{member.name} with Type: {member.`type`.`type`} not in registry.\n")
     let memberName = toNimSafeIdentifier(member.name)
     let stars = if(member.`type`.`type` == "void"): 0 else: member.`type`.postfix.count('*') #might have const but we won't deal with that for now
     let prefix = "ptr ".repeat(stars) #This is sick. will be empty string if 0
@@ -37,8 +39,9 @@ proc generateStructs *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_structs.nim"
   var structs :string = ""
   let structMap = gen.registry.structs
+  let types = gen.registry.types
   for name in structMap.keys():
-    structs &= generateStruct(toNimSafeIdentifier(name), structMap[name])
+    structs &= generateStruct(toNimSafeIdentifier(name), structMap[name], types)
     structs &= '\n'
   writeFile(outputDir,fmt genTemplate)
 
