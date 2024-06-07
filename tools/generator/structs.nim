@@ -21,7 +21,6 @@ type {name}* {isUnion}= object
 """
 
 proc isStructFromExtension*(extensions: OrderedTable[string, ExtensionData], name: string) : bool =
-  result = false
   for ext in extensions.values:
     for requireData in ext.requireData:
       for typeName in requireData.types.keys():
