@@ -53,14 +53,14 @@ The full IR is complete, and work on the final Codegen can be properly started.
 
 
 ```md
-- [ ] Symbol renamer function
-  - [x] Basic sketch (can handle conversion to camel+Pascal)
-  - [ ] Vendor Aware. Keeps Vendor Tags achronyms intact in ALLCAPS
-- [ ] Platforms
-  - [ ] How does this data influence codegen? Are they `when defined(...)` checks?
+- [x] Commands / procs
 - [ ] Types
-- [ ] Enums
-  - [ ] Constants
+  - [ ] Bitmasks
+  - [ ] BaseTypes
+  - [x] Constants
+  - [ ] Defines
+  - [ ] Enums
+    - [ ] Constants
     - [ ] Rename symbols to our Styling  (depends on VendorTags)
     - [x] Generate the code
   - [ ] Constant Aliases
@@ -77,9 +77,22 @@ The full IR is complete, and work on the final Codegen can be properly started.
     - [ ] Rename symbols to our Styling  (depends on VendorTags)
   - [ ] BitmaskAliases
     - [ ] Rename symbols to our Styling  (depends on VendorTags)
-- [ ] Commands
+  - [ ] ExternalTypes (Tough)
+  - [ ] FuncPointers
+  - [ ] Handles
+  - [ ] Includes
+  - [x] Structs
+  - [x] Unions
+- [ ] Symbol renamer function
+  - [x] Basic sketch (can handle conversion to camel+Pascal)
+  - [ ] Vendor Aware. Keeps Vendor Tags achronyms intact in ALLCAPS
+- [ ] Platforms
 - [ ] Features
 - [ ] Extensions
+  - [ ] Enums
+  - [ ] Types
+  - [ ] Commands
+- [ ] How does this data(Platforms, Features, Extensions) influence codegen? Are they `when defined(...)` checks?
 - [ ] Formats
 - [ ] Spir-V
   - [ ] Capabilities
