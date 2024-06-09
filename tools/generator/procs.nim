@@ -14,6 +14,13 @@ import ./dynamic
 
 const procTemplate = "proc {name}*({args}): {returnType} {{.cdecl, importc, dynlib: vkDLL.}}"
 
+proc isCommandFromExtension*(extensions: OrderedTable[string, ExtensionData], name: string) : bool =
+  for ext in extensions.values:
+    for requireData in ext.requireData:
+      for typeName in requireData.commands.keys():
+        if typeName == name:
+          result = true
+
 proc generateProc(`proc`: CommandData): string =
   let name: string = toNimSafeIdentifier(`proc`.proto.name)
   let returnType: string = c2NimType(`proc`.proto.typ)
@@ -35,6 +42,7 @@ proc generateProcs *(gen :Generator) :void=
   var procs :string = ""
   for `proc` in gen.registry.commands:
     if(`proc`.alias != ""): continue
+    if isCommandFromExtension(gen.registry.extensions, `proc`.proto.name): continue
     procs &= generateProc(`proc`)
     procs &= '\n'
   writeFile(outputDir,fmt genTemplate)

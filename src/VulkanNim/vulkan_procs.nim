@@ -78,7 +78,6 @@ proc vkCreateGraphicsPipelines*(device: VkDevice, pipelineCache: VkPipelineCache
 proc vkCreateGraphicsPipelines*(device: VkDevice, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkGraphicsPipelineCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreateComputePipelines*(device: VkDevice, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkComputePipelineCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreateComputePipelines*(device: VkDevice, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkComputePipelineCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI*(device: VkDevice, renderpass: VkRenderPass, pMaxWorkgroupSize: ptr VkExtent2D): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkDestroyPipeline*(device: VkDevice, pipeline: VkPipeline, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreatePipelineLayout*(device: VkDevice, pCreateInfo: ptr VkPipelineLayoutCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPipelineLayout: ptr VkPipelineLayout): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkDestroyPipelineLayout*(device: VkDevice, pipelineLayout: VkPipelineLayout, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
@@ -97,7 +96,6 @@ proc vkDestroyFramebuffer*(device: VkDevice, framebuffer: VkFramebuffer, pAlloca
 proc vkCreateRenderPass*(device: VkDevice, pCreateInfo: ptr VkRenderPassCreateInfo, pAllocator: ptr VkAllocationCallbacks, pRenderPass: ptr VkRenderPass): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkDestroyRenderPass*(device: VkDevice, renderPass: VkRenderPass, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetRenderAreaGranularity*(device: VkDevice, renderPass: VkRenderPass, pGranularity: ptr VkExtent2D): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetRenderingAreaGranularityKHR*(device: VkDevice, pRenderingAreaInfo: ptr VkRenderingAreaInfoKHR, pGranularity: ptr VkExtent2D): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreateCommandPool*(device: VkDevice, pCreateInfo: ptr VkCommandPoolCreateInfo, pAllocator: ptr VkAllocationCallbacks, pCommandPool: ptr VkCommandPool): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkDestroyCommandPool*(device: VkDevice, commandPool: VkCommandPool, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkResetCommandPool*(device: VkDevice, commandPool: VkCommandPool, flags: VkCommandPoolResetFlags): VkResult {.cdecl, importc, dynlib: vkDLL.}
@@ -107,7 +105,6 @@ proc vkBeginCommandBuffer*(commandBuffer: VkCommandBuffer, pBeginInfo: ptr VkCom
 proc vkEndCommandBuffer*(commandBuffer: VkCommandBuffer): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkResetCommandBuffer*(commandBuffer: VkCommandBuffer, flags: VkCommandBufferResetFlags): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdBindPipeline*(commandBuffer: VkCommandBuffer, pipelineBindPoint: VkPipelineBindPoint, pipeline: VkPipeline): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetAttachmentFeedbackLoopEnableEXT*(commandBuffer: VkCommandBuffer, aspectMask: VkImageAspectFlags): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetViewport*(commandBuffer: VkCommandBuffer, firstViewport: uint32, viewportCount: uint32, pViewports: ptr VkViewport): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetScissor*(commandBuffer: VkCommandBuffer, firstScissor: uint32, scissorCount: uint32, pScissors: ptr VkRect2D): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetLineWidth*(commandBuffer: VkCommandBuffer, lineWidth: float32): void {.cdecl, importc, dynlib: vkDLL.}
@@ -122,23 +119,15 @@ proc vkCmdBindIndexBuffer*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, off
 proc vkCmdBindVertexBuffers*(commandBuffer: VkCommandBuffer, firstBinding: uint32, bindingCount: uint32, pBuffers: ptr VkBuffer, pOffsets: ptr VkDeviceSize): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdDraw*(commandBuffer: VkCommandBuffer, vertexCount: uint32, instanceCount: uint32, firstVertex: uint32, firstInstance: uint32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdDrawIndexed*(commandBuffer: VkCommandBuffer, indexCount: uint32, instanceCount: uint32, firstIndex: uint32, vertexOffset: int32, firstInstance: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDrawMultiEXT*(commandBuffer: VkCommandBuffer, drawCount: uint32, pVertexInfo: ptr VkMultiDrawInfoEXT, instanceCount: uint32, firstInstance: uint32, stride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDrawMultiIndexedEXT*(commandBuffer: VkCommandBuffer, drawCount: uint32, pIndexInfo: ptr VkMultiDrawIndexedInfoEXT, instanceCount: uint32, firstInstance: uint32, stride: uint32, pVertexOffset: ptr int32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdDrawIndirect*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize, drawCount: uint32, stride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdDrawIndexedIndirect*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize, drawCount: uint32, stride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdDispatch*(commandBuffer: VkCommandBuffer, groupCountX: uint32, groupCountY: uint32, groupCountZ: uint32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdDispatchIndirect*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSubpassShadingHUAWEI*(commandBuffer: VkCommandBuffer): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDrawClusterHUAWEI*(commandBuffer: VkCommandBuffer, groupCountX: uint32, groupCountY: uint32, groupCountZ: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDrawClusterIndirectHUAWEI*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdUpdatePipelineIndirectBufferNV*(commandBuffer: VkCommandBuffer, pipelineBindPoint: VkPipelineBindPoint, pipeline: VkPipeline): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdCopyBuffer*(commandBuffer: VkCommandBuffer, srcBuffer: VkBuffer, dstBuffer: VkBuffer, regionCount: uint32, pRegions: ptr VkBufferCopy): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdCopyImage*(commandBuffer: VkCommandBuffer, srcImage: VkImage, srcImageLayout: VkImageLayout, dstImage: VkImage, dstImageLayout: VkImageLayout, regionCount: uint32, pRegions: ptr VkImageCopy): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdBlitImage*(commandBuffer: VkCommandBuffer, srcImage: VkImage, srcImageLayout: VkImageLayout, dstImage: VkImage, dstImageLayout: VkImageLayout, regionCount: uint32, pRegions: ptr VkImageBlit, filter: VkFilter): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdCopyBufferToImage*(commandBuffer: VkCommandBuffer, srcBuffer: VkBuffer, dstImage: VkImage, dstImageLayout: VkImageLayout, regionCount: uint32, pRegions: ptr VkBufferImageCopy): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdCopyImageToBuffer*(commandBuffer: VkCommandBuffer, srcImage: VkImage, srcImageLayout: VkImageLayout, dstBuffer: VkBuffer, regionCount: uint32, pRegions: ptr VkBufferImageCopy): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdCopyMemoryIndirectNV*(commandBuffer: VkCommandBuffer, copyBufferAddress: VkDeviceAddress, copyCount: uint32, stride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdCopyMemoryToImageIndirectNV*(commandBuffer: VkCommandBuffer, copyBufferAddress: VkDeviceAddress, copyCount: uint32, stride: uint32, dstImage: VkImage, dstImageLayout: VkImageLayout, pImageSubresources: ptr VkImageSubresourceLayers): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdUpdateBuffer*(commandBuffer: VkCommandBuffer, dstBuffer: VkBuffer, dstOffset: VkDeviceSize, dataSize: VkDeviceSize, pData: ptr void): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdFillBuffer*(commandBuffer: VkCommandBuffer, dstBuffer: VkBuffer, dstOffset: VkDeviceSize, size: VkDeviceSize, data: uint32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdClearColorImage*(commandBuffer: VkCommandBuffer, image: VkImage, imageLayout: VkImageLayout, pColor: ptr VkClearColorValue, rangeCount: uint32, pRanges: ptr VkImageSubresourceRange): void {.cdecl, importc, dynlib: vkDLL.}
@@ -151,8 +140,6 @@ proc vkCmdWaitEvents*(commandBuffer: VkCommandBuffer, eventCount: uint32, pEvent
 proc vkCmdPipelineBarrier*(commandBuffer: VkCommandBuffer, srcStageMask: VkPipelineStageFlags, dstStageMask: VkPipelineStageFlags, dependencyFlags: VkDependencyFlags, memoryBarrierCount: uint32, pMemoryBarriers: ptr VkMemoryBarrier, bufferMemoryBarrierCount: uint32, pBufferMemoryBarriers: ptr VkBufferMemoryBarrier, imageMemoryBarrierCount: uint32, pImageMemoryBarriers: ptr VkImageMemoryBarrier): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdBeginQuery*(commandBuffer: VkCommandBuffer, queryPool: VkQueryPool, query: uint32, flags: VkQueryControlFlags): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdEndQuery*(commandBuffer: VkCommandBuffer, queryPool: VkQueryPool, query: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBeginConditionalRenderingEXT*(commandBuffer: VkCommandBuffer, pConditionalRenderingBegin: ptr VkConditionalRenderingBeginInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdEndConditionalRenderingEXT*(commandBuffer: VkCommandBuffer): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdResetQueryPool*(commandBuffer: VkCommandBuffer, queryPool: VkQueryPool, firstQuery: uint32, queryCount: uint32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdWriteTimestamp*(commandBuffer: VkCommandBuffer, pipelineStage: VkPipelineStageFlagBits, queryPool: VkQueryPool, query: uint32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdCopyQueryPoolResults*(commandBuffer: VkCommandBuffer, queryPool: VkQueryPool, firstQuery: uint32, queryCount: uint32, dstBuffer: VkBuffer, dstOffset: VkDeviceSize, stride: VkDeviceSize, flags: VkQueryResultFlags): void {.cdecl, importc, dynlib: vkDLL.}
@@ -161,56 +148,6 @@ proc vkCmdBeginRenderPass*(commandBuffer: VkCommandBuffer, pRenderPassBegin: ptr
 proc vkCmdNextSubpass*(commandBuffer: VkCommandBuffer, contents: VkSubpassContents): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdEndRenderPass*(commandBuffer: VkCommandBuffer): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdExecuteCommands*(commandBuffer: VkCommandBuffer, commandBufferCount: uint32, pCommandBuffers: ptr VkCommandBuffer): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateAndroidSurfaceKHR*(instance: VkInstance, pCreateInfo: ptr VkAndroidSurfaceCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceDisplayPropertiesKHR*(physicalDevice: VkPhysicalDevice, pPropertyCount: ptr uint32, pProperties: ptr VkDisplayPropertiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceDisplayPlanePropertiesKHR*(physicalDevice: VkPhysicalDevice, pPropertyCount: ptr uint32, pProperties: ptr VkDisplayPlanePropertiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDisplayPlaneSupportedDisplaysKHR*(physicalDevice: VkPhysicalDevice, planeIndex: uint32, pDisplayCount: ptr uint32, pDisplays: ptr VkDisplayKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDisplayModePropertiesKHR*(physicalDevice: VkPhysicalDevice, display: VkDisplayKHR, pPropertyCount: ptr uint32, pProperties: ptr VkDisplayModePropertiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateDisplayModeKHR*(physicalDevice: VkPhysicalDevice, display: VkDisplayKHR, pCreateInfo: ptr VkDisplayModeCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pMode: ptr VkDisplayModeKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDisplayPlaneCapabilitiesKHR*(physicalDevice: VkPhysicalDevice, mode: VkDisplayModeKHR, planeIndex: uint32, pCapabilities: ptr VkDisplayPlaneCapabilitiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateDisplayPlaneSurfaceKHR*(instance: VkInstance, pCreateInfo: ptr VkDisplaySurfaceCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateSharedSwapchainsKHR*(device: VkDevice, swapchainCount: uint32, pCreateInfos: ptr VkSwapchainCreateInfoKHR, pCreateInfos: ptr VkSwapchainCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pSwapchains: ptr VkSwapchainKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroySurfaceKHR*(instance: VkInstance, surface: VkSurfaceKHR, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceSurfaceSupportKHR*(physicalDevice: VkPhysicalDevice, queueFamilyIndex: uint32, surface: VkSurfaceKHR, pSupported: ptr VkBool32): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceSurfaceCapabilitiesKHR*(physicalDevice: VkPhysicalDevice, surface: VkSurfaceKHR, pSurfaceCapabilities: ptr VkSurfaceCapabilitiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceSurfaceFormatsKHR*(physicalDevice: VkPhysicalDevice, surface: VkSurfaceKHR, pSurfaceFormatCount: ptr uint32, pSurfaceFormats: ptr VkSurfaceFormatKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceSurfacePresentModesKHR*(physicalDevice: VkPhysicalDevice, surface: VkSurfaceKHR, pPresentModeCount: ptr uint32, pPresentModes: ptr VkPresentModeKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateSwapchainKHR*(device: VkDevice, pCreateInfo: ptr VkSwapchainCreateInfoKHR, pCreateInfo: ptr VkSwapchainCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pSwapchain: ptr VkSwapchainKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroySwapchainKHR*(device: VkDevice, swapchain: VkSwapchainKHR, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetSwapchainImagesKHR*(device: VkDevice, swapchain: VkSwapchainKHR, pSwapchainImageCount: ptr uint32, pSwapchainImages: ptr VkImage): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkAcquireNextImageKHR*(device: VkDevice, swapchain: VkSwapchainKHR, timeout: uint64, semaphore: VkSemaphore, fence: VkFence, pImageIndex: ptr uint32): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkQueuePresentKHR*(queue: VkQueue, pPresentInfo: ptr VkPresentInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateViSurfaceNN*(instance: VkInstance, pCreateInfo: ptr VkViSurfaceCreateInfoNN, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateWaylandSurfaceKHR*(instance: VkInstance, pCreateInfo: ptr VkWaylandSurfaceCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceWaylandPresentationSupportKHR*(physicalDevice: VkPhysicalDevice, queueFamilyIndex: uint32, display: ptr wl_display): VkBool32 {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateWin32SurfaceKHR*(instance: VkInstance, pCreateInfo: ptr VkWin32SurfaceCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceWin32PresentationSupportKHR*(physicalDevice: VkPhysicalDevice, queueFamilyIndex: uint32): VkBool32 {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateXlibSurfaceKHR*(instance: VkInstance, pCreateInfo: ptr VkXlibSurfaceCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceXlibPresentationSupportKHR*(physicalDevice: VkPhysicalDevice, queueFamilyIndex: uint32, dpy: ptr Display, visualID: VisualID): VkBool32 {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateXcbSurfaceKHR*(instance: VkInstance, pCreateInfo: ptr VkXcbSurfaceCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceXcbPresentationSupportKHR*(physicalDevice: VkPhysicalDevice, queueFamilyIndex: uint32, connection: ptr xcb_connection_t, visual_id: xcb_visualid_t): VkBool32 {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateDirectFBSurfaceEXT*(instance: VkInstance, pCreateInfo: ptr VkDirectFBSurfaceCreateInfoEXT, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceDirectFBPresentationSupportEXT*(physicalDevice: VkPhysicalDevice, queueFamilyIndex: uint32, dfb: ptr IDirectFB): VkBool32 {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateImagePipeSurfaceFUCHSIA*(instance: VkInstance, pCreateInfo: ptr VkImagePipeSurfaceCreateInfoFUCHSIA, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateStreamDescriptorSurfaceGGP*(instance: VkInstance, pCreateInfo: ptr VkStreamDescriptorSurfaceCreateInfoGGP, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateScreenSurfaceQNX*(instance: VkInstance, pCreateInfo: ptr VkScreenSurfaceCreateInfoQNX, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceScreenPresentationSupportQNX*(physicalDevice: VkPhysicalDevice, queueFamilyIndex: uint32, window: ptr _screen_window): VkBool32 {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateDebugReportCallbackEXT*(instance: VkInstance, pCreateInfo: ptr VkDebugReportCallbackCreateInfoEXT, pAllocator: ptr VkAllocationCallbacks, pCallback: ptr VkDebugReportCallbackEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyDebugReportCallbackEXT*(instance: VkInstance, callback: VkDebugReportCallbackEXT, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkDebugReportMessageEXT*(instance: VkInstance, flags: VkDebugReportFlagsEXT, objectType: VkDebugReportObjectTypeEXT, `object`: uint64, location: csize_t, messageCode: int32, pLayerPrefix: ptr char, pMessage: ptr char): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkDebugMarkerSetObjectNameEXT*(device: VkDevice, pNameInfo: ptr VkDebugMarkerObjectNameInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDebugMarkerSetObjectTagEXT*(device: VkDevice, pTagInfo: ptr VkDebugMarkerObjectTagInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDebugMarkerBeginEXT*(commandBuffer: VkCommandBuffer, pMarkerInfo: ptr VkDebugMarkerMarkerInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDebugMarkerEndEXT*(commandBuffer: VkCommandBuffer): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDebugMarkerInsertEXT*(commandBuffer: VkCommandBuffer, pMarkerInfo: ptr VkDebugMarkerMarkerInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceExternalImageFormatPropertiesNV*(physicalDevice: VkPhysicalDevice, format: VkFormat, `type`: VkImageType, tiling: VkImageTiling, usage: VkImageUsageFlags, flags: VkImageCreateFlags, externalHandleType: VkExternalMemoryHandleTypeFlagsNV, pExternalImageFormatProperties: ptr VkExternalImageFormatPropertiesNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMemoryWin32HandleNV*(device: VkDevice, memory: VkDeviceMemory, handleType: VkExternalMemoryHandleTypeFlagsNV, pHandle: ptr HANDLE): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdExecuteGeneratedCommandsNV*(commandBuffer: VkCommandBuffer, isPreprocessed: VkBool32, pGeneratedCommandsInfo: ptr VkGeneratedCommandsInfoNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdPreprocessGeneratedCommandsNV*(commandBuffer: VkCommandBuffer, pGeneratedCommandsInfo: ptr VkGeneratedCommandsInfoNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBindPipelineShaderGroupNV*(commandBuffer: VkCommandBuffer, pipelineBindPoint: VkPipelineBindPoint, pipeline: VkPipeline, groupIndex: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetGeneratedCommandsMemoryRequirementsNV*(device: VkDevice, pInfo: ptr VkGeneratedCommandsMemoryRequirementsInfoNV, pMemoryRequirements: ptr VkMemoryRequirements2): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateIndirectCommandsLayoutNV*(device: VkDevice, pCreateInfo: ptr VkIndirectCommandsLayoutCreateInfoNV, pAllocator: ptr VkAllocationCallbacks, pIndirectCommandsLayout: ptr VkIndirectCommandsLayoutNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyIndirectCommandsLayoutNV*(device: VkDevice, indirectCommandsLayout: VkIndirectCommandsLayoutNV, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPhysicalDeviceFeatures2*(physicalDevice: VkPhysicalDevice, pFeatures: ptr VkPhysicalDeviceFeatures2): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPhysicalDeviceProperties2*(physicalDevice: VkPhysicalDevice, pProperties: ptr VkPhysicalDeviceProperties2): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPhysicalDeviceFormatProperties2*(physicalDevice: VkPhysicalDevice, format: VkFormat, pFormatProperties: ptr VkFormatProperties2): void {.cdecl, importc, dynlib: vkDLL.}
@@ -218,83 +155,19 @@ proc vkGetPhysicalDeviceImageFormatProperties2*(physicalDevice: VkPhysicalDevice
 proc vkGetPhysicalDeviceQueueFamilyProperties2*(physicalDevice: VkPhysicalDevice, pQueueFamilyPropertyCount: ptr uint32, pQueueFamilyProperties: ptr VkQueueFamilyProperties2): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPhysicalDeviceMemoryProperties2*(physicalDevice: VkPhysicalDevice, pMemoryProperties: ptr VkPhysicalDeviceMemoryProperties2): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPhysicalDeviceSparseImageFormatProperties2*(physicalDevice: VkPhysicalDevice, pFormatInfo: ptr VkPhysicalDeviceSparseImageFormatInfo2, pPropertyCount: ptr uint32, pProperties: ptr VkSparseImageFormatProperties2): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdPushDescriptorSetKHR*(commandBuffer: VkCommandBuffer, pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, set: uint32, descriptorWriteCount: uint32, pDescriptorWrites: ptr VkWriteDescriptorSet): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkTrimCommandPool*(device: VkDevice, commandPool: VkCommandPool, flags: VkCommandPoolTrimFlags): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPhysicalDeviceExternalBufferProperties*(physicalDevice: VkPhysicalDevice, pExternalBufferInfo: ptr VkPhysicalDeviceExternalBufferInfo, pExternalBufferProperties: ptr VkExternalBufferProperties): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMemoryWin32HandleKHR*(device: VkDevice, pGetWin32HandleInfo: ptr VkMemoryGetWin32HandleInfoKHR, pHandle: ptr HANDLE): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMemoryWin32HandlePropertiesKHR*(device: VkDevice, handleType: VkExternalMemoryHandleTypeFlagBits, handle: HANDLE, pMemoryWin32HandleProperties: ptr VkMemoryWin32HandlePropertiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMemoryFdKHR*(device: VkDevice, pGetFdInfo: ptr VkMemoryGetFdInfoKHR, pFd: ptr int): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMemoryFdPropertiesKHR*(device: VkDevice, handleType: VkExternalMemoryHandleTypeFlagBits, fd: int, pMemoryFdProperties: ptr VkMemoryFdPropertiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMemoryZirconHandleFUCHSIA*(device: VkDevice, pGetZirconHandleInfo: ptr VkMemoryGetZirconHandleInfoFUCHSIA, pZirconHandle: ptr zx_handle_t): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMemoryZirconHandlePropertiesFUCHSIA*(device: VkDevice, handleType: VkExternalMemoryHandleTypeFlagBits, zirconHandle: zx_handle_t, pMemoryZirconHandleProperties: ptr VkMemoryZirconHandlePropertiesFUCHSIA): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMemoryRemoteAddressNV*(device: VkDevice, pMemoryGetRemoteAddressInfo: ptr VkMemoryGetRemoteAddressInfoNV, pAddress: ptr VkRemoteAddressNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMemorySciBufNV*(device: VkDevice, pGetSciBufInfo: ptr VkMemoryGetSciBufInfoNV, pHandle: ptr NvSciBufObj): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceExternalMemorySciBufPropertiesNV*(physicalDevice: VkPhysicalDevice, handleType: VkExternalMemoryHandleTypeFlagBits, handle: NvSciBufObj, pMemorySciBufProperties: ptr VkMemorySciBufPropertiesNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceSciBufAttributesNV*(physicalDevice: VkPhysicalDevice, pAttributes: NvSciBufAttrList): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPhysicalDeviceExternalSemaphoreProperties*(physicalDevice: VkPhysicalDevice, pExternalSemaphoreInfo: ptr VkPhysicalDeviceExternalSemaphoreInfo, pExternalSemaphoreProperties: ptr VkExternalSemaphoreProperties): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetSemaphoreWin32HandleKHR*(device: VkDevice, pGetWin32HandleInfo: ptr VkSemaphoreGetWin32HandleInfoKHR, pHandle: ptr HANDLE): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkImportSemaphoreWin32HandleKHR*(device: VkDevice, pImportSemaphoreWin32HandleInfo: ptr VkImportSemaphoreWin32HandleInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetSemaphoreFdKHR*(device: VkDevice, pGetFdInfo: ptr VkSemaphoreGetFdInfoKHR, pFd: ptr int): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkImportSemaphoreFdKHR*(device: VkDevice, pImportSemaphoreFdInfo: ptr VkImportSemaphoreFdInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetSemaphoreZirconHandleFUCHSIA*(device: VkDevice, pGetZirconHandleInfo: ptr VkSemaphoreGetZirconHandleInfoFUCHSIA, pZirconHandle: ptr zx_handle_t): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkImportSemaphoreZirconHandleFUCHSIA*(device: VkDevice, pImportSemaphoreZirconHandleInfo: ptr VkImportSemaphoreZirconHandleInfoFUCHSIA): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPhysicalDeviceExternalFenceProperties*(physicalDevice: VkPhysicalDevice, pExternalFenceInfo: ptr VkPhysicalDeviceExternalFenceInfo, pExternalFenceProperties: ptr VkExternalFenceProperties): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetFenceWin32HandleKHR*(device: VkDevice, pGetWin32HandleInfo: ptr VkFenceGetWin32HandleInfoKHR, pHandle: ptr HANDLE): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkImportFenceWin32HandleKHR*(device: VkDevice, pImportFenceWin32HandleInfo: ptr VkImportFenceWin32HandleInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetFenceFdKHR*(device: VkDevice, pGetFdInfo: ptr VkFenceGetFdInfoKHR, pFd: ptr int): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkImportFenceFdKHR*(device: VkDevice, pImportFenceFdInfo: ptr VkImportFenceFdInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetFenceSciSyncFenceNV*(device: VkDevice, pGetSciSyncHandleInfo: ptr VkFenceGetSciSyncInfoNV, pHandle: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetFenceSciSyncObjNV*(device: VkDevice, pGetSciSyncHandleInfo: ptr VkFenceGetSciSyncInfoNV, pHandle: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkImportFenceSciSyncFenceNV*(device: VkDevice, pImportFenceSciSyncInfo: ptr VkImportFenceSciSyncInfoNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkImportFenceSciSyncObjNV*(device: VkDevice, pImportFenceSciSyncInfo: ptr VkImportFenceSciSyncInfoNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetSemaphoreSciSyncObjNV*(device: VkDevice, pGetSciSyncInfo: ptr VkSemaphoreGetSciSyncInfoNV, pHandle: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkImportSemaphoreSciSyncObjNV*(device: VkDevice, pImportSemaphoreSciSyncInfo: ptr VkImportSemaphoreSciSyncInfoNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceSciSyncAttributesNV*(physicalDevice: VkPhysicalDevice, pSciSyncAttributesInfo: ptr VkSciSyncAttributesInfoNV, pAttributes: NvSciSyncAttrList): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateSemaphoreSciSyncPoolNV*(device: VkDevice, pCreateInfo: ptr VkSemaphoreSciSyncPoolCreateInfoNV, pAllocator: ptr VkAllocationCallbacks, pSemaphorePool: ptr VkSemaphoreSciSyncPoolNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroySemaphoreSciSyncPoolNV*(device: VkDevice, semaphorePool: VkSemaphoreSciSyncPoolNV, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkReleaseDisplayEXT*(physicalDevice: VkPhysicalDevice, display: VkDisplayKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkAcquireXlibDisplayEXT*(physicalDevice: VkPhysicalDevice, dpy: ptr Display, display: VkDisplayKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetRandROutputDisplayEXT*(physicalDevice: VkPhysicalDevice, dpy: ptr Display, rrOutput: RROutput, pDisplay: ptr VkDisplayKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkAcquireWinrtDisplayNV*(physicalDevice: VkPhysicalDevice, display: VkDisplayKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetWinrtDisplayNV*(physicalDevice: VkPhysicalDevice, deviceRelativeId: uint32, pDisplay: ptr VkDisplayKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDisplayPowerControlEXT*(device: VkDevice, display: VkDisplayKHR, pDisplayPowerInfo: ptr VkDisplayPowerInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkRegisterDeviceEventEXT*(device: VkDevice, pDeviceEventInfo: ptr VkDeviceEventInfoEXT, pAllocator: ptr VkAllocationCallbacks, pFence: ptr VkFence): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkRegisterDisplayEventEXT*(device: VkDevice, display: VkDisplayKHR, pDisplayEventInfo: ptr VkDisplayEventInfoEXT, pAllocator: ptr VkAllocationCallbacks, pFence: ptr VkFence): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetSwapchainCounterEXT*(device: VkDevice, swapchain: VkSwapchainKHR, counter: VkSurfaceCounterFlagBitsEXT, pCounterValue: ptr uint64): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceSurfaceCapabilities2EXT*(physicalDevice: VkPhysicalDevice, surface: VkSurfaceKHR, pSurfaceCapabilities: ptr VkSurfaceCapabilities2EXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkEnumeratePhysicalDeviceGroups*(instance: VkInstance, pPhysicalDeviceGroupCount: ptr uint32, pPhysicalDeviceGroupProperties: ptr VkPhysicalDeviceGroupProperties): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetDeviceGroupPeerMemoryFeatures*(device: VkDevice, heapIndex: uint32, localDeviceIndex: uint32, remoteDeviceIndex: uint32, pPeerMemoryFeatures: ptr VkPeerMemoryFeatureFlags): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkBindBufferMemory2*(device: VkDevice, bindInfoCount: uint32, pBindInfos: ptr VkBindBufferMemoryInfo): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkBindImageMemory2*(device: VkDevice, bindInfoCount: uint32, pBindInfos: ptr VkBindImageMemoryInfo): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetDeviceMask*(commandBuffer: VkCommandBuffer, deviceMask: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDeviceGroupPresentCapabilitiesKHR*(device: VkDevice, pDeviceGroupPresentCapabilities: ptr VkDeviceGroupPresentCapabilitiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDeviceGroupSurfacePresentModesKHR*(device: VkDevice, surface: VkSurfaceKHR, pModes: ptr VkDeviceGroupPresentModeFlagsKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkAcquireNextImage2KHR*(device: VkDevice, pAcquireInfo: ptr VkAcquireNextImageInfoKHR, pImageIndex: ptr uint32): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdDispatchBase*(commandBuffer: VkCommandBuffer, baseGroupX: uint32, baseGroupY: uint32, baseGroupZ: uint32, groupCountX: uint32, groupCountY: uint32, groupCountZ: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDevicePresentRectanglesKHR*(physicalDevice: VkPhysicalDevice, surface: VkSurfaceKHR, pRectCount: ptr uint32, pRects: ptr VkRect2D): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreateDescriptorUpdateTemplate*(device: VkDevice, pCreateInfo: ptr VkDescriptorUpdateTemplateCreateInfo, pAllocator: ptr VkAllocationCallbacks, pDescriptorUpdateTemplate: ptr VkDescriptorUpdateTemplate): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkDestroyDescriptorUpdateTemplate*(device: VkDevice, descriptorUpdateTemplate: VkDescriptorUpdateTemplate, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkUpdateDescriptorSetWithTemplate*(device: VkDevice, descriptorSet: VkDescriptorSet, descriptorUpdateTemplate: VkDescriptorUpdateTemplate, pData: ptr void): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdPushDescriptorSetWithTemplateKHR*(commandBuffer: VkCommandBuffer, descriptorUpdateTemplate: VkDescriptorUpdateTemplate, layout: VkPipelineLayout, set: uint32, pData: ptr void): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkSetHdrMetadataEXT*(device: VkDevice, swapchainCount: uint32, pSwapchains: ptr VkSwapchainKHR, pMetadata: ptr VkHdrMetadataEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetSwapchainStatusKHR*(device: VkDevice, swapchain: VkSwapchainKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetRefreshCycleDurationGOOGLE*(device: VkDevice, swapchain: VkSwapchainKHR, pDisplayTimingProperties: ptr VkRefreshCycleDurationGOOGLE): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPastPresentationTimingGOOGLE*(device: VkDevice, swapchain: VkSwapchainKHR, pPresentationTimingCount: ptr uint32, pPresentationTimings: ptr VkPastPresentationTimingGOOGLE): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateIOSSurfaceMVK*(instance: VkInstance, pCreateInfo: ptr VkIOSSurfaceCreateInfoMVK, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateMacOSSurfaceMVK*(instance: VkInstance, pCreateInfo: ptr VkMacOSSurfaceCreateInfoMVK, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateMetalSurfaceEXT*(instance: VkInstance, pCreateInfo: ptr VkMetalSurfaceCreateInfoEXT, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetViewportWScalingNV*(commandBuffer: VkCommandBuffer, firstViewport: uint32, viewportCount: uint32, pViewportWScalings: ptr VkViewportWScalingNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetDiscardRectangleEXT*(commandBuffer: VkCommandBuffer, firstDiscardRectangle: uint32, discardRectangleCount: uint32, pDiscardRectangles: ptr VkRect2D): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetDiscardRectangleEnableEXT*(commandBuffer: VkCommandBuffer, discardRectangleEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetDiscardRectangleModeEXT*(commandBuffer: VkCommandBuffer, discardRectangleMode: VkDiscardRectangleModeEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetSampleLocationsEXT*(commandBuffer: VkCommandBuffer, pSampleLocationsInfo: ptr VkSampleLocationsInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceMultisamplePropertiesEXT*(physicalDevice: VkPhysicalDevice, samples: VkSampleCountFlagBits, pMultisampleProperties: ptr VkMultisamplePropertiesEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceSurfaceCapabilities2KHR*(physicalDevice: VkPhysicalDevice, pSurfaceInfo: ptr VkPhysicalDeviceSurfaceInfo2KHR, pSurfaceCapabilities: ptr VkSurfaceCapabilities2KHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceSurfaceFormats2KHR*(physicalDevice: VkPhysicalDevice, pSurfaceInfo: ptr VkPhysicalDeviceSurfaceInfo2KHR, pSurfaceFormatCount: ptr uint32, pSurfaceFormats: ptr VkSurfaceFormat2KHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceDisplayProperties2KHR*(physicalDevice: VkPhysicalDevice, pPropertyCount: ptr uint32, pProperties: ptr VkDisplayProperties2KHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceDisplayPlaneProperties2KHR*(physicalDevice: VkPhysicalDevice, pPropertyCount: ptr uint32, pProperties: ptr VkDisplayPlaneProperties2KHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDisplayModeProperties2KHR*(physicalDevice: VkPhysicalDevice, display: VkDisplayKHR, pPropertyCount: ptr uint32, pProperties: ptr VkDisplayModeProperties2KHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDisplayPlaneCapabilities2KHR*(physicalDevice: VkPhysicalDevice, pDisplayPlaneInfo: ptr VkDisplayPlaneInfo2KHR, pCapabilities: ptr VkDisplayPlaneCapabilities2KHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetBufferMemoryRequirements2*(device: VkDevice, pInfo: ptr VkBufferMemoryRequirementsInfo2, pMemoryRequirements: ptr VkMemoryRequirements2): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetImageMemoryRequirements2*(device: VkDevice, pInfo: ptr VkImageMemoryRequirementsInfo2, pMemoryRequirements: ptr VkMemoryRequirements2): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetImageSparseMemoryRequirements2*(device: VkDevice, pInfo: ptr VkImageSparseMemoryRequirementsInfo2, pSparseMemoryRequirementCount: ptr uint32, pSparseMemoryRequirements: ptr VkSparseImageMemoryRequirements2): void {.cdecl, importc, dynlib: vkDLL.}
@@ -304,32 +177,7 @@ proc vkGetDeviceImageSparseMemoryRequirements*(device: VkDevice, pInfo: ptr VkDe
 proc vkCreateSamplerYcbcrConversion*(device: VkDevice, pCreateInfo: ptr VkSamplerYcbcrConversionCreateInfo, pAllocator: ptr VkAllocationCallbacks, pYcbcrConversion: ptr VkSamplerYcbcrConversion): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkDestroySamplerYcbcrConversion*(device: VkDevice, ycbcrConversion: VkSamplerYcbcrConversion, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetDeviceQueue2*(device: VkDevice, pQueueInfo: ptr VkDeviceQueueInfo2, pQueue: ptr VkQueue): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateValidationCacheEXT*(device: VkDevice, pCreateInfo: ptr VkValidationCacheCreateInfoEXT, pAllocator: ptr VkAllocationCallbacks, pValidationCache: ptr VkValidationCacheEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyValidationCacheEXT*(device: VkDevice, validationCache: VkValidationCacheEXT, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetValidationCacheDataEXT*(device: VkDevice, validationCache: VkValidationCacheEXT, pDataSize: ptr csize_t, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkMergeValidationCachesEXT*(device: VkDevice, dstCache: VkValidationCacheEXT, srcCacheCount: uint32, pSrcCaches: ptr VkValidationCacheEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetDescriptorSetLayoutSupport*(device: VkDevice, pCreateInfo: ptr VkDescriptorSetLayoutCreateInfo, pSupport: ptr VkDescriptorSetLayoutSupport): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetSwapchainGrallocUsageANDROID*(device: VkDevice, format: VkFormat, imageUsage: VkImageUsageFlags, grallocUsage: ptr int): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetSwapchainGrallocUsage2ANDROID*(device: VkDevice, format: VkFormat, imageUsage: VkImageUsageFlags, swapchainImageUsage: VkSwapchainImageUsageFlagsANDROID, grallocConsumerUsage: ptr uint64, grallocProducerUsage: ptr uint64): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkAcquireImageANDROID*(device: VkDevice, image: VkImage, nativeFenceFd: int, semaphore: VkSemaphore, fence: VkFence): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkQueueSignalReleaseImageANDROID*(queue: VkQueue, waitSemaphoreCount: uint32, pWaitSemaphores: ptr VkSemaphore, image: VkImage, pNativeFenceFd: ptr int): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetShaderInfoAMD*(device: VkDevice, pipeline: VkPipeline, shaderStage: VkShaderStageFlagBits, infoType: VkShaderInfoTypeAMD, pInfoSize: ptr csize_t, pInfo: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkSetLocalDimmingAMD*(device: VkDevice, swapChain: VkSwapchainKHR, localDimmingEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceCalibrateableTimeDomainsKHR*(physicalDevice: VkPhysicalDevice, pTimeDomainCount: ptr uint32, pTimeDomains: ptr VkTimeDomainKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetCalibratedTimestampsKHR*(device: VkDevice, timestampCount: uint32, pTimestampInfos: ptr VkCalibratedTimestampInfoKHR, pTimestamps: ptr uint64, pMaxDeviation: ptr uint64): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkSetDebugUtilsObjectNameEXT*(device: VkDevice, pNameInfo: ptr VkDebugUtilsObjectNameInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkSetDebugUtilsObjectTagEXT*(device: VkDevice, pTagInfo: ptr VkDebugUtilsObjectTagInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkQueueBeginDebugUtilsLabelEXT*(queue: VkQueue, pLabelInfo: ptr VkDebugUtilsLabelEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkQueueEndDebugUtilsLabelEXT*(queue: VkQueue): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkQueueInsertDebugUtilsLabelEXT*(queue: VkQueue, pLabelInfo: ptr VkDebugUtilsLabelEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBeginDebugUtilsLabelEXT*(commandBuffer: VkCommandBuffer, pLabelInfo: ptr VkDebugUtilsLabelEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdEndDebugUtilsLabelEXT*(commandBuffer: VkCommandBuffer): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdInsertDebugUtilsLabelEXT*(commandBuffer: VkCommandBuffer, pLabelInfo: ptr VkDebugUtilsLabelEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateDebugUtilsMessengerEXT*(instance: VkInstance, pCreateInfo: ptr VkDebugUtilsMessengerCreateInfoEXT, pAllocator: ptr VkAllocationCallbacks, pMessenger: ptr VkDebugUtilsMessengerEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyDebugUtilsMessengerEXT*(instance: VkInstance, messenger: VkDebugUtilsMessengerEXT, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkSubmitDebugUtilsMessageEXT*(instance: VkInstance, messageSeverity: VkDebugUtilsMessageSeverityFlagBitsEXT, messageTypes: VkDebugUtilsMessageTypeFlagsEXT, pCallbackData: ptr VkDebugUtilsMessengerCallbackDataEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMemoryHostPointerPropertiesEXT*(device: VkDevice, handleType: VkExternalMemoryHandleTypeFlagBits, pHostPointer: ptr void, pMemoryHostPointerProperties: ptr VkMemoryHostPointerPropertiesEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdWriteBufferMarkerAMD*(commandBuffer: VkCommandBuffer, pipelineStage: VkPipelineStageFlagBits, dstBuffer: VkBuffer, dstOffset: VkDeviceSize, marker: uint32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreateRenderPass2*(device: VkDevice, pCreateInfo: ptr VkRenderPassCreateInfo2, pAllocator: ptr VkAllocationCallbacks, pRenderPass: ptr VkRenderPass): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdBeginRenderPass2*(commandBuffer: VkCommandBuffer, pRenderPassBegin: ptr VkRenderPassBeginInfo, pSubpassBeginInfo: ptr VkSubpassBeginInfo): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdNextSubpass2*(commandBuffer: VkCommandBuffer, pSubpassBeginInfo: ptr VkSubpassBeginInfo, pSubpassEndInfo: ptr VkSubpassEndInfo): void {.cdecl, importc, dynlib: vkDLL.}
@@ -337,111 +185,18 @@ proc vkCmdEndRenderPass2*(commandBuffer: VkCommandBuffer, pSubpassEndInfo: ptr V
 proc vkGetSemaphoreCounterValue*(device: VkDevice, semaphore: VkSemaphore, pValue: ptr uint64): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkWaitSemaphores*(device: VkDevice, pWaitInfo: ptr VkSemaphoreWaitInfo, timeout: uint64): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkSignalSemaphore*(device: VkDevice, pSignalInfo: ptr VkSemaphoreSignalInfo): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetAndroidHardwareBufferPropertiesANDROID*(device: VkDevice, buffer: ptr AHardwareBuffer, pProperties: ptr VkAndroidHardwareBufferPropertiesANDROID): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMemoryAndroidHardwareBufferANDROID*(device: VkDevice, pInfo: ptr VkMemoryGetAndroidHardwareBufferInfoANDROID, pBuffer: ptr ptr AHardwareBuffer): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdDrawIndirectCount*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize, countBuffer: VkBuffer, countBufferOffset: VkDeviceSize, maxDrawCount: uint32, stride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdDrawIndexedIndirectCount*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize, countBuffer: VkBuffer, countBufferOffset: VkDeviceSize, maxDrawCount: uint32, stride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetCheckpointNV*(commandBuffer: VkCommandBuffer, pCheckpointMarker: ptr void): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetQueueCheckpointDataNV*(queue: VkQueue, pCheckpointDataCount: ptr uint32, pCheckpointData: ptr VkCheckpointDataNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBindTransformFeedbackBuffersEXT*(commandBuffer: VkCommandBuffer, firstBinding: uint32, bindingCount: uint32, pBuffers: ptr VkBuffer, pOffsets: ptr VkDeviceSize, pSizes: ptr VkDeviceSize): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBeginTransformFeedbackEXT*(commandBuffer: VkCommandBuffer, firstCounterBuffer: uint32, counterBufferCount: uint32, pCounterBuffers: ptr VkBuffer, pCounterBufferOffsets: ptr VkDeviceSize): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdEndTransformFeedbackEXT*(commandBuffer: VkCommandBuffer, firstCounterBuffer: uint32, counterBufferCount: uint32, pCounterBuffers: ptr VkBuffer, pCounterBufferOffsets: ptr VkDeviceSize): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBeginQueryIndexedEXT*(commandBuffer: VkCommandBuffer, queryPool: VkQueryPool, query: uint32, flags: VkQueryControlFlags, index: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdEndQueryIndexedEXT*(commandBuffer: VkCommandBuffer, queryPool: VkQueryPool, query: uint32, index: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDrawIndirectByteCountEXT*(commandBuffer: VkCommandBuffer, instanceCount: uint32, firstInstance: uint32, counterBuffer: VkBuffer, counterBufferOffset: VkDeviceSize, counterOffset: uint32, vertexStride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetExclusiveScissorNV*(commandBuffer: VkCommandBuffer, firstExclusiveScissor: uint32, exclusiveScissorCount: uint32, pExclusiveScissors: ptr VkRect2D): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetExclusiveScissorEnableNV*(commandBuffer: VkCommandBuffer, firstExclusiveScissor: uint32, exclusiveScissorCount: uint32, pExclusiveScissorEnables: ptr VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBindShadingRateImageNV*(commandBuffer: VkCommandBuffer, imageView: VkImageView, imageLayout: VkImageLayout): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetViewportShadingRatePaletteNV*(commandBuffer: VkCommandBuffer, firstViewport: uint32, viewportCount: uint32, pShadingRatePalettes: ptr VkShadingRatePaletteNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetCoarseSampleOrderNV*(commandBuffer: VkCommandBuffer, sampleOrderType: VkCoarseSampleOrderTypeNV, customSampleOrderCount: uint32, pCustomSampleOrders: ptr VkCoarseSampleOrderCustomNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDrawMeshTasksNV*(commandBuffer: VkCommandBuffer, taskCount: uint32, firstTask: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDrawMeshTasksIndirectNV*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize, drawCount: uint32, stride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDrawMeshTasksIndirectCountNV*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize, countBuffer: VkBuffer, countBufferOffset: VkDeviceSize, maxDrawCount: uint32, stride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDrawMeshTasksEXT*(commandBuffer: VkCommandBuffer, groupCountX: uint32, groupCountY: uint32, groupCountZ: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDrawMeshTasksIndirectEXT*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize, drawCount: uint32, stride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDrawMeshTasksIndirectCountEXT*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize, countBuffer: VkBuffer, countBufferOffset: VkDeviceSize, maxDrawCount: uint32, stride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCompileDeferredNV*(device: VkDevice, pipeline: VkPipeline, shader: uint32): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateAccelerationStructureNV*(device: VkDevice, pCreateInfo: ptr VkAccelerationStructureCreateInfoNV, pAllocator: ptr VkAllocationCallbacks, pAccelerationStructure: ptr VkAccelerationStructureNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBindInvocationMaskHUAWEI*(commandBuffer: VkCommandBuffer, imageView: VkImageView, imageLayout: VkImageLayout): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyAccelerationStructureKHR*(device: VkDevice, accelerationStructure: VkAccelerationStructureKHR, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyAccelerationStructureNV*(device: VkDevice, accelerationStructure: VkAccelerationStructureNV, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetAccelerationStructureMemoryRequirementsNV*(device: VkDevice, pInfo: ptr VkAccelerationStructureMemoryRequirementsInfoNV, pMemoryRequirements: ptr VkMemoryRequirements2KHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkBindAccelerationStructureMemoryNV*(device: VkDevice, bindInfoCount: uint32, pBindInfos: ptr VkBindAccelerationStructureMemoryInfoNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdCopyAccelerationStructureNV*(commandBuffer: VkCommandBuffer, dst: VkAccelerationStructureNV, src: VkAccelerationStructureNV, mode: VkCopyAccelerationStructureModeKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdCopyAccelerationStructureKHR*(commandBuffer: VkCommandBuffer, pInfo: ptr VkCopyAccelerationStructureInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCopyAccelerationStructureKHR*(device: VkDevice, deferredOperation: VkDeferredOperationKHR, pInfo: ptr VkCopyAccelerationStructureInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdCopyAccelerationStructureToMemoryKHR*(commandBuffer: VkCommandBuffer, pInfo: ptr VkCopyAccelerationStructureToMemoryInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCopyAccelerationStructureToMemoryKHR*(device: VkDevice, deferredOperation: VkDeferredOperationKHR, pInfo: ptr VkCopyAccelerationStructureToMemoryInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdCopyMemoryToAccelerationStructureKHR*(commandBuffer: VkCommandBuffer, pInfo: ptr VkCopyMemoryToAccelerationStructureInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCopyMemoryToAccelerationStructureKHR*(device: VkDevice, deferredOperation: VkDeferredOperationKHR, pInfo: ptr VkCopyMemoryToAccelerationStructureInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdWriteAccelerationStructuresPropertiesKHR*(commandBuffer: VkCommandBuffer, accelerationStructureCount: uint32, pAccelerationStructures: ptr VkAccelerationStructureKHR, queryType: VkQueryType, queryPool: VkQueryPool, firstQuery: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdWriteAccelerationStructuresPropertiesNV*(commandBuffer: VkCommandBuffer, accelerationStructureCount: uint32, pAccelerationStructures: ptr VkAccelerationStructureNV, queryType: VkQueryType, queryPool: VkQueryPool, firstQuery: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBuildAccelerationStructureNV*(commandBuffer: VkCommandBuffer, pInfo: ptr VkAccelerationStructureInfoNV, instanceData: VkBuffer, instanceOffset: VkDeviceSize, update: VkBool32, dst: VkAccelerationStructureNV, src: VkAccelerationStructureNV, scratch: VkBuffer, scratchOffset: VkDeviceSize): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkWriteAccelerationStructuresPropertiesKHR*(device: VkDevice, accelerationStructureCount: uint32, pAccelerationStructures: ptr VkAccelerationStructureKHR, queryType: VkQueryType, dataSize: csize_t, pData: ptr void, stride: csize_t): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdTraceRaysKHR*(commandBuffer: VkCommandBuffer, pRaygenShaderBindingTable: ptr VkStridedDeviceAddressRegionKHR, pMissShaderBindingTable: ptr VkStridedDeviceAddressRegionKHR, pHitShaderBindingTable: ptr VkStridedDeviceAddressRegionKHR, pCallableShaderBindingTable: ptr VkStridedDeviceAddressRegionKHR, width: uint32, height: uint32, depth: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdTraceRaysNV*(commandBuffer: VkCommandBuffer, raygenShaderBindingTableBuffer: VkBuffer, raygenShaderBindingOffset: VkDeviceSize, missShaderBindingTableBuffer: VkBuffer, missShaderBindingOffset: VkDeviceSize, missShaderBindingStride: VkDeviceSize, hitShaderBindingTableBuffer: VkBuffer, hitShaderBindingOffset: VkDeviceSize, hitShaderBindingStride: VkDeviceSize, callableShaderBindingTableBuffer: VkBuffer, callableShaderBindingOffset: VkDeviceSize, callableShaderBindingStride: VkDeviceSize, width: uint32, height: uint32, depth: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetRayTracingShaderGroupHandlesKHR*(device: VkDevice, pipeline: VkPipeline, firstGroup: uint32, groupCount: uint32, dataSize: csize_t, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetRayTracingCaptureReplayShaderGroupHandlesKHR*(device: VkDevice, pipeline: VkPipeline, firstGroup: uint32, groupCount: uint32, dataSize: csize_t, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetAccelerationStructureHandleNV*(device: VkDevice, accelerationStructure: VkAccelerationStructureNV, dataSize: csize_t, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateRayTracingPipelinesNV*(device: VkDevice, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkRayTracingPipelineCreateInfoNV, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateRayTracingPipelinesNV*(device: VkDevice, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkRayTracingPipelineCreateInfoNV, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateRayTracingPipelinesKHR*(device: VkDevice, deferredOperation: VkDeferredOperationKHR, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkRayTracingPipelineCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateRayTracingPipelinesKHR*(device: VkDevice, deferredOperation: VkDeferredOperationKHR, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkRayTracingPipelineCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceCooperativeMatrixPropertiesNV*(physicalDevice: VkPhysicalDevice, pPropertyCount: ptr uint32, pProperties: ptr VkCooperativeMatrixPropertiesNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdTraceRaysIndirectKHR*(commandBuffer: VkCommandBuffer, pRaygenShaderBindingTable: ptr VkStridedDeviceAddressRegionKHR, pMissShaderBindingTable: ptr VkStridedDeviceAddressRegionKHR, pHitShaderBindingTable: ptr VkStridedDeviceAddressRegionKHR, pCallableShaderBindingTable: ptr VkStridedDeviceAddressRegionKHR, indirectDeviceAddress: VkDeviceAddress): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdTraceRaysIndirect2KHR*(commandBuffer: VkCommandBuffer, indirectDeviceAddress: VkDeviceAddress): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDeviceAccelerationStructureCompatibilityKHR*(device: VkDevice, pVersionInfo: ptr VkAccelerationStructureVersionInfoKHR, pCompatibility: ptr VkAccelerationStructureCompatibilityKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetRayTracingShaderGroupStackSizeKHR*(device: VkDevice, pipeline: VkPipeline, group: uint32, groupShader: VkShaderGroupShaderKHR): VkDeviceSize {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetRayTracingPipelineStackSizeKHR*(commandBuffer: VkCommandBuffer, pipelineStackSize: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetImageViewHandleNVX*(device: VkDevice, pInfo: ptr VkImageViewHandleInfoNVX): uint32 {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetImageViewAddressNVX*(device: VkDevice, imageView: VkImageView, pProperties: ptr VkImageViewAddressPropertiesNVX): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceSurfacePresentModes2EXT*(physicalDevice: VkPhysicalDevice, pSurfaceInfo: ptr VkPhysicalDeviceSurfaceInfo2KHR, pPresentModeCount: ptr uint32, pPresentModes: ptr VkPresentModeKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDeviceGroupSurfacePresentModes2EXT*(device: VkDevice, pSurfaceInfo: ptr VkPhysicalDeviceSurfaceInfo2KHR, pModes: ptr VkDeviceGroupPresentModeFlagsKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkAcquireFullScreenExclusiveModeEXT*(device: VkDevice, swapchain: VkSwapchainKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkReleaseFullScreenExclusiveModeEXT*(device: VkDevice, swapchain: VkSwapchainKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR*(physicalDevice: VkPhysicalDevice, queueFamilyIndex: uint32, pCounterCount: ptr uint32, pCounters: ptr VkPerformanceCounterKHR, pCounterDescriptions: ptr VkPerformanceCounterDescriptionKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR*(physicalDevice: VkPhysicalDevice, pPerformanceQueryCreateInfo: ptr VkQueryPoolPerformanceCreateInfoKHR, pNumPasses: ptr uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkAcquireProfilingLockKHR*(device: VkDevice, pInfo: ptr VkAcquireProfilingLockInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkReleaseProfilingLockKHR*(device: VkDevice): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetImageDrmFormatModifierPropertiesEXT*(device: VkDevice, image: VkImage, pProperties: ptr VkImageDrmFormatModifierPropertiesEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetBufferOpaqueCaptureAddress*(device: VkDevice, pInfo: ptr VkBufferDeviceAddressInfo): uint64 {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetBufferDeviceAddress*(device: VkDevice, pInfo: ptr VkBufferDeviceAddressInfo): VkDeviceAddress {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateHeadlessSurfaceEXT*(instance: VkInstance, pCreateInfo: ptr VkHeadlessSurfaceCreateInfoEXT, pAllocator: ptr VkAllocationCallbacks, pSurface: ptr VkSurfaceKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV*(physicalDevice: VkPhysicalDevice, pCombinationCount: ptr uint32, pCombinations: ptr VkFramebufferMixedSamplesCombinationNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkInitializePerformanceApiINTEL*(device: VkDevice, pInitializeInfo: ptr VkInitializePerformanceApiInfoINTEL): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkUninitializePerformanceApiINTEL*(device: VkDevice): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetPerformanceMarkerINTEL*(commandBuffer: VkCommandBuffer, pMarkerInfo: ptr VkPerformanceMarkerInfoINTEL): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetPerformanceStreamMarkerINTEL*(commandBuffer: VkCommandBuffer, pMarkerInfo: ptr VkPerformanceStreamMarkerInfoINTEL): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetPerformanceOverrideINTEL*(commandBuffer: VkCommandBuffer, pOverrideInfo: ptr VkPerformanceOverrideInfoINTEL): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkAcquirePerformanceConfigurationINTEL*(device: VkDevice, pAcquireInfo: ptr VkPerformanceConfigurationAcquireInfoINTEL, pConfiguration: ptr VkPerformanceConfigurationINTEL): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkReleasePerformanceConfigurationINTEL*(device: VkDevice, configuration: VkPerformanceConfigurationINTEL): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkQueueSetPerformanceConfigurationINTEL*(queue: VkQueue, configuration: VkPerformanceConfigurationINTEL): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPerformanceParameterINTEL*(device: VkDevice, parameter: VkPerformanceParameterTypeINTEL, pValue: ptr VkPerformanceValueINTEL): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetDeviceMemoryOpaqueCaptureAddress*(device: VkDevice, pInfo: ptr VkDeviceMemoryOpaqueCaptureAddressInfo): uint64 {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPipelineExecutablePropertiesKHR*(device: VkDevice, pPipelineInfo: ptr VkPipelineInfoKHR, pExecutableCount: ptr uint32, pProperties: ptr VkPipelineExecutablePropertiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPipelineExecutableStatisticsKHR*(device: VkDevice, pExecutableInfo: ptr VkPipelineExecutableInfoKHR, pStatisticCount: ptr uint32, pStatistics: ptr VkPipelineExecutableStatisticKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPipelineExecutableInternalRepresentationsKHR*(device: VkDevice, pExecutableInfo: ptr VkPipelineExecutableInfoKHR, pInternalRepresentationCount: ptr uint32, pInternalRepresentations: ptr VkPipelineExecutableInternalRepresentationKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetLineStippleKHR*(commandBuffer: VkCommandBuffer, lineStippleFactor: uint32, lineStipplePattern: uint16): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetFaultData*(device: VkDevice, faultQueryBehavior: VkFaultQueryBehavior, pUnrecordedFaults: ptr VkBool32, pFaultCount: ptr uint32, pFaults: ptr VkFaultData): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPhysicalDeviceToolProperties*(physicalDevice: VkPhysicalDevice, pToolCount: ptr uint32, pToolProperties: ptr VkPhysicalDeviceToolProperties): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateAccelerationStructureKHR*(device: VkDevice, pCreateInfo: ptr VkAccelerationStructureCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pAccelerationStructure: ptr VkAccelerationStructureKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBuildAccelerationStructuresKHR*(commandBuffer: VkCommandBuffer, infoCount: uint32, pInfos: ptr VkAccelerationStructureBuildGeometryInfoKHR, ppBuildRangeInfos: VkAccelerationStructureBuildRangeInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBuildAccelerationStructuresIndirectKHR*(commandBuffer: VkCommandBuffer, infoCount: uint32, pInfos: ptr VkAccelerationStructureBuildGeometryInfoKHR, pIndirectDeviceAddresses: ptr VkDeviceAddress, pIndirectStrides: ptr uint32, ppMaxPrimitiveCounts: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkBuildAccelerationStructuresKHR*(device: VkDevice, deferredOperation: VkDeferredOperationKHR, infoCount: uint32, pInfos: ptr VkAccelerationStructureBuildGeometryInfoKHR, ppBuildRangeInfos: VkAccelerationStructureBuildRangeInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetAccelerationStructureDeviceAddressKHR*(device: VkDevice, pInfo: ptr VkAccelerationStructureDeviceAddressInfoKHR): VkDeviceAddress {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateDeferredOperationKHR*(device: VkDevice, pAllocator: ptr VkAllocationCallbacks, pDeferredOperation: ptr VkDeferredOperationKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyDeferredOperationKHR*(device: VkDevice, operation: VkDeferredOperationKHR, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDeferredOperationMaxConcurrencyKHR*(device: VkDevice, operation: VkDeferredOperationKHR): uint32 {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDeferredOperationResultKHR*(device: VkDevice, operation: VkDeferredOperationKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDeferredOperationJoinKHR*(device: VkDevice, operation: VkDeferredOperationKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPipelineIndirectMemoryRequirementsNV*(device: VkDevice, pCreateInfo: ptr VkComputePipelineCreateInfo, pMemoryRequirements: ptr VkMemoryRequirements2): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPipelineIndirectDeviceAddressNV*(device: VkDevice, pInfo: ptr VkPipelineIndirectDeviceAddressInfoNV): VkDeviceAddress {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetCullMode*(commandBuffer: VkCommandBuffer, cullMode: VkCullModeFlags): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetFrontFace*(commandBuffer: VkCommandBuffer, frontFace: VkFrontFace): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetPrimitiveTopology*(commandBuffer: VkCommandBuffer, primitiveTopology: VkPrimitiveTopology): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetViewportWithCount*(commandBuffer: VkCommandBuffer, viewportCount: uint32, pViewports: ptr VkViewport): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetScissorWithCount*(commandBuffer: VkCommandBuffer, scissorCount: uint32, pScissors: ptr VkRect2D): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBindIndexBuffer2KHR*(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize, size: VkDeviceSize, indexType: VkIndexType): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdBindVertexBuffers2*(commandBuffer: VkCommandBuffer, firstBinding: uint32, bindingCount: uint32, pBuffers: ptr VkBuffer, pOffsets: ptr VkDeviceSize, pSizes: ptr VkDeviceSize, pStrides: ptr VkDeviceSize): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetDepthTestEnable*(commandBuffer: VkCommandBuffer, depthTestEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetDepthWriteEnable*(commandBuffer: VkCommandBuffer, depthWriteEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
@@ -449,42 +204,9 @@ proc vkCmdSetDepthCompareOp*(commandBuffer: VkCommandBuffer, depthCompareOp: VkC
 proc vkCmdSetDepthBoundsTestEnable*(commandBuffer: VkCommandBuffer, depthBoundsTestEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetStencilTestEnable*(commandBuffer: VkCommandBuffer, stencilTestEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetStencilOp*(commandBuffer: VkCommandBuffer, faceMask: VkStencilFaceFlags, failOp: VkStencilOp, passOp: VkStencilOp, depthFailOp: VkStencilOp, compareOp: VkCompareOp): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetPatchControlPointsEXT*(commandBuffer: VkCommandBuffer, patchControlPoints: uint32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetRasterizerDiscardEnable*(commandBuffer: VkCommandBuffer, rasterizerDiscardEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetDepthBiasEnable*(commandBuffer: VkCommandBuffer, depthBiasEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetLogicOpEXT*(commandBuffer: VkCommandBuffer, logicOp: VkLogicOp): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetPrimitiveRestartEnable*(commandBuffer: VkCommandBuffer, primitiveRestartEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetTessellationDomainOriginEXT*(commandBuffer: VkCommandBuffer, domainOrigin: VkTessellationDomainOrigin): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetDepthClampEnableEXT*(commandBuffer: VkCommandBuffer, depthClampEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetPolygonModeEXT*(commandBuffer: VkCommandBuffer, polygonMode: VkPolygonMode): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetRasterizationSamplesEXT*(commandBuffer: VkCommandBuffer, rasterizationSamples: VkSampleCountFlagBits): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetSampleMaskEXT*(commandBuffer: VkCommandBuffer, samples: VkSampleCountFlagBits, pSampleMask: ptr VkSampleMask): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetAlphaToCoverageEnableEXT*(commandBuffer: VkCommandBuffer, alphaToCoverageEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetAlphaToOneEnableEXT*(commandBuffer: VkCommandBuffer, alphaToOneEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetLogicOpEnableEXT*(commandBuffer: VkCommandBuffer, logicOpEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetColorBlendEnableEXT*(commandBuffer: VkCommandBuffer, firstAttachment: uint32, attachmentCount: uint32, pColorBlendEnables: ptr VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetColorBlendEquationEXT*(commandBuffer: VkCommandBuffer, firstAttachment: uint32, attachmentCount: uint32, pColorBlendEquations: ptr VkColorBlendEquationEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetColorWriteMaskEXT*(commandBuffer: VkCommandBuffer, firstAttachment: uint32, attachmentCount: uint32, pColorWriteMasks: ptr VkColorComponentFlags): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetRasterizationStreamEXT*(commandBuffer: VkCommandBuffer, rasterizationStream: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetConservativeRasterizationModeEXT*(commandBuffer: VkCommandBuffer, conservativeRasterizationMode: VkConservativeRasterizationModeEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetExtraPrimitiveOverestimationSizeEXT*(commandBuffer: VkCommandBuffer, extraPrimitiveOverestimationSize: float32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetDepthClipEnableEXT*(commandBuffer: VkCommandBuffer, depthClipEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetSampleLocationsEnableEXT*(commandBuffer: VkCommandBuffer, sampleLocationsEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetColorBlendAdvancedEXT*(commandBuffer: VkCommandBuffer, firstAttachment: uint32, attachmentCount: uint32, pColorBlendAdvanced: ptr VkColorBlendAdvancedEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetProvokingVertexModeEXT*(commandBuffer: VkCommandBuffer, provokingVertexMode: VkProvokingVertexModeEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetLineRasterizationModeEXT*(commandBuffer: VkCommandBuffer, lineRasterizationMode: VkLineRasterizationModeEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetLineStippleEnableEXT*(commandBuffer: VkCommandBuffer, stippledLineEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetDepthClipNegativeOneToOneEXT*(commandBuffer: VkCommandBuffer, negativeOneToOne: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetViewportWScalingEnableNV*(commandBuffer: VkCommandBuffer, viewportWScalingEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetViewportSwizzleNV*(commandBuffer: VkCommandBuffer, firstViewport: uint32, viewportCount: uint32, pViewportSwizzles: ptr VkViewportSwizzleNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetCoverageToColorEnableNV*(commandBuffer: VkCommandBuffer, coverageToColorEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetCoverageToColorLocationNV*(commandBuffer: VkCommandBuffer, coverageToColorLocation: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetCoverageModulationModeNV*(commandBuffer: VkCommandBuffer, coverageModulationMode: VkCoverageModulationModeNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetCoverageModulationTableEnableNV*(commandBuffer: VkCommandBuffer, coverageModulationTableEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetCoverageModulationTableNV*(commandBuffer: VkCommandBuffer, coverageModulationTableCount: uint32, pCoverageModulationTable: ptr float32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetShadingRateImageEnableNV*(commandBuffer: VkCommandBuffer, shadingRateImageEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetCoverageReductionModeNV*(commandBuffer: VkCommandBuffer, coverageReductionMode: VkCoverageReductionModeNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetRepresentativeFragmentTestEnableNV*(commandBuffer: VkCommandBuffer, representativeFragmentTestEnable: VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreatePrivateDataSlot*(device: VkDevice, pCreateInfo: ptr VkPrivateDataSlotCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPrivateDataSlot: ptr VkPrivateDataSlot): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkDestroyPrivateDataSlot*(device: VkDevice, privateDataSlot: VkPrivateDataSlot, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkSetPrivateData*(device: VkDevice, objectType: VkObjectType, objectHandle: uint64, privateDataSlot: VkPrivateDataSlot, data: uint64): VkResult {.cdecl, importc, dynlib: vkDLL.}
@@ -495,136 +217,13 @@ proc vkCmdBlitImage2*(commandBuffer: VkCommandBuffer, pBlitImageInfo: ptr VkBlit
 proc vkCmdCopyBufferToImage2*(commandBuffer: VkCommandBuffer, pCopyBufferToImageInfo: ptr VkCopyBufferToImageInfo2): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdCopyImageToBuffer2*(commandBuffer: VkCommandBuffer, pCopyImageToBufferInfo: ptr VkCopyImageToBufferInfo2): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdResolveImage2*(commandBuffer: VkCommandBuffer, pResolveImageInfo: ptr VkResolveImageInfo2): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdRefreshObjectsKHR*(commandBuffer: VkCommandBuffer, pRefreshObjects: ptr VkRefreshObjectListKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceRefreshableObjectTypesKHR*(physicalDevice: VkPhysicalDevice, pRefreshableObjectTypeCount: ptr uint32, pRefreshableObjectTypes: ptr VkObjectType): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetFragmentShadingRateKHR*(commandBuffer: VkCommandBuffer, pFragmentSize: ptr VkExtent2D, combinerOps: VkFragmentShadingRateCombinerOpKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceFragmentShadingRatesKHR*(physicalDevice: VkPhysicalDevice, pFragmentShadingRateCount: ptr uint32, pFragmentShadingRates: ptr VkPhysicalDeviceFragmentShadingRateKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetFragmentShadingRateEnumNV*(commandBuffer: VkCommandBuffer, shadingRate: VkFragmentShadingRateNV, combinerOps: VkFragmentShadingRateCombinerOpKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetAccelerationStructureBuildSizesKHR*(device: VkDevice, buildType: VkAccelerationStructureBuildTypeKHR, pBuildInfo: ptr VkAccelerationStructureBuildGeometryInfoKHR, pMaxPrimitiveCounts: ptr uint32, pSizeInfo: ptr VkAccelerationStructureBuildSizesInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetVertexInputEXT*(commandBuffer: VkCommandBuffer, vertexBindingDescriptionCount: uint32, pVertexBindingDescriptions: ptr VkVertexInputBindingDescription2EXT, vertexAttributeDescriptionCount: uint32, pVertexAttributeDescriptions: ptr VkVertexInputAttributeDescription2EXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetColorWriteEnableEXT*(commandBuffer: VkCommandBuffer, attachmentCount: uint32, pColorWriteEnables: ptr VkBool32): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetEvent2*(commandBuffer: VkCommandBuffer, event: VkEvent, pDependencyInfo: ptr VkDependencyInfo): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdResetEvent2*(commandBuffer: VkCommandBuffer, event: VkEvent, stageMask: VkPipelineStageFlags2): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdWaitEvents2*(commandBuffer: VkCommandBuffer, eventCount: uint32, pEvents: ptr VkEvent, pDependencyInfos: ptr VkDependencyInfo): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdPipelineBarrier2*(commandBuffer: VkCommandBuffer, pDependencyInfo: ptr VkDependencyInfo): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkQueueSubmit2*(queue: VkQueue, submitCount: uint32, pSubmits: ptr VkSubmitInfo2, fence: VkFence): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdWriteTimestamp2*(commandBuffer: VkCommandBuffer, stage: VkPipelineStageFlags2, queryPool: VkQueryPool, query: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdWriteBufferMarker2AMD*(commandBuffer: VkCommandBuffer, stage: VkPipelineStageFlags2, dstBuffer: VkBuffer, dstOffset: VkDeviceSize, marker: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetQueueCheckpointData2NV*(queue: VkQueue, pCheckpointDataCount: ptr uint32, pCheckpointData: ptr VkCheckpointData2NV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCopyMemoryToImageEXT*(device: VkDevice, pCopyMemoryToImageInfo: ptr VkCopyMemoryToImageInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCopyImageToMemoryEXT*(device: VkDevice, pCopyImageToMemoryInfo: ptr VkCopyImageToMemoryInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCopyImageToImageEXT*(device: VkDevice, pCopyImageToImageInfo: ptr VkCopyImageToImageInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkTransitionImageLayoutEXT*(device: VkDevice, transitionCount: uint32, pTransitions: ptr VkHostImageLayoutTransitionInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetCommandPoolMemoryConsumption*(device: VkDevice, commandPool: VkCommandPool, commandBuffer: VkCommandBuffer, pConsumption: ptr VkCommandPoolMemoryConsumption): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceVideoCapabilitiesKHR*(physicalDevice: VkPhysicalDevice, pVideoProfile: ptr VkVideoProfileInfoKHR, pCapabilities: ptr VkVideoCapabilitiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceVideoFormatPropertiesKHR*(physicalDevice: VkPhysicalDevice, pVideoFormatInfo: ptr VkPhysicalDeviceVideoFormatInfoKHR, pVideoFormatPropertyCount: ptr uint32, pVideoFormatProperties: ptr VkVideoFormatPropertiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR*(physicalDevice: VkPhysicalDevice, pQualityLevelInfo: ptr VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR, pQualityLevelProperties: ptr VkVideoEncodeQualityLevelPropertiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateVideoSessionKHR*(device: VkDevice, pCreateInfo: ptr VkVideoSessionCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pVideoSession: ptr VkVideoSessionKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyVideoSessionKHR*(device: VkDevice, videoSession: VkVideoSessionKHR, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateVideoSessionParametersKHR*(device: VkDevice, pCreateInfo: ptr VkVideoSessionParametersCreateInfoKHR, pAllocator: ptr VkAllocationCallbacks, pVideoSessionParameters: ptr VkVideoSessionParametersKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkUpdateVideoSessionParametersKHR*(device: VkDevice, videoSessionParameters: VkVideoSessionParametersKHR, pUpdateInfo: ptr VkVideoSessionParametersUpdateInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetEncodedVideoSessionParametersKHR*(device: VkDevice, pVideoSessionParametersInfo: ptr VkVideoEncodeSessionParametersGetInfoKHR, pFeedbackInfo: ptr VkVideoEncodeSessionParametersFeedbackInfoKHR, pDataSize: ptr csize_t, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyVideoSessionParametersKHR*(device: VkDevice, videoSessionParameters: VkVideoSessionParametersKHR, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetVideoSessionMemoryRequirementsKHR*(device: VkDevice, videoSession: VkVideoSessionKHR, pMemoryRequirementsCount: ptr uint32, pMemoryRequirements: ptr VkVideoSessionMemoryRequirementsKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkBindVideoSessionMemoryKHR*(device: VkDevice, videoSession: VkVideoSessionKHR, bindSessionMemoryInfoCount: uint32, pBindSessionMemoryInfos: ptr VkBindVideoSessionMemoryInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDecodeVideoKHR*(commandBuffer: VkCommandBuffer, pDecodeInfo: ptr VkVideoDecodeInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBeginVideoCodingKHR*(commandBuffer: VkCommandBuffer, pBeginInfo: ptr VkVideoBeginCodingInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdControlVideoCodingKHR*(commandBuffer: VkCommandBuffer, pCodingControlInfo: ptr VkVideoCodingControlInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdEndVideoCodingKHR*(commandBuffer: VkCommandBuffer, pEndCodingInfo: ptr VkVideoEndCodingInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdEncodeVideoKHR*(commandBuffer: VkCommandBuffer, pEncodeInfo: ptr VkVideoEncodeInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDecompressMemoryNV*(commandBuffer: VkCommandBuffer, decompressRegionCount: uint32, pDecompressMemoryRegions: ptr VkDecompressMemoryRegionNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDecompressMemoryIndirectCountNV*(commandBuffer: VkCommandBuffer, indirectCommandsAddress: VkDeviceAddress, indirectCommandsCountAddress: VkDeviceAddress, stride: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateCuModuleNVX*(device: VkDevice, pCreateInfo: ptr VkCuModuleCreateInfoNVX, pAllocator: ptr VkAllocationCallbacks, pModule: ptr VkCuModuleNVX): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateCuFunctionNVX*(device: VkDevice, pCreateInfo: ptr VkCuFunctionCreateInfoNVX, pAllocator: ptr VkAllocationCallbacks, pFunction: ptr VkCuFunctionNVX): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyCuModuleNVX*(device: VkDevice, module: VkCuModuleNVX, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyCuFunctionNVX*(device: VkDevice, function: VkCuFunctionNVX, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdCuLaunchKernelNVX*(commandBuffer: VkCommandBuffer, pLaunchInfo: ptr VkCuLaunchInfoNVX): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDescriptorSetLayoutSizeEXT*(device: VkDevice, layout: VkDescriptorSetLayout, pLayoutSizeInBytes: ptr VkDeviceSize): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDescriptorSetLayoutBindingOffsetEXT*(device: VkDevice, layout: VkDescriptorSetLayout, binding: uint32, pOffset: ptr VkDeviceSize): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDescriptorEXT*(device: VkDevice, pDescriptorInfo: ptr VkDescriptorGetInfoEXT, dataSize: csize_t, pDescriptor: ptr void): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBindDescriptorBuffersEXT*(commandBuffer: VkCommandBuffer, bufferCount: uint32, pBindingInfos: ptr VkDescriptorBufferBindingInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetDescriptorBufferOffsetsEXT*(commandBuffer: VkCommandBuffer, pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, firstSet: uint32, setCount: uint32, pBufferIndices: ptr uint32, pOffsets: ptr VkDeviceSize): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBindDescriptorBufferEmbeddedSamplersEXT*(commandBuffer: VkCommandBuffer, pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, set: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetBufferOpaqueCaptureDescriptorDataEXT*(device: VkDevice, pInfo: ptr VkBufferCaptureDescriptorDataInfoEXT, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetImageOpaqueCaptureDescriptorDataEXT*(device: VkDevice, pInfo: ptr VkImageCaptureDescriptorDataInfoEXT, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetImageViewOpaqueCaptureDescriptorDataEXT*(device: VkDevice, pInfo: ptr VkImageViewCaptureDescriptorDataInfoEXT, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetSamplerOpaqueCaptureDescriptorDataEXT*(device: VkDevice, pInfo: ptr VkSamplerCaptureDescriptorDataInfoEXT, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetAccelerationStructureOpaqueCaptureDescriptorDataEXT*(device: VkDevice, pInfo: ptr VkAccelerationStructureCaptureDescriptorDataInfoEXT, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkSetDeviceMemoryPriorityEXT*(device: VkDevice, memory: VkDeviceMemory, priority: float32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkAcquireDrmDisplayEXT*(physicalDevice: VkPhysicalDevice, drmFd: int32, display: VkDisplayKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDrmDisplayEXT*(physicalDevice: VkPhysicalDevice, drmFd: int32, connectorId: uint32, display: ptr VkDisplayKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkWaitForPresentKHR*(device: VkDevice, swapchain: VkSwapchainKHR, presentId: uint64, timeout: uint64): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateBufferCollectionFUCHSIA*(device: VkDevice, pCreateInfo: ptr VkBufferCollectionCreateInfoFUCHSIA, pAllocator: ptr VkAllocationCallbacks, pCollection: ptr VkBufferCollectionFUCHSIA): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkSetBufferCollectionBufferConstraintsFUCHSIA*(device: VkDevice, collection: VkBufferCollectionFUCHSIA, pBufferConstraintsInfo: ptr VkBufferConstraintsInfoFUCHSIA): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkSetBufferCollectionImageConstraintsFUCHSIA*(device: VkDevice, collection: VkBufferCollectionFUCHSIA, pImageConstraintsInfo: ptr VkImageConstraintsInfoFUCHSIA): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyBufferCollectionFUCHSIA*(device: VkDevice, collection: VkBufferCollectionFUCHSIA, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetBufferCollectionPropertiesFUCHSIA*(device: VkDevice, collection: VkBufferCollectionFUCHSIA, pProperties: ptr VkBufferCollectionPropertiesFUCHSIA): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateCudaModuleNV*(device: VkDevice, pCreateInfo: ptr VkCudaModuleCreateInfoNV, pAllocator: ptr VkAllocationCallbacks, pModule: ptr VkCudaModuleNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetCudaModuleCacheNV*(device: VkDevice, module: VkCudaModuleNV, pCacheSize: ptr csize_t, pCacheData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateCudaFunctionNV*(device: VkDevice, pCreateInfo: ptr VkCudaFunctionCreateInfoNV, pAllocator: ptr VkAllocationCallbacks, pFunction: ptr VkCudaFunctionNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyCudaModuleNV*(device: VkDevice, module: VkCudaModuleNV, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyCudaFunctionNV*(device: VkDevice, function: VkCudaFunctionNV, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdCudaLaunchKernelNV*(commandBuffer: VkCommandBuffer, pLaunchInfo: ptr VkCudaLaunchInfoNV): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdBeginRendering*(commandBuffer: VkCommandBuffer, pRenderingInfo: ptr VkRenderingInfo): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdEndRendering*(commandBuffer: VkCommandBuffer): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDescriptorSetLayoutHostMappingInfoVALVE*(device: VkDevice, pBindingReference: ptr VkDescriptorSetBindingReferenceVALVE, pHostMapping: ptr VkDescriptorSetLayoutHostMappingInfoVALVE): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDescriptorSetHostMappingVALVE*(device: VkDevice, descriptorSet: VkDescriptorSet, ppData: ptr ptr void): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateMicromapEXT*(device: VkDevice, pCreateInfo: ptr VkMicromapCreateInfoEXT, pAllocator: ptr VkAllocationCallbacks, pMicromap: ptr VkMicromapEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBuildMicromapsEXT*(commandBuffer: VkCommandBuffer, infoCount: uint32, pInfos: ptr VkMicromapBuildInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkBuildMicromapsEXT*(device: VkDevice, deferredOperation: VkDeferredOperationKHR, infoCount: uint32, pInfos: ptr VkMicromapBuildInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyMicromapEXT*(device: VkDevice, micromap: VkMicromapEXT, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdCopyMicromapEXT*(commandBuffer: VkCommandBuffer, pInfo: ptr VkCopyMicromapInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCopyMicromapEXT*(device: VkDevice, deferredOperation: VkDeferredOperationKHR, pInfo: ptr VkCopyMicromapInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdCopyMicromapToMemoryEXT*(commandBuffer: VkCommandBuffer, pInfo: ptr VkCopyMicromapToMemoryInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCopyMicromapToMemoryEXT*(device: VkDevice, deferredOperation: VkDeferredOperationKHR, pInfo: ptr VkCopyMicromapToMemoryInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdCopyMemoryToMicromapEXT*(commandBuffer: VkCommandBuffer, pInfo: ptr VkCopyMemoryToMicromapInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCopyMemoryToMicromapEXT*(device: VkDevice, deferredOperation: VkDeferredOperationKHR, pInfo: ptr VkCopyMemoryToMicromapInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdWriteMicromapsPropertiesEXT*(commandBuffer: VkCommandBuffer, micromapCount: uint32, pMicromaps: ptr VkMicromapEXT, queryType: VkQueryType, queryPool: VkQueryPool, firstQuery: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkWriteMicromapsPropertiesEXT*(device: VkDevice, micromapCount: uint32, pMicromaps: ptr VkMicromapEXT, queryType: VkQueryType, dataSize: csize_t, pData: ptr void, stride: csize_t): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDeviceMicromapCompatibilityEXT*(device: VkDevice, pVersionInfo: ptr VkMicromapVersionInfoEXT, pCompatibility: ptr VkAccelerationStructureCompatibilityKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetMicromapBuildSizesEXT*(device: VkDevice, buildType: VkAccelerationStructureBuildTypeKHR, pBuildInfo: ptr VkMicromapBuildInfoEXT, pSizeInfo: ptr VkMicromapBuildSizesInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetShaderModuleIdentifierEXT*(device: VkDevice, shaderModule: VkShaderModule, pIdentifier: ptr VkShaderModuleIdentifierEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetShaderModuleCreateInfoIdentifierEXT*(device: VkDevice, pCreateInfo: ptr VkShaderModuleCreateInfo, pIdentifier: ptr VkShaderModuleIdentifierEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetImageSubresourceLayout2KHR*(device: VkDevice, image: VkImage, pSubresource: ptr VkImageSubresource2KHR, pLayout: ptr VkSubresourceLayout2KHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPipelinePropertiesEXT*(device: VkDevice, pPipelineInfo: ptr VkPipelineInfoEXT, pPipelineProperties: ptr VkBaseOutStructure): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkExportMetalObjectsEXT*(device: VkDevice, pMetalObjectsInfo: ptr VkExportMetalObjectsInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetFramebufferTilePropertiesQCOM*(device: VkDevice, framebuffer: VkFramebuffer, pPropertiesCount: ptr uint32, pProperties: ptr VkTilePropertiesQCOM): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDynamicRenderingTilePropertiesQCOM*(device: VkDevice, pRenderingInfo: ptr VkRenderingInfo, pProperties: ptr VkTilePropertiesQCOM): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceOpticalFlowImageFormatsNV*(physicalDevice: VkPhysicalDevice, pOpticalFlowImageFormatInfo: ptr VkOpticalFlowImageFormatInfoNV, pFormatCount: ptr uint32, pImageFormatProperties: ptr VkOpticalFlowImageFormatPropertiesNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateOpticalFlowSessionNV*(device: VkDevice, pCreateInfo: ptr VkOpticalFlowSessionCreateInfoNV, pAllocator: ptr VkAllocationCallbacks, pSession: ptr VkOpticalFlowSessionNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyOpticalFlowSessionNV*(device: VkDevice, session: VkOpticalFlowSessionNV, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkBindOpticalFlowSessionImageNV*(device: VkDevice, session: VkOpticalFlowSessionNV, bindingPoint: VkOpticalFlowSessionBindingPointNV, view: VkImageView, layout: VkImageLayout): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdOpticalFlowExecuteNV*(commandBuffer: VkCommandBuffer, session: VkOpticalFlowSessionNV, pExecuteInfo: ptr VkOpticalFlowExecuteInfoNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDeviceFaultInfoEXT*(device: VkDevice, pFaultCounts: ptr VkDeviceFaultCountsEXT, pFaultInfo: ptr VkDeviceFaultInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetDepthBias2EXT*(commandBuffer: VkCommandBuffer, pDepthBiasInfo: ptr VkDepthBiasInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkReleaseSwapchainImagesEXT*(device: VkDevice, pReleaseInfo: ptr VkReleaseSwapchainImagesInfoEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetDeviceImageSubresourceLayoutKHR*(device: VkDevice, pInfo: ptr VkDeviceImageSubresourceInfoKHR, pLayout: ptr VkSubresourceLayout2KHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkMapMemory2KHR*(device: VkDevice, pMemoryMapInfo: ptr VkMemoryMapInfoKHR, ppData: ptr ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkUnmapMemory2KHR*(device: VkDevice, pMemoryUnmapInfo: ptr VkMemoryUnmapInfoKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateShadersEXT*(device: VkDevice, createInfoCount: uint32, pCreateInfos: ptr VkShaderCreateInfoEXT, pAllocator: ptr VkAllocationCallbacks, pShaders: ptr VkShaderEXT): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkDestroyShaderEXT*(device: VkDevice, shader: VkShaderEXT, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetShaderBinaryDataEXT*(device: VkDevice, shader: VkShaderEXT, pDataSize: ptr csize_t, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBindShadersEXT*(commandBuffer: VkCommandBuffer, stageCount: uint32, pStages: ptr VkShaderStageFlagBits, pShaders: ptr VkShaderEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetScreenBufferPropertiesQNX*(device: VkDevice, buffer: ptr _screen_buffer, pProperties: ptr VkScreenBufferPropertiesQNX): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR*(physicalDevice: VkPhysicalDevice, pPropertyCount: ptr uint32, pProperties: ptr VkCooperativeMatrixPropertiesKHR): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetExecutionGraphPipelineScratchSizeAMDX*(device: VkDevice, executionGraph: VkPipeline, pSizeInfo: ptr VkExecutionGraphPipelineScratchSizeAMDX): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetExecutionGraphPipelineNodeIndexAMDX*(device: VkDevice, executionGraph: VkPipeline, pNodeInfo: ptr VkPipelineShaderStageNodeCreateInfoAMDX, pNodeIndex: ptr uint32): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateExecutionGraphPipelinesAMDX*(device: VkDevice, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkExecutionGraphPipelineCreateInfoAMDX, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdInitializeGraphScratchMemoryAMDX*(commandBuffer: VkCommandBuffer, scratch: VkDeviceAddress): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDispatchGraphAMDX*(commandBuffer: VkCommandBuffer, scratch: VkDeviceAddress, pCountInfo: ptr VkDispatchGraphCountInfoAMDX): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDispatchGraphIndirectAMDX*(commandBuffer: VkCommandBuffer, scratch: VkDeviceAddress, pCountInfo: ptr VkDispatchGraphCountInfoAMDX): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdDispatchGraphIndirectCountAMDX*(commandBuffer: VkCommandBuffer, scratch: VkDeviceAddress, countInfo: VkDeviceAddress): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBindDescriptorSets2KHR*(commandBuffer: VkCommandBuffer, pBindDescriptorSetsInfo: ptr VkBindDescriptorSetsInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdPushConstants2KHR*(commandBuffer: VkCommandBuffer, pPushConstantsInfo: ptr VkPushConstantsInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdPushDescriptorSet2KHR*(commandBuffer: VkCommandBuffer, pPushDescriptorSetInfo: ptr VkPushDescriptorSetInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdPushDescriptorSetWithTemplate2KHR*(commandBuffer: VkCommandBuffer, pPushDescriptorSetWithTemplateInfo: ptr VkPushDescriptorSetWithTemplateInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetDescriptorBufferOffsets2EXT*(commandBuffer: VkCommandBuffer, pSetDescriptorBufferOffsetsInfo: ptr VkSetDescriptorBufferOffsetsInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdBindDescriptorBufferEmbeddedSamplers2EXT*(commandBuffer: VkCommandBuffer, pBindDescriptorBufferEmbeddedSamplersInfo: ptr VkBindDescriptorBufferEmbeddedSamplersInfoEXT): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkSetLatencySleepModeNV*(device: VkDevice, swapchain: VkSwapchainKHR, pSleepModeInfo: ptr VkLatencySleepModeInfoNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkLatencySleepNV*(device: VkDevice, swapchain: VkSwapchainKHR, pSleepInfo: ptr VkLatencySleepInfoNV): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkSetLatencyMarkerNV*(device: VkDevice, swapchain: VkSwapchainKHR, pLatencyMarkerInfo: ptr VkSetLatencyMarkerInfoNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetLatencyTimingsNV*(device: VkDevice, swapchain: VkSwapchainKHR, pLatencyMarkerInfo: ptr VkGetLatencyMarkerInfoNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkQueueNotifyOutOfBandNV*(queue: VkQueue, pQueueTypeInfo: ptr VkOutOfBandQueueTypeInfoNV): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetRenderingAttachmentLocationsKHR*(commandBuffer: VkCommandBuffer, pLocationInfo: ptr VkRenderingAttachmentLocationInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkCmdSetRenderingInputAttachmentIndicesKHR*(commandBuffer: VkCommandBuffer, pLocationInfo: ptr VkRenderingInputAttachmentIndexInfoKHR): void {.cdecl, importc, dynlib: vkDLL.}
 

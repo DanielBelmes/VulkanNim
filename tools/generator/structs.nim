@@ -48,8 +48,7 @@ proc generateStructs *(gen :Generator) :void=
   let structMap = gen.registry.structs
   let types = gen.registry.types
   for name in structMap.keys():
-    if isStructFromExtension(gen.registry.extensions, name):
-      continue
+    if isStructFromExtension(gen.registry.extensions, name): continue
     structs &= generateStruct(toNimSafeIdentifier(name), structMap[name], types)
     structs &= '\n'
   writeFile(outputDir,fmt genTemplate)
