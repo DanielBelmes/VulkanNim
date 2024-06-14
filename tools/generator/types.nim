@@ -10,8 +10,14 @@ Types
 =====================================
 ]#
 
+# defines
 {defines}
+
+# Base types
 {baseTypes}
+
+# Bitmasks
+{bitmasks}
 """
 
 proc genDefines(name: string) : string =
@@ -113,17 +119,26 @@ const VK_NULL_HANDLE* = 0
 proc genBaseTypes(name:string, baseType: BaseTypeData): string =
   if baseType.typeinfo.type != "":
     let `type` = c2NimType(baseType.typeinfo.type)
-    return fmt"type {name}* = distinct {`type`}" & "\n"
+    result = fmt"type {name}* = distinct {`type`}" & "\n"
   echo fmt"@TODO Couldn't convert `{name}` into nim equivelent"
-  return ""
+  result = ""
+
+proc genBitmaskTypes(name:string, bitmask: BitmaskData): string =
+  return fmt"type {name}* = distinct {bitmask.typ}" & "\n"
+
+proc genBitmaskAliasTypes(name:string, aliasData: AliasData): string =
+  return fmt"type {name}* = {aliasData.name}" & "\n"
 
 proc generateTypes *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_types.nim"
-  var defines :string = ""
-  var baseTypes:string = ""
+  var defines, baseTypes, bitmasks :string = ""
   for `type` in gen.registry.types.keys():
     case gen.registry.types[`type`].category
-      of TypeCategory.Bitmask: continue
+      of TypeCategory.Bitmask:
+        if(gen.registry.bitmaskAliases.contains(`type`)):
+          bitmasks &= genBitmaskAliasTypes(`type`, gen.registry.bitmaskAliases[`type`])
+        else:
+          bitmasks &= genBitmaskTypes(`type`, gen.registry.bitmasks[`type`])
       of TypeCategory.BaseType: baseTypes &= genBaseTypes(`type`,gen.registry.baseTypes[`type`])
       of TypeCategory.Constant: continue
       of TypeCategory.Define: defines &= genDefines(`type`)
