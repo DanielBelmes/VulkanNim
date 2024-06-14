@@ -55,27 +55,17 @@ The full IR is complete, and work on the final Codegen can be properly started.
 ```md
 - [x] Commands / procs
 - [ ] Types
-  - [ ] Bitmasks
-  - [ ] BaseTypes
+  - [x] Bitmasks
+      - [ ] Rename symbols to our Styling  (depends on VendorTags)
+  - [x] BaseTypes
   - [x] Constants
-  - [ ] Defines
-  - [ ] Enums
-    - [ ] Constants
-    - [ ] Rename symbols to our Styling  (depends on VendorTags)
-    - [x] Generate the code
-  - [ ] Constant Aliases
-    - [ ] Rename symbols to our Styling  (depends on VendorTags)
-    - [x] Generate the code
+  - [x] Defines
   - [ ] Enums
     - [ ] Rename symbols to our Styling  (depends on VendorTags)
     - [ ] Cut down Enum prefixes
     - [ ] Make them {.pure.}  (depends on prefix removal)
     - [ ] Generate the code
   - [ ] Enum Aliases
-    - [ ] Rename symbols to our Styling  (depends on VendorTags)
-  - [ ] Bitmasks
-    - [ ] Rename symbols to our Styling  (depends on VendorTags)
-  - [ ] BitmaskAliases
     - [ ] Rename symbols to our Styling  (depends on VendorTags)
   - [ ] ExternalTypes (Tough)
   - [ ] FuncPointers
