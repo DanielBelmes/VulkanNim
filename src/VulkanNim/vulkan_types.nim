@@ -35,3 +35,11 @@ const VK_HEADER_VERSION* = 281
 const VK_HEADER_VERSION_COMPLETE* = vkMakeApiVersion(0, 1, 3, VK_HEADER_VERSION)
 const VK_NULL_HANDLE* = 0
 
+type VkSampleMask* = distinct uint32
+type VkBool32* = distinct uint32
+type VkFlags* = distinct uint32
+type VkFlags64* = distinct uint64
+type VkDeviceSize* = distinct uint64
+type VkDeviceAddress* = distinct uint64
+type VkRemoteAddressNV* = distinct void
+
