@@ -1,5 +1,6 @@
 # std dependencies
 import std/strformat
+import std/bitops
 # Generator dependencies
 import ./base
 
@@ -29,6 +30,8 @@ const EnumTitleTempl   = "type {name} * = enum\n"
 #const EnumFieldTempl    = "  {field.symbolToNim} = {val}{cmt}\n"
 const EnumFieldTempl   = "  {field} = {val}{cmt}\n"
 const EnumFieldCmtTempl = "  ## {gen.registry.enums[name].values[field].comment}"  # without \n, its added by EnumFieldTempl
+const EnumAliasHeader  = "## API Enum Aliases\n"
+const EnumAliasTempl  = "const {alias.name} *{dep}= {name}\n"
 const EnumHeader        = "## Value Enums\n"
 const EnumGenTempl      = """
 {VulkanNimHeader}
@@ -36,6 +39,10 @@ import std/sets
 
 {enums}
 """
+const BitmaskHeader        = "## Value Bitmasks\n"
+const BitMaskFieldTempl   = "  {field} = {val:#X}{cmt}\n"
+const BitmaskFieldCmtTempl = "  ## {gen.registry.bitmasks[name].values[field].comment}"  # without \n, its added by EnumFieldTempl
+const BitmaskAliasHeader  = "## API Bitmask Aliases\n"
 #_____________________________
 # Templates: Bitmasks
 
@@ -54,7 +61,7 @@ func enumCmp *(A,B :(string, EnumValueData)) :int=
 
 
 #_______________________________________
-proc generateEnums *(gen: Generator) :void=
+proc generateEnums *(gen: Generator) :void= # TODO need to exclude extensions
   # Configuration
   let outputDir = fmt"./src/VulkanNim/{gen.api}_enums.nim"
   var enums :string  # Output string
@@ -77,6 +84,46 @@ proc generateEnums *(gen: Generator) :void=
 
   #_____________________________
   # Codegen EnumAliases
+  enums.add EnumAliasHeader
+  for name in gen.registry.enumAliases.keys():
+      let alias = gen.registry.enumAliases[name]
+      let dep   = alias.getDeprecated(name)
+      enums.add(fmt EnumAliasTempl)
+
+  #_____________________________
+  # Bitmask Enum
+  enums.add BitmaskHeader
+  for name in gen.registry.bitmasks.keys():
+    var tmp :string
+    tmp.add(fmt EnumTitleTempl )
+    var ordered = gen.registry.bitmasks[name].values
+    if(ordered.len == 0): continue
+    for field in ordered.keys():
+      if field == "": continue
+      let cmt = if gen.registry.bitmasks[name].values[field].comment == "": "" else: fmt BitmaskFieldCmtTempl
+      if(not gen.registry.bitmasks[name].values[field].isValue):
+        let bitpos = parseInt(gen.registry.bitmasks[name].values[field].bitpos)
+        if gen.registry.bitmasks[name].bitwidth != "64":
+          var val = 0b0'u32
+          val.setbit(bitpos)
+          tmp.add(fmt BitMaskFieldTempl )
+        else:
+          var val = 0b0'u64
+          val.setbit(bitpos)
+          tmp.add(fmt BitMaskFieldTempl )
+      else:
+        let val = gen.registry.bitmasks[name].values[field].value
+        tmp.add(fmt EnumFieldTempl )
+    enums.add &"{tmp}\n"
+
+  #_____________________________
+  # Codegen EnumAliases
+  enums.add BitmaskAliasHeader
+  for name in gen.registry.bitmaskAliases.keys():
+      let alias = gen.registry.bitmaskAliases[name]
+      let dep   = alias.getDeprecated(name)
+      enums.add(fmt EnumAliasTempl)
+
 
 
   #_____________________________
