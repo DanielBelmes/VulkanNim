@@ -31,7 +31,7 @@ const EnumTitleTempl   = "type {name} * = enum\n"
 const EnumFieldTempl   = "  {field} = {val}{cmt}\n"
 const EnumFieldCmtTempl = "  ## {gen.registry.enums[name].values[field].comment}"  # without \n, its added by EnumFieldTempl
 const EnumAliasHeader  = "## API Enum Aliases\n"
-const EnumAliasTempl  = "const {alias.name} *{dep}= {name}\n"
+const EnumAliasTempl  = "const {alias.name}* {dep}= {name}\n"
 const EnumHeader        = "## Value Enums\n"
 const EnumGenTempl      = """
 {VulkanNimHeader}
