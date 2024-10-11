@@ -130,7 +130,7 @@ type CommandData * = object
   name           *:string
   errorCodes     *:seq[string]
   successCodes   *:seq[string]
-  api            *:seq[string]
+  api            *:string
   queues         *:seq[string]
   alias          *:string
   cmdbufferlevel *:seq[string]

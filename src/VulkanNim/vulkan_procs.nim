@@ -6,6 +6,7 @@ import vulkan_structs
 import vulkan_types
 import vulkan_handles
 import vulkan_enums
+import vulkan_funcpointers
 
 ## Vulkan Procedures
 proc vkCreateInstance*(pCreateInfo: ptr VkInstanceCreateInfo, pAllocator: ptr VkAllocationCallbacks, pInstance: ptr VkInstance): VkResult {.cdecl, importc, dynlib: vkDLL.}
@@ -20,12 +21,10 @@ proc vkGetPhysicalDeviceFeatures*(physicalDevice: VkPhysicalDevice, pFeatures: p
 proc vkGetPhysicalDeviceFormatProperties*(physicalDevice: VkPhysicalDevice, format: VkFormat, pFormatProperties: ptr VkFormatProperties): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPhysicalDeviceImageFormatProperties*(physicalDevice: VkPhysicalDevice, format: VkFormat, `type`: VkImageType, tiling: VkImageTiling, usage: VkImageUsageFlags, flags: VkImageCreateFlags, pImageFormatProperties: ptr VkImageFormatProperties): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreateDevice*(physicalDevice: VkPhysicalDevice, pCreateInfo: ptr VkDeviceCreateInfo, pAllocator: ptr VkAllocationCallbacks, pDevice: ptr VkDevice): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateDevice*(physicalDevice: VkPhysicalDevice, pCreateInfo: ptr VkDeviceCreateInfo, pAllocator: ptr VkAllocationCallbacks, pDevice: ptr VkDevice): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkDestroyDevice*(device: VkDevice, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkEnumerateInstanceVersion*(pApiVersion: ptr uint32): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkEnumerateInstanceLayerProperties*(pPropertyCount: ptr uint32, pProperties: ptr VkLayerProperties): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkEnumerateInstanceExtensionProperties*(pLayerName: ptr char, pPropertyCount: ptr uint32, pProperties: ptr VkExtensionProperties): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkEnumerateDeviceLayerProperties*(physicalDevice: VkPhysicalDevice, pPropertyCount: ptr uint32, pProperties: ptr VkLayerProperties): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkEnumerateDeviceLayerProperties*(physicalDevice: VkPhysicalDevice, pPropertyCount: ptr uint32, pProperties: ptr VkLayerProperties): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkEnumerateDeviceExtensionProperties*(physicalDevice: VkPhysicalDevice, pLayerName: ptr char, pPropertyCount: ptr uint32, pProperties: ptr VkExtensionProperties): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetDeviceQueue*(device: VkDevice, queueFamilyIndex: uint32, queueIndex: uint32, pQueue: ptr VkQueue): void {.cdecl, importc, dynlib: vkDLL.}
@@ -74,13 +73,10 @@ proc vkDestroyImageView*(device: VkDevice, imageView: VkImageView, pAllocator: p
 proc vkCreateShaderModule*(device: VkDevice, pCreateInfo: ptr VkShaderModuleCreateInfo, pAllocator: ptr VkAllocationCallbacks, pShaderModule: ptr VkShaderModule): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkDestroyShaderModule*(device: VkDevice, shaderModule: VkShaderModule, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreatePipelineCache*(device: VkDevice, pCreateInfo: ptr VkPipelineCacheCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPipelineCache: ptr VkPipelineCache): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreatePipelineCache*(device: VkDevice, pCreateInfo: ptr VkPipelineCacheCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPipelineCache: ptr VkPipelineCache): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkDestroyPipelineCache*(device: VkDevice, pipelineCache: VkPipelineCache, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPipelineCacheData*(device: VkDevice, pipelineCache: VkPipelineCache, pDataSize: ptr csize_t, pData: ptr void): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkMergePipelineCaches*(device: VkDevice, dstCache: VkPipelineCache, srcCacheCount: uint32, pSrcCaches: ptr VkPipelineCache): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreateGraphicsPipelines*(device: VkDevice, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkGraphicsPipelineCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateGraphicsPipelines*(device: VkDevice, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkGraphicsPipelineCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
-proc vkCreateComputePipelines*(device: VkDevice, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkComputePipelineCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreateComputePipelines*(device: VkDevice, pipelineCache: VkPipelineCache, createInfoCount: uint32, pCreateInfos: ptr VkComputePipelineCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPipelines: ptr VkPipeline): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkDestroyPipeline*(device: VkDevice, pipeline: VkPipeline, pAllocator: ptr VkAllocationCallbacks): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCreatePipelineLayout*(device: VkDevice, pCreateInfo: ptr VkPipelineLayoutCreateInfo, pAllocator: ptr VkAllocationCallbacks, pPipelineLayout: ptr VkPipelineLayout): VkResult {.cdecl, importc, dynlib: vkDLL.}

@@ -19,7 +19,7 @@ proc readProcs *(parser :var Parser; node :XmlNode) :void=
        name           : entry.attr("name"),
        errorcodes     : entry.attr("errorcodes").split(","),
        successcodes   : entry.attr("successcodes").split(","),
-       api            : entry.attr("api").split(","),
+       api            : entry.attr("api"),
        queues         : entry.attr("queues").split(","),
        alias          : entry.attr("alias"),
        cmdbufferlevel : entry.attr("cmdbufferlevel").split(","),

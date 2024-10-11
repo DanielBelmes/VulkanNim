@@ -11,6 +11,7 @@ import vulkan_structs
 import vulkan_types
 import vulkan_handles
 import vulkan_enums
+import vulkan_funcpointers
 
 ## Vulkan Procedures
 {procs}
@@ -46,6 +47,7 @@ proc generateProcs *(gen :Generator) :void=
   var procs :string = ""
   for `proc` in gen.registry.commands:
     if(`proc`.alias != ""): continue
+    if `proc`.api != "" and `proc`.api != gen.api: continue
     if isCommandFromExtension(gen.registry.extensions, `proc`.proto.name): continue
     procs &= generateProc(`proc`)
     procs &= '\n'
