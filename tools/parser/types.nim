@@ -265,11 +265,10 @@ proc readTypeStructOrUnion *(parser :var Parser, structOrUnion :XmlNode) :void=
       memberData.`type` = typedata
       memberData.arraySizes = name.arraySizes
       memberData.xmlLine = member.lineNumber
-      var api: string
       if not member.attrs.isNil:
         for (attr, value) in member.attrs.pairs:
           if attr == "api":
-            api = value
+            memberData.api = value
           elif attr == "altlen":
             memberData.lenExpressions = value.split(',')
             memberData.lenMembers = filterNumbers(value.split({' ','/','(',')','+','*'}))

@@ -7,6 +7,10 @@ import ./base
 const genTemplate = """
 {VulkanNimHeader}
 import ./dynamic
+import vulkan_structs
+import vulkan_types
+import vulkan_handles
+import vulkan_enums
 
 ## Vulkan Procedures
 {procs}

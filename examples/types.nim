@@ -1,5 +1,5 @@
 import std/options
-import vulkan
+import VulkanNim
 
 type QueueFamilyIndices* = object
     graphicsFamily*: Option[uint32]

@@ -66,5 +66,5 @@ task genvideo, "Internal:  Generates the vk video bindings, using the currently 
   exec &"{nimcr} {generatorVideo} {videoSpecXML}"
 #___________________
 # Build the examples binaries
-example wip, "Example WIP: Builds the current wip example.", "wip"
+example example, "Example WIP: Builds the current wip example.", "vktriangledemo"
 
