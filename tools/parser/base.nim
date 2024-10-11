@@ -73,7 +73,7 @@ type BitmaskData * = object
   typ       *:string
   values    *:OrderedTable[string, BitmaskValueData]
   xmlLine   *:int
-  bitvalues *: string
+  bitvalues *:string
 
 type EnumValueData * = object
   ## Represents the IR data for a single field in a Vulkan Enum set
@@ -335,6 +335,7 @@ type MemberData* = object
   deprecated*: bool
   objectType*: string
   externSync*: bool
+  api*: string
   xmlLine*: int
 
 type StructureData * = object

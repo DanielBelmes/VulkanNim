@@ -1,6 +1,5 @@
 # std dependencies
 import std/strformat
-import std/bitops
 # Generator dependencies
 import ./base
 
@@ -31,23 +30,24 @@ const EnumTitleTempl   = "type {name} * = enum\n"
 const EnumFieldTempl   = "  {field} = {val}{cmt}\n"
 const EnumFieldCmtTempl = "  ## {gen.registry.enums[name].values[field].comment}"  # without \n, its added by EnumFieldTempl
 const EnumAliasHeader  = "## API Enum Aliases\n"
-const EnumAliasTempl  = "const {alias.name}* {dep}= {name}\n"
+const EnumAliasTempl  = "type {name}* {dep}= {alias.name}\n"
 const EnumHeader        = "## Value Enums\n"
 const EnumGenTempl      = """
 {VulkanNimHeader}
 import std/sets
+import vulkan_types
 
 {enums}
 """
 const BitmaskHeader        = "## Value Bitmasks\n"
-const BitMaskFieldTempl   = "  {field} = {val:#X}{cmt}\n"
+const BitMaskFieldTempl   = "  {field} = {val}{cmt}\n"
 const BitmaskFieldCmtTempl = "  ## {gen.registry.bitmasks[name].values[field].comment}"  # without \n, its added by EnumFieldTempl
 const BitmaskAliasHeader  = "## API Bitmask Aliases\n"
 #_____________________________
 # Templates: Bitmasks
 
 
-func enumCmp *(A,B :(string, EnumValueData)) :int=
+func enumCmp *(A,B :(string, EnumValueData | BitmaskValueData)) :int=
   ## Compares two EnumValueData entries of a EnumData table.
   ## Same as system.cmp(a,b), but helps nim understand the special cases of values sent by the Vulkan spec
   let a = A[1].value
@@ -88,6 +88,10 @@ proc generateEnums *(gen: Generator) :void= # TODO need to exclude extensions
   for name in gen.registry.enumAliases.keys():
       let alias = gen.registry.enumAliases[name]
       let dep   = alias.getDeprecated(name)
+      if not gen.registry.enums.hasKey(alias.name):
+        continue
+      if gen.registry.enums[alias.name].values.len < 0:
+        continue
       enums.add(fmt EnumAliasTempl)
 
   #_____________________________
@@ -97,23 +101,14 @@ proc generateEnums *(gen: Generator) :void= # TODO need to exclude extensions
     var tmp :string
     tmp.add(fmt EnumTitleTempl )
     var ordered = gen.registry.bitmasks[name].values
+    # @todo order bitmasks!!!!
     if(ordered.len == 0): continue
+    ordered.sort( enumCmp )
     for field in ordered.keys():
       if field == "": continue
+      let val = gen.registry.bitmasks[name].values[field].value
       let cmt = if gen.registry.bitmasks[name].values[field].comment == "": "" else: fmt BitmaskFieldCmtTempl
-      if(not gen.registry.bitmasks[name].values[field].isValue):
-        let bitpos = parseInt(gen.registry.bitmasks[name].values[field].bitpos)
-        if gen.registry.bitmasks[name].bitwidth != "64":
-          var val = 0b0'u32
-          val.setbit(bitpos)
-          tmp.add(fmt BitMaskFieldTempl )
-        else:
-          var val = 0b0'u64
-          val.setbit(bitpos)
-          tmp.add(fmt BitMaskFieldTempl )
-      else:
-        let val = gen.registry.bitmasks[name].values[field].value
-        tmp.add(fmt EnumFieldTempl )
+      tmp.add(fmt BitMaskFieldTempl )
     enums.add &"{tmp}\n"
 
   #_____________________________
@@ -122,6 +117,8 @@ proc generateEnums *(gen: Generator) :void= # TODO need to exclude extensions
   for name in gen.registry.bitmaskAliases.keys():
       let alias = gen.registry.bitmaskAliases[name]
       let dep   = alias.getDeprecated(name)
+      if not gen.registry.bitmasks.hasKey(alias.name):
+        continue
       enums.add(fmt EnumAliasTempl)
 
 

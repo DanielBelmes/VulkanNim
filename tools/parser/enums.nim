@@ -1,5 +1,6 @@
 # std dependencies
 import std/strformat
+import std/bitops
 # Generator dependencies
 import ./common
 
@@ -43,9 +44,24 @@ proc addBitmask *(parser :var Parser; node :XmlNode) :void=
         xmlLine    : entry.lineNumber )
       continue
     # Normal BitmasValue entry
-    elif data.values.containsOrIncl( entry.attr("name"), BitmaskValueData(
-      isValue  : entry.attr("value") != "",
-      value    : entry.attr("value"),
+    let isValue = entry.attr("value") != ""
+    var value = ""
+    if not isValue:
+        let bitpos = parseInt(entry.attr("bitpos"))
+        if node.attr("bitwidth") != "64":
+          var val = 0b0'u32
+          val.setbit(bitpos)
+          value = $val
+          # tmp.add(fmt BitMaskFieldTempl )
+        else:
+          var val = 0b0'u64
+          val.setbit(bitpos)
+          value = $val
+    else:
+      value = entry.attr("value")
+    if data.values.containsOrIncl( entry.attr("name"), BitmaskValueData(
+      isValue  : isValue,
+      value    : value,
       comment  : entry.attr("comment"),
       bitpos   : entry.attr("bitpos"),
       protect  : entry.attr("protect"),

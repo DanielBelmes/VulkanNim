@@ -5,6 +5,7 @@ Types
 
 =====================================
 ]#
+import vulkan_enums
 
 # defines
 template vkMakeVersion*(major, minor, patch: untyped): untyped =
@@ -38,6 +39,13 @@ const VK_NULL_HANDLE* = 0
 
 
 # Base types
+type VkSampleMask* = distinct uint32
+type VkBool32* = distinct uint32
+type VkFlags* = distinct uint32
+type VkFlags64* = distinct uint64
+type VkDeviceSize* = distinct uint64
+type VkDeviceAddress* = distinct uint64
+type VkRemoteAddressNV* = distinct void
 
 
 # Bitmasks

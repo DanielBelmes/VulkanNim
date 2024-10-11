@@ -5,6 +5,7 @@ import ./vulkan_consts
 import ./vulkan_enums
 import ./vulkan_types
 import ./vulkan_handles
+import ./vulkan_funcpointers
 
 ## Vulkan Structs
 type VkBaseOutStructure* = object
@@ -517,7 +518,6 @@ type VkPipelineShaderStageCreateInfo* = object
   stage*: VkShaderStageFlagBits
   module*: VkShaderModule
   pName*: ptr char
-  pName*: ptr char
   pSpecializationInfo*: ptr VkSpecializationInfo
 
 
@@ -668,7 +668,6 @@ type VkGraphicsPipelineCreateInfo* = object
   flags*: VkPipelineCreateFlags
   stageCount*: uint32
   pStages*: ptr VkPipelineShaderStageCreateInfo
-  pStages*: ptr VkPipelineShaderStageCreateInfo
   pVertexInputState*: ptr VkPipelineVertexInputStateCreateInfo
   pInputAssemblyState*: ptr VkPipelineInputAssemblyStateCreateInfo
   pTessellationState*: ptr VkPipelineTessellationStateCreateInfo
@@ -689,7 +688,6 @@ type VkPipelineCacheCreateInfo* = object
   sType*: VkStructureType
   pNext*: pointer
   flags*: VkPipelineCacheCreateFlags
-  initialDataSize*: csize_t
   initialDataSize*: csize_t
   pInitialData*: pointer
 
@@ -2812,7 +2810,6 @@ type VkCommandBufferInheritanceRenderingInfo* = object
   pNext*: pointer
   flags*: VkRenderingFlags
   viewMask*: uint32
-  colorAttachmentCount*: uint32
   colorAttachmentCount*: uint32
   pColorAttachmentFormats*: ptr VkFormat
   depthAttachmentFormat*: VkFormat
