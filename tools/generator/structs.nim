@@ -4,11 +4,6 @@ import std/strutils
 
 const genTemplate = """
 {VulkanNimHeader}
-import ./vulkan_consts
-import ./vulkan_enums
-import ./vulkan_types
-import ./vulkan_handles
-import ./vulkan_funcpointers
 
 ## Vulkan Structs
 {structs}

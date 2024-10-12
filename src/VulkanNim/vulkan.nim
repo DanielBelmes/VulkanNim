@@ -1,8 +1,9 @@
+{.experimental: "codeReordering".}
 include ./dynamic
-import vulkan_enums;export vulkan_enums
-import vulkan_structs;export vulkan_structs
-import vulkan_procs;export vulkan_procs
-import vulkan_consts;export vulkan_consts
-import vulkan_types;export vulkan_types
-import vulkan_funcpointers;export vulkan_funcpointers
-import vulkan_handles;export vulkan_handles
+include vulkan_consts
+include vulkan_types
+include vulkan_funcpointers
+include vulkan_enums
+include vulkan_structs
+include vulkan_procs
+include vulkan_handles

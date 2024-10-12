@@ -5,7 +5,6 @@ Types
 
 =====================================
 ]#
-import vulkan_enums
 
 # defines
 template vkMakeVersion*(major, minor, patch: untyped): untyped =

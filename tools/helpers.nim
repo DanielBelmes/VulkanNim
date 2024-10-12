@@ -106,32 +106,41 @@ proc toNimSafeIdentifier*(iden: string): string =
   else:
     return iden
 
-proc c2NimType*(typ: string): string =
+proc c2NimType*(typ: string, isPtr: bool = false): string =
   case typ:
   of "uint64_t":
-    return "uint64"
+    result = "uint64"
   of "uint32_t":
-    return "uint32"
+    result = "uint32"
   of "uint16_t":
-    return "uint16"
+    result = "uint16"
   of "uint8_t":
-    return "uint8"
+    result = "uint8"
   of "int64_t":
-    return "int64"
+    result = "int64"
   of "int32_t":
-    return "int32"
+    result = "int32"
   of "int16_t":
-    return "int16"
+    result = "int16"
   of "int8_t":
-    return "int8"
+    result = "int8"
   of "size_t":
-    return "csize_t"
+    result = "csize_t"
   of "float":
-    return "float32"
+    result = "float32"
   of "double":
-    return "float64"
+    result = "float64"
+  of "void*":
+    result = "pointer"
   else:
-    return typ
+    result = typ
+  
+  if(isPtr):
+    case result:
+    of "void":
+      result = "pointer"
+    of "char":
+      result = "cstring"
 
 proc basicCType*(typ: string): bool =
   result = ["void", "double","float","char","size_t","int8_t","int16_t","int32_t","int64_t","uint8_t","uint16_t","uint32_t","uint64_t"].contains(typ)

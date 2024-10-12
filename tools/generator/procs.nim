@@ -6,12 +6,6 @@ import ./base
 
 const genTemplate = """
 {VulkanNimHeader}
-import ./dynamic
-import vulkan_structs
-import vulkan_types
-import vulkan_handles
-import vulkan_enums
-import vulkan_funcpointers
 
 ## Vulkan Procedures
 {procs}
@@ -37,7 +31,8 @@ proc generateProc(`proc`: CommandData): string =
       prefix = "ptr "
     elif arg.typ.postfix == "**":
       prefix = "ptr ptr "
-    args &= fmt"{toNimSafeIdentifier(arg.typ.name)}: {prefix}{c2NimType(arg.typ.typ)}"
+    let typ = if arg.typ.typ == "void" and prefix.len > 0: "pointer" else: c2NimType(arg.typ.typ)
+    args &= fmt"{toNimSafeIdentifier(arg.typ.name)}: {prefix}{typ}"
     if index < paramLen:
       args &= ", "
   return fmt(procTemplate)
