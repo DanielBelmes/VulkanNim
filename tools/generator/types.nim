@@ -9,7 +9,6 @@ Types
 
 =====================================
 ]#
-import vulkan_enums
 
 # defines
 {defines}
@@ -32,14 +31,17 @@ Types
 
 =====================================
 ]#
-import vulkan_enums
-import vulkan_types
-import vulkan_handles
-import vulkan_extensions
 
 #Function Pointers
 {funcpointers}
 """
+
+proc isTypeFromExtension*(extensions: OrderedTable[string, ExtensionData], name: string) : bool =
+  for ext in extensions.values:
+    for requireData in ext.requireData:
+      for typeName in requireData.types.keys():
+        if typeName == name:
+          result = true
 
 proc genDefines(name: string) : string =
   case name
@@ -137,32 +139,14 @@ const VK_NULL_HANDLE* = 0
     else:
       raise newException(CodegenError, fmt"Could not find #define {name} in internal map")
 
-proc genFuncPointer(name: string): string = # TODO maybe switch case
-  if name == "PFN_vkInternalAllocationNotification":
-    result = "type PFN_vkInternalAllocationNotification* = proc(pUserData: pointer; size: csize_t; allocationType: VkInternalAllocationType; allocationScope: VkSystemAllocationScope) {.cdecl.}\n"
-  elif name == "PFN_vkInternalFreeNotification":
-    result = "type PFN_vkInternalFreeNotification* = proc(pUserData: pointer; size: csize_t; allocationType: VkInternalAllocationType; allocationScope: VkSystemAllocationScope) {.cdecl.}\n"
-  elif name == "PFN_vkReallocationFunction":
-    result = "type PFN_vkReallocationFunction* = proc(pUserData: pointer; pOriginal: pointer; size: csize_t; alignment: csize_t; allocationScope: VkSystemAllocationScope): pointer {.cdecl.}\n"
-  elif name == "PFN_vkAllocationFunction":
-    result = "type PFN_vkAllocationFunction* = proc(pUserData: pointer; size: csize_t; alignment: csize_t; allocationScope: VkSystemAllocationScope): pointer {.cdecl.}\n"
-  elif name == "PFN_vkFreeFunction":
-    result = "type PFN_vkFreeFunction* = proc(pUserData: pointer; pMemory: pointer) {.cdecl.}\n"
-  elif name == "PFN_vkVoidFunction":
-    result = "type PFN_vkVoidFunction* = proc() {.cdecl.}\n"
-  elif name == "PFN_vkDebugReportCallbackEXT":
-    result = "type PFN_vkDebugReportCallbackEXT* = proc(flags: VkDebugReportFlagsEXT; objectType: VkDebugReportObjectTypeEXT; cbObject: uint64; location: csize_t; messageCode:  int32; pLayerPrefix: cstring; pMessage: cstring; pUserData: pointer): VkBool32 {.cdecl.}\n"
-  elif name == "PFN_vkDebugUtilsMessengerCallbackEXT":
-    result = "type PFN_vkDebugUtilsMessengerCallbackEXT* = proc(messageSeverity: VkDebugUtilsMessageSeverityFlagBitsEXT, messageTypes: VkDebugUtilsMessageTypeFlagsEXT, pCallbackData: VkDebugUtilsMessengerCallbackDataEXT, userData: pointer): VkBool32 {.cdecl.}\n" # TODO VkDebugUtilsMessengerCallbackDataEXT needs to be defined in a seperate extensions file it's a struct(or we combine structs, types, funcpointers, and enums)
-  elif name == "PFN_vkFaultCallbackFunction":
-    result = "type PFN_vkFaultCallbackFunction* = proc(unrecordedFaults: VkBool32, faultCount: uint32, pFaults: pointer) {.cdecl.}\n"
-  elif name == "PFN_vkDeviceMemoryReportCallbackEXT":
-    result = "type PFN_vkDeviceMemoryReportCallbackEXT* = proc(pCallbackData: VkDeviceMemoryReportCallbackDataEXT, pUserData: pointer) {.cdecl.}\n"
-  elif name == "PFN_vkGetInstanceProcAddrLUNARG":
-    result = "type PFN_vkGetInstanceProcAddrLUNARG* = proc(instance: VkInstance, pName: cstring) {.cdecl.}\n"
-  else:
-    echo "category:funcpointer not found {name}".fmt
-    result = ""
+
+proc genFuncPointer(name: string, data: FuncPointerData ): string =
+  var arguments = ""
+  for index, arg in data.arguments:
+    arguments &= fmt"{toNimSafeIdentifier(arg.name)}: {c2NimType(arg.`type`, arg.isPtr)}"
+    if index < data.arguments.len - 1:
+      arguments &= "; "
+  return fmt"type {toNimSafeIdentifier(name)}* = proc({arguments}): {c2NimType(data.`type`)} {{.cdecl.}}" & '\n'
 
 proc genBaseTypes(name:string, baseType: BaseTypeData): string =
   if baseType.typeinfo.type != "":
@@ -193,13 +177,14 @@ proc generateTypes *(gen :Generator) :void=
       of TypeCategory.Define: defines &= genDefines(`type`)
       of TypeCategory.Enum: continue
       of TypeCategory.ExternalType: continue
-      of TypeCategory.FuncPointer: funcpointers &= genFuncPointer(`type`)
+      of TypeCategory.FuncPointer: 
+        if isTypeFromExtension(gen.registry.extensions, `type`): continue
+        funcpointers &= genFuncPointer(`type`, gen.registry.funcPointers[`type`])
       of TypeCategory.Handle: continue
       of TypeCategory.Include: continue
       of TypeCategory.Struct: continue
       of TypeCategory.Union: continue
       of TypeCategory.Unknown: continue
-      else: continue
   for require in gen.registry.externalTypes.keys():
     let entry = gen.registry.externalTypes[require]
     if entry.require == "": continue

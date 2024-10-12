@@ -27,7 +27,7 @@ const ConstGenTempl     = """
 #const EnumTitleTempl    = "type {name.symbolToNim} * = enum\n"
 const EnumTitleTempl   = "type {name} * = enum\n"
 #const EnumFieldTempl    = "  {field.symbolToNim} = {val}{cmt}\n"
-const EnumFieldTempl   = "  {field} = {val}{cmt}\n"
+const EnumFieldTempl   = "  {symbolToNim(field)} = {val}{cmt}\n"
 const EnumFieldCmtTempl = "  ## {gen.registry.enums[name].values[field].comment}"  # without \n, its added by EnumFieldTempl
 const EnumAliasHeader  = "## API Enum Aliases\n"
 const EnumAliasTempl  = "type {name}* {dep}= {alias.name}\n"
@@ -35,12 +35,11 @@ const EnumHeader        = "## Value Enums\n"
 const EnumGenTempl      = """
 {VulkanNimHeader}
 import std/sets
-import vulkan_types
 
 {enums}
 """
 const BitmaskHeader        = "## Value Bitmasks\n"
-const BitMaskFieldTempl   = "  {field} = {val}{cmt}\n"
+const BitMaskFieldTempl   = "  {symbolToNim(field)} = {val}{cmt}\n"
 const BitmaskFieldCmtTempl = "  ## {gen.registry.bitmasks[name].values[field].comment}"  # without \n, its added by EnumFieldTempl
 const BitmaskAliasHeader  = "## API Bitmask Aliases\n"
 #_____________________________
@@ -113,13 +112,13 @@ proc generateEnums *(gen: Generator) :void= # TODO need to exclude extensions
 
   #_____________________________
   # Codegen EnumAliases
-  enums.add BitmaskAliasHeader
-  for name in gen.registry.bitmaskAliases.keys():
-      let alias = gen.registry.bitmaskAliases[name]
-      let dep   = alias.getDeprecated(name)
-      if not gen.registry.bitmasks.hasKey(alias.name):
-        continue
-      enums.add(fmt EnumAliasTempl)
+  # enums.add BitmaskAliasHeader
+  # for name in gen.registry.bitmaskAliases.keys():
+  #     let alias = gen.registry.bitmaskAliases[name]
+  #     let dep   = alias.getDeprecated(name)
+  #     if not gen.registry.bitmasks.hasKey(alias.name):
+  #       continue
+  #     enums.add(fmt EnumAliasTempl)
 
 
 
