@@ -83,15 +83,16 @@ proc generateEnums *(gen: Generator) :void= # TODO need to exclude extensions
 
   #_____________________________
   # Codegen EnumAliases
-  enums.add EnumAliasHeader
-  for name in gen.registry.enumAliases.keys():
-      let alias = gen.registry.enumAliases[name]
-      let dep   = alias.getDeprecated(name)
-      if not gen.registry.enums.hasKey(alias.name):
-        continue
-      if gen.registry.enums[alias.name].values.len < 0:
-        continue
-      enums.add(fmt EnumAliasTempl)
+  # TODO redo Enum alias
+  # enums.add EnumAliasHeader
+  # for name in gen.registry.enumAliases.keys():
+  #     let alias = gen.registry.enumAliases[name]
+  #     let dep   = alias.getDeprecated(name)
+  #     if not gen.registry.enums.hasKey(alias.name):
+  #       continue
+  #     if gen.registry.enums[alias.name].values.len < 0:
+  #       continue
+  #     enums.add(fmt EnumAliasTempl)
 
   #_____________________________
   # Bitmask Enum
@@ -144,12 +145,13 @@ proc generateConsts *(gen: Generator) :void=
 
   #_____________________________
   # Codegen Constant Aliases
-  consts.add ConstAliasHeader
-  for name in gen.registry.constantAliases.keys():
-    let entry = gen.registry.constants[name]
-    let alias = gen.registry.constantAliases[name]
-    let dep   = alias.getDeprecated(name)
-    consts.add(fmt ConstAliasTempl)
+  # TODO redo const alias
+  # consts.add ConstAliasHeader
+  # for name in gen.registry.constantAliases.keys():
+  #   let entry = gen.registry.constants[name]
+  #   let alias = gen.registry.constantAliases[name]
+  #   let dep   = alias.getDeprecated(name)
+  #   consts.add(fmt ConstAliasTempl)
 
   #_____________________________
   # Write the consts to the output file

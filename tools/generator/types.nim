@@ -36,13 +36,6 @@ Types
 {funcpointers}
 """
 
-proc isTypeFromExtension*(extensions: OrderedTable[string, ExtensionData], name: string) : bool =
-  for ext in extensions.values:
-    for requireData in ext.requireData:
-      for typeName in requireData.types.keys():
-        if typeName == name:
-          result = true
-
 proc genDefines(name: string) : string =
   case name
     of "VK_MAKE_VERSION":
@@ -178,7 +171,8 @@ proc generateTypes *(gen :Generator) :void=
       of TypeCategory.Enum: continue
       of TypeCategory.ExternalType: continue
       of TypeCategory.FuncPointer: 
-        if isTypeFromExtension(gen.registry.extensions, `type`): continue
+        # if isTypeFromExtension(gen.registry.extensions, `type`): continue
+        # if not isTypeFromFeature(gen.api, gen.registry.features, `type`): continue
         funcpointers &= genFuncPointer(`type`, gen.registry.funcPointers[`type`])
       of TypeCategory.Handle: continue
       of TypeCategory.Include: continue

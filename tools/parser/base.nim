@@ -127,12 +127,10 @@ type ParamData * = object
   #???????????????????????????????
 
 type CommandData * = object
-  name           *:string
   errorCodes     *:seq[string]
   successCodes   *:seq[string]
   api            *:string
   queues         *:seq[string]
-  alias          *:string
   cmdbufferlevel *:seq[string]
   tasks          *:seq[string]
   renderpass     *:string

@@ -5,6 +5,7 @@ import nstd
 # parser dependencies
 import ./parser/parser
 import ./generator/generator
+import ./transformers/transformers
 
 #_______________________________________
 # Generator Entry Point
@@ -26,6 +27,7 @@ static:assert DefaultAPI in ValidAPIs
 proc main=
   # Interpret the arguments given to the generator
   let args = nstd.getArgs()
+  var enabledExtensions: seq[string] = @[#[ "VK_KHR_portability_subset","VK_KHR_swapchain" ]#]
   var XML, targetAPI: string
   if args.len in 1..2:
     if not args[0].endsWith(".xml"): raise newException(ArgsError, &"The first argument input must be a valid .xml file. See {Help}")
@@ -42,11 +44,16 @@ proc main=
   var file = newFileStream(XML,fmRead)
   var parser = Parser(doc : file.parseXml(),
     api : targetAPI )
-  parser.readRegistry()
+
+  parser.readRegistry() #Parse XML into IR
+
+  transformDatabase(parser, enabledExtensions) #Modify registry databse based on enabled api, features, and extensions
+
   var generator = Generator(
     api : targetAPI,
     registry: parser.registry )
-  generator.generate()
+
+  generator.generate() #Generate Library
 
 
 when isMainModule: main()
