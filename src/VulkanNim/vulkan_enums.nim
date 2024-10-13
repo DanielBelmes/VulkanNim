@@ -1127,26 +1127,6 @@ type VkOutOfBandQueueTypeNV * = enum
   OutOfBandQueueTypeRenderNv = 0
   OutOfBandQueueTypePresentNv = 1
 
-## API Enum Aliases
-type VkDescriptorUpdateTemplateTypeKHR* = VkDescriptorUpdateTemplateType
-type VkPointClippingBehaviorKHR* = VkPointClippingBehavior
-type VkQueueGlobalPriorityEXT* = VkQueueGlobalPriorityKHR
-type VkTimeDomainEXT* = VkTimeDomainKHR
-type VkSemaphoreTypeKHR* = VkSemaphoreType
-type VkCopyAccelerationStructureModeNV* = VkCopyAccelerationStructureModeKHR
-type VkAccelerationStructureTypeNV* = VkAccelerationStructureTypeKHR
-type VkGeometryTypeNV* = VkGeometryTypeKHR
-type VkRayTracingShaderGroupTypeNV* = VkRayTracingShaderGroupTypeKHR
-type VkLineRasterizationModeEXT* = VkLineRasterizationModeKHR
-type VkScopeNV* = VkScopeKHR
-type VkComponentTypeNV* = VkComponentTypeKHR
-type VkTessellationDomainOriginKHR* = VkTessellationDomainOrigin
-type VkSamplerYcbcrModelConversionKHR* = VkSamplerYcbcrModelConversion
-type VkSamplerYcbcrRangeKHR* = VkSamplerYcbcrRange
-type VkChromaLocationKHR* = VkChromaLocation
-type VkSamplerReductionModeEXT* = VkSamplerReductionMode
-type VkShaderFloatControlsIndependenceKHR* = VkShaderFloatControlsIndependence
-type VkDriverIdKHR* = VkDriverId
 ## Value Bitmasks
 type VkQueueFlagBits * = enum
   QueueGraphicsBit = 1  ## Queue supports graphics operations

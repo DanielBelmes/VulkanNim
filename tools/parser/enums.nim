@@ -10,8 +10,8 @@ proc addConsts *(parser :var Parser; node :XmlNode) :void=
   for entry in node:
     # Add Constant alias to the registry and skip to the next entry
     if entry.attr("alias") != "":
-      parser.registry.constantAliases[ entry.attr("alias") ] = AliasData(
-        name       : entry.attr("name"),
+      parser.registry.constantAliases[ entry.attr("name") ] = AliasData(
+        name       : entry.attr("alias"),
         deprecated : entry.attr("deprecated"),
         api        : entry.attr("api"),
         xmlLine    : entry.lineNumber )
@@ -37,8 +37,8 @@ proc addBitmask *(parser :var Parser; node :XmlNode) :void=
     if entry.tag() == "comment" : continue  # Infix Comment, inbetween enum fields
     # Add EnumValue alias to the registry and skip to the next entry
     if entry.attr("alias") != "":
-      parser.registry.bitmaskAliases[ entry.attr("alias") ] = AliasData(
-        name       : entry.attr("name"),
+      parser.registry.bitmaskAliases[ entry.attr("name") ] = AliasData(
+        name       : entry.attr("alias"),
         deprecated : entry.attr("deprecated"),
         api        : entry.attr("api"),
         xmlLine    : entry.lineNumber )
@@ -83,8 +83,8 @@ proc addNormalEnum *(parser :var Parser; node :XmlNode) :void=
     elif entry.tag() == "unused"  : data.unused = entry.attr("start")
     # Add EnumValue alias to the registry and skip to the next entry
     if entry.attr("alias") != "":
-      parser.registry.enumAliases[ entry.attr("alias") ] = AliasData(
-        name       : entry.attr("name"),
+      parser.registry.enumAliases[ entry.attr("name") ] = AliasData(
+        name       : entry.attr("alias"),
         deprecated : entry.attr("deprecated"),
         api        : entry.attr("api"),
         xmlLine    : entry.lineNumber )

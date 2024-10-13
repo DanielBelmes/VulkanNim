@@ -9,19 +9,12 @@ const genTemplate = """
 {structs}
 """
 
-const memberTemplate = "  {memberName}*: {prefix}{`type`}\n"
+const memberTemplate = "  {memberName}*: {prefix}{`type`}{value}\n"
 
 const structTemplate = """
 type {name}* {isUnion}= object
 {members}
 """
-
-proc isStructFromExtension*(extensions: OrderedTable[string, ExtensionData], name: string) : bool =
-  for ext in extensions.values:
-    for requireData in ext.requireData:
-      for typeName in requireData.types.keys():
-        if typeName == name:
-          result = true
 
 proc generateStruct *(api: string, name: string, struct :StructureData, types: OrderedTable[string, TypeData]) :string=
   var members :string = ""
@@ -36,6 +29,7 @@ proc generateStruct *(api: string, name: string, struct :StructureData, types: O
     let prefix = "ptr ".repeat(stars) #This is sick. will be empty string if 0
     let safeType = if(member.`type`.`type` == "void"): "pointer" else: toNimSafeIdentifier(c2NimType(member.`type`.`type`))
     let `type` = if(member.arraySizes.len() > 0): fmt"array[{member.arraySizes[0]}, {safeType}]" else: safeType #TODO look up enum array sizes
+    let value = if(member.value != ""): " = " & symbolToNim(member.value) else: ""
     members &= fmt memberTemplate
   return fmt structTemplate #returnedOnly?, structextends?
 
@@ -45,7 +39,12 @@ proc generateStructs *(gen :Generator) :void=
   let structMap = gen.registry.structs
   let types = gen.registry.types
   for name in structMap.keys():
-    if isStructFromExtension(gen.registry.extensions, name): continue
+    # let alias = getAlias(gen.registry.structAliases, name)
+    # if alias.isSome():
+    #   if isTypeFromExtension(gen.registry.extensions, alias.get()): continue
+    #   if not isTypeFromFeature(gen.api, gen.registry.features, alias.get()): continue
+    # if isTypeFromExtension(gen.registry.extensions, name): continue
+    # if not isTypeFromFeature(gen.api, gen.registry.features, name): continue
     structs &= generateStruct(gen.api, toNimSafeIdentifier(name), structMap[name], types)
     structs &= '\n'
   writeFile(outputDir,fmt genTemplate)
