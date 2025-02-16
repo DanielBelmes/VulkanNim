@@ -5,6 +5,14 @@ import std/sets
 ## Value Enums
 type VkImageLayout * = enum
   ImageLayoutUndefined = 0  ## Implicit layout an image is when its contents are undefined due to various reasons (e.g. right after creation)
+  ImageLayoutDepthReadOnlyStencilAttachmentOptimal = 0
+  ImageLayoutDepthAttachmentStencilReadOnlyOptimal = 0
+  ImageLayoutDepthAttachmentOptimal = 0
+  ImageLayoutDepthReadOnlyOptimal = 0
+  ImageLayoutStencilAttachmentOptimal = 0
+  ImageLayoutStencilReadOnlyOptimal = 0
+  ImageLayoutReadOnlyOptimal = 0
+  ImageLayoutAttachmentOptimal = 0
   ImageLayoutGeneral = 1  ## General layout when image can be used for any kind of access
   ImageLayoutColorAttachmentOptimal = 2  ## Optimal layout when image is only used for color attachment read/write
   ImageLayoutDepthStencilAttachmentOptimal = 3  ## Optimal layout when image is only used for depth/stencil attachment read/write
@@ -21,6 +29,7 @@ type VkAttachmentLoadOp * = enum
 
 type VkAttachmentStoreOp * = enum
   AttachmentStoreOpStore = 0
+  AttachmentStoreOpNone = 0
   AttachmentStoreOpDontCare = 1
 
 type VkImageType * = enum
@@ -56,6 +65,7 @@ type VkComponentSwizzle * = enum
 
 type VkDescriptorType * = enum
   DescriptorTypeSampler = 0
+  DescriptorTypeInlineUniformBlock = 0
   DescriptorTypeCombinedImageSampler = 1
   DescriptorTypeSampledImage = 2
   DescriptorTypeStorageImage = 3
@@ -118,6 +128,7 @@ type VkSamplerMipmapMode * = enum
 
 type VkSamplerAddressMode * = enum
   SamplerAddressModeRepeat = 0
+  SamplerAddressModeMirrorClampToEdge = 0
   SamplerAddressModeMirroredRepeat = 1
   SamplerAddressModeClampToEdge = 2
   SamplerAddressModeClampToBorder = 3
@@ -220,6 +231,60 @@ type VkVertexInputRate * = enum
 
 type VkFormat * = enum
   FormatUndefined = 0
+  FormatG8b8g8r8422Unorm = 0
+  FormatB8g8r8g8422Unorm = 0
+  FormatG8B8R83plane420Unorm = 0
+  FormatG8B8r82plane420Unorm = 0
+  FormatG8B8R83plane422Unorm = 0
+  FormatG8B8r82plane422Unorm = 0
+  FormatG8B8R83plane444Unorm = 0
+  FormatR10x6UnormPack16 = 0
+  FormatR10x6g10x6Unorm2pack16 = 0
+  FormatR10x6g10x6b10x6a10x6Unorm4pack16 = 0
+  FormatG10x6b10x6g10x6r10x6422Unorm4pack16 = 0
+  FormatB10x6g10x6r10x6g10x6422Unorm4pack16 = 0
+  FormatG10x6B10x6R10x63plane420Unorm3pack16 = 0
+  FormatG10x6B10x6r10x62plane420Unorm3pack16 = 0
+  FormatG10x6B10x6R10x63plane422Unorm3pack16 = 0
+  FormatG10x6B10x6r10x62plane422Unorm3pack16 = 0
+  FormatG10x6B10x6R10x63plane444Unorm3pack16 = 0
+  FormatR12x4UnormPack16 = 0
+  FormatR12x4g12x4Unorm2pack16 = 0
+  FormatR12x4g12x4b12x4a12x4Unorm4pack16 = 0
+  FormatG12x4b12x4g12x4r12x4422Unorm4pack16 = 0
+  FormatB12x4g12x4r12x4g12x4422Unorm4pack16 = 0
+  FormatG12x4B12x4R12x43plane420Unorm3pack16 = 0
+  FormatG12x4B12x4r12x42plane420Unorm3pack16 = 0
+  FormatG12x4B12x4R12x43plane422Unorm3pack16 = 0
+  FormatG12x4B12x4r12x42plane422Unorm3pack16 = 0
+  FormatG12x4B12x4R12x43plane444Unorm3pack16 = 0
+  FormatG16b16g16r16422Unorm = 0
+  FormatB16g16r16g16422Unorm = 0
+  FormatG16B16R163plane420Unorm = 0
+  FormatG16B16r162plane420Unorm = 0
+  FormatG16B16R163plane422Unorm = 0
+  FormatG16B16r162plane422Unorm = 0
+  FormatG16B16R163plane444Unorm = 0
+  FormatG8B8r82plane444Unorm = 0
+  FormatG10x6B10x6r10x62plane444Unorm3pack16 = 0
+  FormatG12x4B12x4r12x42plane444Unorm3pack16 = 0
+  FormatG16B16r162plane444Unorm = 0
+  FormatA4r4g4b4UnormPack16 = 0
+  FormatA4b4g4r4UnormPack16 = 0
+  FormatAstc4x4SfloatBlock = 0
+  FormatAstc5x4SfloatBlock = 0
+  FormatAstc5x5SfloatBlock = 0
+  FormatAstc6x5SfloatBlock = 0
+  FormatAstc6x6SfloatBlock = 0
+  FormatAstc8x5SfloatBlock = 0
+  FormatAstc8x6SfloatBlock = 0
+  FormatAstc8x8SfloatBlock = 0
+  FormatAstc10x5SfloatBlock = 0
+  FormatAstc10x6SfloatBlock = 0
+  FormatAstc10x8SfloatBlock = 0
+  FormatAstc10x10SfloatBlock = 0
+  FormatAstc12x10SfloatBlock = 0
+  FormatAstc12x12SfloatBlock = 0
   FormatR4g4UnormPack8 = 1
   FormatR4g4b4a4UnormPack16 = 2
   FormatB4g4r4a4UnormPack16 = 3
@@ -407,6 +472,175 @@ type VkFormat * = enum
 
 type VkStructureType * = enum
   StructureTypeApplicationInfo = 0
+  StructureTypePhysicalDeviceSubgroupProperties = 0
+  StructureTypeBindBufferMemoryInfo = 0
+  StructureTypeBindImageMemoryInfo = 0
+  StructureTypePhysicalDevice16bitStorageFeatures = 0
+  StructureTypeMemoryDedicatedRequirements = 0
+  StructureTypeMemoryDedicatedAllocateInfo = 0
+  StructureTypeMemoryAllocateFlagsInfo = 0
+  StructureTypeDeviceGroupRenderPassBeginInfo = 0
+  StructureTypeDeviceGroupCommandBufferBeginInfo = 0
+  StructureTypeDeviceGroupSubmitInfo = 0
+  StructureTypeDeviceGroupBindSparseInfo = 0
+  StructureTypeBindBufferMemoryDeviceGroupInfo = 0
+  StructureTypeBindImageMemoryDeviceGroupInfo = 0
+  StructureTypePhysicalDeviceGroupProperties = 0
+  StructureTypeDeviceGroupDeviceCreateInfo = 0
+  StructureTypeBufferMemoryRequirementsInfo2 = 0
+  StructureTypeImageMemoryRequirementsInfo2 = 0
+  StructureTypeImageSparseMemoryRequirementsInfo2 = 0
+  StructureTypeMemoryRequirements2 = 0
+  StructureTypeSparseImageMemoryRequirements2 = 0
+  StructureTypePhysicalDeviceFeatures2 = 0
+  StructureTypePhysicalDeviceProperties2 = 0
+  StructureTypeFormatProperties2 = 0
+  StructureTypeImageFormatProperties2 = 0
+  StructureTypePhysicalDeviceImageFormatInfo2 = 0
+  StructureTypeQueueFamilyProperties2 = 0
+  StructureTypePhysicalDeviceMemoryProperties2 = 0
+  StructureTypeSparseImageFormatProperties2 = 0
+  StructureTypePhysicalDeviceSparseImageFormatInfo2 = 0
+  StructureTypePhysicalDevicePointClippingProperties = 0
+  StructureTypeRenderPassInputAttachmentAspectCreateInfo = 0
+  StructureTypeImageViewUsageCreateInfo = 0
+  StructureTypePipelineTessellationDomainOriginStateCreateInfo = 0
+  StructureTypeRenderPassMultiviewCreateInfo = 0
+  StructureTypePhysicalDeviceMultiviewFeatures = 0
+  StructureTypePhysicalDeviceMultiviewProperties = 0
+  StructureTypePhysicalDeviceVariablePointersFeatures = 0
+  StructureTypePhysicalDeviceVariablePointerFeatures = 0
+  StructureTypeProtectedSubmitInfo = 0
+  StructureTypePhysicalDeviceProtectedMemoryFeatures = 0
+  StructureTypePhysicalDeviceProtectedMemoryProperties = 0
+  StructureTypeDeviceQueueInfo2 = 0
+  StructureTypeSamplerYcbcrConversionCreateInfo = 0
+  StructureTypeSamplerYcbcrConversionInfo = 0
+  StructureTypeBindImagePlaneMemoryInfo = 0
+  StructureTypeImagePlaneMemoryRequirementsInfo = 0
+  StructureTypePhysicalDeviceSamplerYcbcrConversionFeatures = 0
+  StructureTypeSamplerYcbcrConversionImageFormatProperties = 0
+  StructureTypeDescriptorUpdateTemplateCreateInfo = 0
+  StructureTypePhysicalDeviceExternalImageFormatInfo = 0
+  StructureTypeExternalImageFormatProperties = 0
+  StructureTypePhysicalDeviceExternalBufferInfo = 0
+  StructureTypeExternalBufferProperties = 0
+  StructureTypePhysicalDeviceIdProperties = 0
+  StructureTypeExternalMemoryBufferCreateInfo = 0
+  StructureTypeExternalMemoryImageCreateInfo = 0
+  StructureTypeExportMemoryAllocateInfo = 0
+  StructureTypePhysicalDeviceExternalFenceInfo = 0
+  StructureTypeExternalFenceProperties = 0
+  StructureTypeExportFenceCreateInfo = 0
+  StructureTypeExportSemaphoreCreateInfo = 0
+  StructureTypePhysicalDeviceExternalSemaphoreInfo = 0
+  StructureTypeExternalSemaphoreProperties = 0
+  StructureTypePhysicalDeviceMaintenance3Properties = 0
+  StructureTypeDescriptorSetLayoutSupport = 0
+  StructureTypePhysicalDeviceShaderDrawParametersFeatures = 0
+  StructureTypePhysicalDeviceShaderDrawParameterFeatures = 0
+  StructureTypePhysicalDeviceVulkan11Features = 0
+  StructureTypePhysicalDeviceVulkan11Properties = 0
+  StructureTypePhysicalDeviceVulkan12Features = 0
+  StructureTypePhysicalDeviceVulkan12Properties = 0
+  StructureTypeImageFormatListCreateInfo = 0
+  StructureTypeAttachmentDescription2 = 0
+  StructureTypeAttachmentReference2 = 0
+  StructureTypeSubpassDescription2 = 0
+  StructureTypeSubpassDependency2 = 0
+  StructureTypeRenderPassCreateInfo2 = 0
+  StructureTypeSubpassBeginInfo = 0
+  StructureTypeSubpassEndInfo = 0
+  StructureTypePhysicalDevice8bitStorageFeatures = 0
+  StructureTypePhysicalDeviceDriverProperties = 0
+  StructureTypePhysicalDeviceShaderAtomicInt64Features = 0
+  StructureTypePhysicalDeviceShaderFloat16Int8Features = 0
+  StructureTypePhysicalDeviceFloatControlsProperties = 0
+  StructureTypeDescriptorSetLayoutBindingFlagsCreateInfo = 0
+  StructureTypePhysicalDeviceDescriptorIndexingFeatures = 0
+  StructureTypePhysicalDeviceDescriptorIndexingProperties = 0
+  StructureTypeDescriptorSetVariableDescriptorCountAllocateInfo = 0
+  StructureTypeDescriptorSetVariableDescriptorCountLayoutSupport = 0
+  StructureTypePhysicalDeviceDepthStencilResolveProperties = 0
+  StructureTypeSubpassDescriptionDepthStencilResolve = 0
+  StructureTypePhysicalDeviceScalarBlockLayoutFeatures = 0
+  StructureTypeImageStencilUsageCreateInfo = 0
+  StructureTypePhysicalDeviceSamplerFilterMinmaxProperties = 0
+  StructureTypeSamplerReductionModeCreateInfo = 0
+  StructureTypePhysicalDeviceVulkanMemoryModelFeatures = 0
+  StructureTypePhysicalDeviceImagelessFramebufferFeatures = 0
+  StructureTypeFramebufferAttachmentsCreateInfo = 0
+  StructureTypeFramebufferAttachmentImageInfo = 0
+  StructureTypeRenderPassAttachmentBeginInfo = 0
+  StructureTypePhysicalDeviceUniformBufferStandardLayoutFeatures = 0
+  StructureTypePhysicalDeviceShaderSubgroupExtendedTypesFeatures = 0
+  StructureTypePhysicalDeviceSeparateDepthStencilLayoutsFeatures = 0
+  StructureTypeAttachmentReferenceStencilLayout = 0
+  StructureTypeAttachmentDescriptionStencilLayout = 0
+  StructureTypePhysicalDeviceHostQueryResetFeatures = 0
+  StructureTypePhysicalDeviceTimelineSemaphoreFeatures = 0
+  StructureTypePhysicalDeviceTimelineSemaphoreProperties = 0
+  StructureTypeSemaphoreTypeCreateInfo = 0
+  StructureTypeTimelineSemaphoreSubmitInfo = 0
+  StructureTypeSemaphoreWaitInfo = 0
+  StructureTypeSemaphoreSignalInfo = 0
+  StructureTypePhysicalDeviceBufferDeviceAddressFeatures = 0
+  StructureTypeBufferDeviceAddressInfo = 0
+  StructureTypeBufferOpaqueCaptureAddressCreateInfo = 0
+  StructureTypeMemoryOpaqueCaptureAddressAllocateInfo = 0
+  StructureTypeDeviceMemoryOpaqueCaptureAddressInfo = 0
+  StructureTypePhysicalDeviceVulkan13Features = 0
+  StructureTypePhysicalDeviceVulkan13Properties = 0
+  StructureTypePipelineCreationFeedbackCreateInfo = 0
+  StructureTypePhysicalDeviceShaderTerminateInvocationFeatures = 0
+  StructureTypePhysicalDeviceToolProperties = 0
+  StructureTypePhysicalDeviceShaderDemoteToHelperInvocationFeatures = 0
+  StructureTypePhysicalDevicePrivateDataFeatures = 0
+  StructureTypeDevicePrivateDataCreateInfo = 0
+  StructureTypePrivateDataSlotCreateInfo = 0
+  StructureTypePhysicalDevicePipelineCreationCacheControlFeatures = 0
+  StructureTypeMemoryBarrier2 = 0
+  StructureTypeBufferMemoryBarrier2 = 0
+  StructureTypeImageMemoryBarrier2 = 0
+  StructureTypeDependencyInfo = 0
+  StructureTypeSubmitInfo2 = 0
+  StructureTypeSemaphoreSubmitInfo = 0
+  StructureTypeCommandBufferSubmitInfo = 0
+  StructureTypePhysicalDeviceSynchronization2Features = 0
+  StructureTypePhysicalDeviceZeroInitializeWorkgroupMemoryFeatures = 0
+  StructureTypePhysicalDeviceImageRobustnessFeatures = 0
+  StructureTypeCopyBufferInfo2 = 0
+  StructureTypeCopyImageInfo2 = 0
+  StructureTypeCopyBufferToImageInfo2 = 0
+  StructureTypeCopyImageToBufferInfo2 = 0
+  StructureTypeBlitImageInfo2 = 0
+  StructureTypeResolveImageInfo2 = 0
+  StructureTypeBufferCopy2 = 0
+  StructureTypeImageCopy2 = 0
+  StructureTypeImageBlit2 = 0
+  StructureTypeBufferImageCopy2 = 0
+  StructureTypeImageResolve2 = 0
+  StructureTypePhysicalDeviceSubgroupSizeControlProperties = 0
+  StructureTypePipelineShaderStageRequiredSubgroupSizeCreateInfo = 0
+  StructureTypePhysicalDeviceSubgroupSizeControlFeatures = 0
+  StructureTypePhysicalDeviceInlineUniformBlockFeatures = 0
+  StructureTypePhysicalDeviceInlineUniformBlockProperties = 0
+  StructureTypeWriteDescriptorSetInlineUniformBlock = 0
+  StructureTypeDescriptorPoolInlineUniformBlockCreateInfo = 0
+  StructureTypePhysicalDeviceTextureCompressionAstcHdrFeatures = 0
+  StructureTypeRenderingInfo = 0
+  StructureTypeRenderingAttachmentInfo = 0
+  StructureTypePipelineRenderingCreateInfo = 0
+  StructureTypePhysicalDeviceDynamicRenderingFeatures = 0
+  StructureTypeCommandBufferInheritanceRenderingInfo = 0
+  StructureTypePhysicalDeviceShaderIntegerDotProductFeatures = 0
+  StructureTypePhysicalDeviceShaderIntegerDotProductProperties = 0
+  StructureTypePhysicalDeviceTexelBufferAlignmentProperties = 0
+  StructureTypeFormatProperties3 = 0
+  StructureTypePhysicalDeviceMaintenance4Features = 0
+  StructureTypePhysicalDeviceMaintenance4Properties = 0
+  StructureTypeDeviceBufferMemoryRequirements = 0
+  StructureTypeDeviceImageMemoryRequirements = 0
   StructureTypeInstanceCreateInfo = 1
   StructureTypeDeviceQueueCreateInfo = 2
   StructureTypeDeviceCreateInfo = 3
@@ -475,6 +709,11 @@ type VkResult * = enum
   ErrorOutOfDeviceMemory = -2  ## A device memory allocation has failed
   ErrorOutOfHostMemory = -1  ## A host memory allocation has failed
   Success = 0  ## Command completed successfully
+  ErrorOutOfPoolMemory = 0
+  ErrorInvalidExternalHandle = 0
+  ErrorFragmentation = 0
+  ErrorInvalidOpaqueCaptureAddress = 0
+  PipelineCompileRequired = 0
   NotReady = 1  ## A fence or query has not yet completed
   Timeout = 2  ## A wait operation has not completed in the specified time
   EventSet = 3  ## An event is signaled
@@ -483,6 +722,21 @@ type VkResult * = enum
 
 type VkDynamicState * = enum
   DynamicStateViewport = 0
+  DynamicStateCullMode = 0
+  DynamicStateFrontFace = 0
+  DynamicStatePrimitiveTopology = 0
+  DynamicStateViewportWithCount = 0
+  DynamicStateScissorWithCount = 0
+  DynamicStateVertexInputBindingStride = 0
+  DynamicStateDepthTestEnable = 0
+  DynamicStateDepthWriteEnable = 0
+  DynamicStateDepthCompareOp = 0
+  DynamicStateDepthBoundsTestEnable = 0
+  DynamicStateStencilTestEnable = 0
+  DynamicStateStencilOp = 0
+  DynamicStateRasterizerDiscardEnable = 0
+  DynamicStateDepthBiasEnable = 0
+  DynamicStatePrimitiveRestartEnable = 0
   DynamicStateScissor = 1
   DynamicStateLineWidth = 2
   DynamicStateDepthBias = 3
@@ -497,6 +751,9 @@ type VkDescriptorUpdateTemplateType * = enum
 
 type VkObjectType * = enum
   ObjectTypeUnknown = 0
+  ObjectTypeSamplerYcbcrConversion = 0
+  ObjectTypeDescriptorUpdateTemplate = 0
+  ObjectTypePrivateDataSlot = 0
   ObjectTypeInstance = 1
   ObjectTypePhysicalDevice = 2
   ObjectTypeDevice = 3
@@ -523,143 +780,9 @@ type VkObjectType * = enum
   ObjectTypeFramebuffer = 24
   ObjectTypeCommandPool = 25
 
-type VkRayTracingInvocationReorderModeNV * = enum
-  RayTracingInvocationReorderModeNoneNv = 0
-  RayTracingInvocationReorderModeReorderNv = 1
-
-type VkDirectDriverLoadingModeLUNARG * = enum
-  DirectDriverLoadingModeExclusiveLunarg = 0
-  DirectDriverLoadingModeInclusiveLunarg = 1
-
 type VkSemaphoreType * = enum
   SemaphoreTypeBinary = 0
   SemaphoreTypeTimeline = 1
-
-type VkPresentModeKHR * = enum
-  PresentModeImmediateKhr = 0
-  PresentModeMailboxKhr = 1
-  PresentModeFifoKhr = 2
-  PresentModeFifoRelaxedKhr = 3
-
-type VkColorSpaceKHR * = enum
-  ColorSpaceSrgbNonlinearKhr = 0
-
-type VkTimeDomainKHR * = enum
-  TimeDomainDeviceKhr = 0
-  TimeDomainClockMonotonicKhr = 1
-  TimeDomainClockMonotonicRawKhr = 2
-  TimeDomainQueryPerformanceCounterKhr = 3
-
-type VkDebugReportObjectTypeEXT * = enum
-  DebugReportObjectTypeUnknownExt = 0
-  DebugReportObjectTypeInstanceExt = 1
-  DebugReportObjectTypePhysicalDeviceExt = 2
-  DebugReportObjectTypeDeviceExt = 3
-  DebugReportObjectTypeQueueExt = 4
-  DebugReportObjectTypeSemaphoreExt = 5
-  DebugReportObjectTypeCommandBufferExt = 6
-  DebugReportObjectTypeFenceExt = 7
-  DebugReportObjectTypeDeviceMemoryExt = 8
-  DebugReportObjectTypeBufferExt = 9
-  DebugReportObjectTypeImageExt = 10
-  DebugReportObjectTypeEventExt = 11
-  DebugReportObjectTypeQueryPoolExt = 12
-  DebugReportObjectTypeBufferViewExt = 13
-  DebugReportObjectTypeImageViewExt = 14
-  DebugReportObjectTypeShaderModuleExt = 15
-  DebugReportObjectTypePipelineCacheExt = 16
-  DebugReportObjectTypePipelineLayoutExt = 17
-  DebugReportObjectTypeRenderPassExt = 18
-  DebugReportObjectTypePipelineExt = 19
-  DebugReportObjectTypeDescriptorSetLayoutExt = 20
-  DebugReportObjectTypeSamplerExt = 21
-  DebugReportObjectTypeDescriptorPoolExt = 22
-  DebugReportObjectTypeDescriptorSetExt = 23
-  DebugReportObjectTypeFramebufferExt = 24
-  DebugReportObjectTypeCommandPoolExt = 25
-  DebugReportObjectTypeSurfaceKhrExt = 26
-  DebugReportObjectTypeSwapchainKhrExt = 27
-  DebugReportObjectTypeDebugReportCallbackExtExt = 28
-  DebugReportObjectTypeDisplayKhrExt = 29
-  DebugReportObjectTypeDisplayModeKhrExt = 30
-  DebugReportObjectTypeValidationCacheExtExt = 33
-
-type VkDeviceMemoryReportEventTypeEXT * = enum
-  DeviceMemoryReportEventTypeAllocateExt = 0
-  DeviceMemoryReportEventTypeFreeExt = 1
-  DeviceMemoryReportEventTypeImportExt = 2
-  DeviceMemoryReportEventTypeUnimportExt = 3
-  DeviceMemoryReportEventTypeAllocationFailedExt = 4
-
-type VkRasterizationOrderAMD * = enum
-  RasterizationOrderStrictAmd = 0
-  RasterizationOrderRelaxedAmd = 1
-
-type VkValidationCheckEXT * = enum
-  ValidationCheckAllExt = 0
-  ValidationCheckShadersExt = 1
-
-type VkValidationFeatureEnableEXT * = enum
-  ValidationFeatureEnableGpuAssistedExt = 0
-  ValidationFeatureEnableGpuAssistedReserveBindingSlotExt = 1
-  ValidationFeatureEnableBestPracticesExt = 2
-  ValidationFeatureEnableDebugPrintfExt = 3
-  ValidationFeatureEnableSynchronizationValidationExt = 4
-
-type VkValidationFeatureDisableEXT * = enum
-  ValidationFeatureDisableAllExt = 0
-  ValidationFeatureDisableShadersExt = 1
-  ValidationFeatureDisableThreadSafetyExt = 2
-  ValidationFeatureDisableApiParametersExt = 3
-  ValidationFeatureDisableObjectLifetimesExt = 4
-  ValidationFeatureDisableCoreChecksExt = 5
-  ValidationFeatureDisableUniqueHandlesExt = 6
-  ValidationFeatureDisableShaderValidationCacheExt = 7
-
-type VkLayerSettingTypeEXT * = enum
-  LayerSettingTypeBool32Ext = 0
-  LayerSettingTypeInt32Ext = 1
-  LayerSettingTypeInt64Ext = 2
-  LayerSettingTypeUint32Ext = 3
-  LayerSettingTypeUint64Ext = 4
-  LayerSettingTypeFloat32Ext = 5
-  LayerSettingTypeFloat64Ext = 6
-  LayerSettingTypeStringExt = 7
-
-type VkIndirectCommandsTokenTypeNV * = enum
-  IndirectCommandsTokenTypeShaderGroupNv = 0
-  IndirectCommandsTokenTypeStateFlagsNv = 1
-  IndirectCommandsTokenTypeIndexBufferNv = 2
-  IndirectCommandsTokenTypeVertexBufferNv = 3
-  IndirectCommandsTokenTypePushConstantNv = 4
-  IndirectCommandsTokenTypeDrawIndexedNv = 5
-  IndirectCommandsTokenTypeDrawNv = 6
-  IndirectCommandsTokenTypeDrawTasksNv = 7
-
-type VkDisplayPowerStateEXT * = enum
-  DisplayPowerStateOffExt = 0
-  DisplayPowerStateSuspendExt = 1
-  DisplayPowerStateOnExt = 2
-
-type VkDeviceEventTypeEXT * = enum
-  DeviceEventTypeDisplayHotplugExt = 0
-
-type VkDisplayEventTypeEXT * = enum
-  DisplayEventTypeFirstPixelOutExt = 0
-
-type VkViewportCoordinateSwizzleNV * = enum
-  ViewportCoordinateSwizzlePositiveXNv = 0
-  ViewportCoordinateSwizzleNegativeXNv = 1
-  ViewportCoordinateSwizzlePositiveYNv = 2
-  ViewportCoordinateSwizzleNegativeYNv = 3
-  ViewportCoordinateSwizzlePositiveZNv = 4
-  ViewportCoordinateSwizzleNegativeZNv = 5
-  ViewportCoordinateSwizzlePositiveWNv = 6
-  ViewportCoordinateSwizzleNegativeWNv = 7
-
-type VkDiscardRectangleModeEXT * = enum
-  DiscardRectangleModeInclusiveExt = 0
-  DiscardRectangleModeExclusiveExt = 1
 
 type VkPointClippingBehavior * = enum
   PointClippingBehaviorAllClipPlanes = 0
@@ -688,40 +811,6 @@ type VkSamplerYcbcrRange * = enum
 type VkChromaLocation * = enum
   ChromaLocationCositedEven = 0
   ChromaLocationMidpoint = 1
-
-type VkBlendOverlapEXT * = enum
-  BlendOverlapUncorrelatedExt = 0
-  BlendOverlapDisjointExt = 1
-  BlendOverlapConjointExt = 2
-
-type VkCoverageModulationModeNV * = enum
-  CoverageModulationModeNoneNv = 0
-  CoverageModulationModeRgbNv = 1
-  CoverageModulationModeAlphaNv = 2
-  CoverageModulationModeRgbaNv = 3
-
-type VkCoverageReductionModeNV * = enum
-  CoverageReductionModeMergeNv = 0
-  CoverageReductionModeTruncateNv = 1
-
-type VkValidationCacheHeaderVersionEXT * = enum
-  ValidationCacheHeaderVersionOneExt = 1
-
-type VkShaderInfoTypeAMD * = enum
-  ShaderInfoTypeStatisticsAmd = 0
-  ShaderInfoTypeBinaryAmd = 1
-  ShaderInfoTypeDisassemblyAmd = 2
-
-type VkQueueGlobalPriorityKHR * = enum
-  QueueGlobalPriorityLowKhr = 128
-  QueueGlobalPriorityMediumKhr = 256
-  QueueGlobalPriorityHighKhr = 512
-  QueueGlobalPriorityRealtimeKhr = 1024
-
-type VkConservativeRasterizationModeEXT * = enum
-  ConservativeRasterizationModeDisabledExt = 0
-  ConservativeRasterizationModeOverestimateExt = 1
-  ConservativeRasterizationModeUnderestimateExt = 2
 
 type VkVendorId * = enum
   VendorIdViv = 0x10001  ## Vivante vendor ID
@@ -760,372 +849,10 @@ type VkDriverId * = enum
   DriverIdImaginationOpenSourceMesa = 25  ## Imagination Technologies
   DriverIdMesaAgxv = 26  ## Mesa open source project
 
-type VkShadingRatePaletteEntryNV * = enum
-  ShadingRatePaletteEntryNoInvocationsNv = 0
-  ShadingRatePaletteEntry16InvocationsPerPixelNv = 1
-  ShadingRatePaletteEntry8InvocationsPerPixelNv = 2
-  ShadingRatePaletteEntry4InvocationsPerPixelNv = 3
-  ShadingRatePaletteEntry2InvocationsPerPixelNv = 4
-  ShadingRatePaletteEntry1InvocationPerPixelNv = 5
-  ShadingRatePaletteEntry1InvocationPer2x1PixelsNv = 6
-  ShadingRatePaletteEntry1InvocationPer1x2PixelsNv = 7
-  ShadingRatePaletteEntry1InvocationPer2x2PixelsNv = 8
-  ShadingRatePaletteEntry1InvocationPer4x2PixelsNv = 9
-  ShadingRatePaletteEntry1InvocationPer2x4PixelsNv = 10
-  ShadingRatePaletteEntry1InvocationPer4x4PixelsNv = 11
-
-type VkCoarseSampleOrderTypeNV * = enum
-  CoarseSampleOrderTypeDefaultNv = 0
-  CoarseSampleOrderTypeCustomNv = 1
-  CoarseSampleOrderTypePixelMajorNv = 2
-  CoarseSampleOrderTypeSampleMajorNv = 3
-
-type VkCopyAccelerationStructureModeKHR * = enum
-  CopyAccelerationStructureModeCloneKhr = 0
-  CopyAccelerationStructureModeCompactKhr = 1
-  CopyAccelerationStructureModeSerializeKhr = 2
-  CopyAccelerationStructureModeDeserializeKhr = 3
-
-type VkBuildAccelerationStructureModeKHR * = enum
-  BuildAccelerationStructureModeBuildKhr = 0
-  BuildAccelerationStructureModeUpdateKhr = 1
-
-type VkAccelerationStructureTypeKHR * = enum
-  AccelerationStructureTypeTopLevelKhr = 0
-  AccelerationStructureTypeBottomLevelKhr = 1
-  AccelerationStructureTypeGenericKhr = 2
-
-type VkGeometryTypeKHR * = enum
-  GeometryTypeTrianglesKhr = 0
-  GeometryTypeAabbsKhr = 1
-  GeometryTypeInstancesKhr = 2
-
-type VkAccelerationStructureMemoryRequirementsTypeNV * = enum
-  AccelerationStructureMemoryRequirementsTypeObjectNv = 0
-  AccelerationStructureMemoryRequirementsTypeBuildScratchNv = 1
-  AccelerationStructureMemoryRequirementsTypeUpdateScratchNv = 2
-
-type VkAccelerationStructureBuildTypeKHR * = enum
-  AccelerationStructureBuildTypeHostKhr = 0
-  AccelerationStructureBuildTypeDeviceKhr = 1
-  AccelerationStructureBuildTypeHostOrDeviceKhr = 2
-
-type VkRayTracingShaderGroupTypeKHR * = enum
-  RayTracingShaderGroupTypeGeneralKhr = 0
-  RayTracingShaderGroupTypeTrianglesHitGroupKhr = 1
-  RayTracingShaderGroupTypeProceduralHitGroupKhr = 2
-
-type VkAccelerationStructureCompatibilityKHR * = enum
-  AccelerationStructureCompatibilityCompatibleKhr = 0
-  AccelerationStructureCompatibilityIncompatibleKhr = 1
-
-type VkShaderGroupShaderKHR * = enum
-  ShaderGroupShaderGeneralKhr = 0
-  ShaderGroupShaderClosestHitKhr = 1
-  ShaderGroupShaderAnyHitKhr = 2
-  ShaderGroupShaderIntersectionKhr = 3
-
-type VkMemoryOverallocationBehaviorAMD * = enum
-  MemoryOverallocationBehaviorDefaultAmd = 0
-  MemoryOverallocationBehaviorAllowedAmd = 1
-  MemoryOverallocationBehaviorDisallowedAmd = 2
-
-type VkFullScreenExclusiveEXT * = enum
-  FullScreenExclusiveDefaultExt = 0
-  FullScreenExclusiveAllowedExt = 1
-  FullScreenExclusiveDisallowedExt = 2
-  FullScreenExclusiveApplicationControlledExt = 3
-
-type VkPerformanceCounterScopeKHR * = enum
-  PerformanceCounterScopeCommandBufferKhr = 0
-  PerformanceCounterScopeRenderPassKhr = 1
-  PerformanceCounterScopeCommandKhr = 2
-
-type VkPerformanceCounterUnitKHR * = enum
-  PerformanceCounterUnitGenericKhr = 0
-  PerformanceCounterUnitPercentageKhr = 1
-  PerformanceCounterUnitNanosecondsKhr = 2
-  PerformanceCounterUnitBytesKhr = 3
-  PerformanceCounterUnitBytesPerSecondKhr = 4
-  PerformanceCounterUnitKelvinKhr = 5
-  PerformanceCounterUnitWattsKhr = 6
-  PerformanceCounterUnitVoltsKhr = 7
-  PerformanceCounterUnitAmpsKhr = 8
-  PerformanceCounterUnitHertzKhr = 9
-  PerformanceCounterUnitCyclesKhr = 10
-
-type VkPerformanceCounterStorageKHR * = enum
-  PerformanceCounterStorageInt32Khr = 0
-  PerformanceCounterStorageInt64Khr = 1
-  PerformanceCounterStorageUint32Khr = 2
-  PerformanceCounterStorageUint64Khr = 3
-  PerformanceCounterStorageFloat32Khr = 4
-  PerformanceCounterStorageFloat64Khr = 5
-
-type VkPerformanceConfigurationTypeINTEL * = enum
-  PerformanceConfigurationTypeCommandQueueMetricsDiscoveryActivatedIntel = 0
-
-type VkQueryPoolSamplingModeINTEL * = enum
-  QueryPoolSamplingModeManualIntel = 0
-
-type VkPerformanceOverrideTypeINTEL * = enum
-  PerformanceOverrideTypeNullHardwareIntel = 0
-  PerformanceOverrideTypeFlushGpuCachesIntel = 1
-
-type VkPerformanceParameterTypeINTEL * = enum
-  PerformanceParameterTypeHwCountersSupportedIntel = 0
-  PerformanceParameterTypeStreamMarkerValidBitsIntel = 1
-
-type VkPerformanceValueTypeINTEL * = enum
-  PerformanceValueTypeUint32Intel = 0
-  PerformanceValueTypeUint64Intel = 1
-  PerformanceValueTypeFloatIntel = 2
-  PerformanceValueTypeBoolIntel = 3
-  PerformanceValueTypeStringIntel = 4
-
 type VkShaderFloatControlsIndependence * = enum
   ShaderFloatControlsIndependence32BitOnly = 0
   ShaderFloatControlsIndependenceAll = 1
   ShaderFloatControlsIndependenceNone = 2
-
-type VkPipelineExecutableStatisticFormatKHR * = enum
-  PipelineExecutableStatisticFormatBool32Khr = 0
-  PipelineExecutableStatisticFormatInt64Khr = 1
-  PipelineExecutableStatisticFormatUint64Khr = 2
-  PipelineExecutableStatisticFormatFloat64Khr = 3
-
-type VkLineRasterizationModeKHR * = enum
-  LineRasterizationModeDefaultKhr = 0
-  LineRasterizationModeRectangularKhr = 1
-  LineRasterizationModeBresenhamKhr = 2
-  LineRasterizationModeRectangularSmoothKhr = 3
-
-type VkFaultLevel * = enum
-  FaultLevelUnassigned = 0
-  FaultLevelCritical = 1
-  FaultLevelRecoverable = 2
-  FaultLevelWarning = 3
-
-type VkFaultType * = enum
-  FaultTypeInvalid = 0
-  FaultTypeUnassigned = 1
-  FaultTypeImplementation = 2
-  FaultTypeSystem = 3
-  FaultTypePhysicalDevice = 4
-  FaultTypeCommandBufferFull = 5
-  FaultTypeInvalidApiUsage = 6
-
-type VkFaultQueryBehavior * = enum
-  FaultQueryBehaviorGetAndClearAllFaults = 0
-
-type VkPipelineMatchControl * = enum
-  PipelineMatchControlApplicationUuidExactMatch = 0
-
-type VkFragmentShadingRateCombinerOpKHR * = enum
-  FragmentShadingRateCombinerOpKeepKhr = 0
-  FragmentShadingRateCombinerOpReplaceKhr = 1
-  FragmentShadingRateCombinerOpMinKhr = 2
-  FragmentShadingRateCombinerOpMaxKhr = 3
-  FragmentShadingRateCombinerOpMulKhr = 4
-
-type VkFragmentShadingRateNV * = enum
-  FragmentShadingRate1InvocationPerPixelNv = 0
-  FragmentShadingRate1InvocationPer1x2PixelsNv = 1
-  FragmentShadingRate1InvocationPer2x1PixelsNv = 4
-  FragmentShadingRate1InvocationPer2x2PixelsNv = 5
-  FragmentShadingRate1InvocationPer2x4PixelsNv = 6
-  FragmentShadingRate1InvocationPer4x2PixelsNv = 9
-  FragmentShadingRate1InvocationPer4x4PixelsNv = 10
-  FragmentShadingRate2InvocationsPerPixelNv = 11
-  FragmentShadingRate4InvocationsPerPixelNv = 12
-  FragmentShadingRate8InvocationsPerPixelNv = 13
-  FragmentShadingRate16InvocationsPerPixelNv = 14
-  FragmentShadingRateNoInvocationsNv = 15
-
-type VkFragmentShadingRateTypeNV * = enum
-  FragmentShadingRateTypeFragmentSizeNv = 0
-  FragmentShadingRateTypeEnumsNv = 1
-
-type VkSubpassMergeStatusEXT * = enum
-  SubpassMergeStatusMergedExt = 0
-  SubpassMergeStatusDisallowedExt = 1
-  SubpassMergeStatusNotMergedSideEffectsExt = 2
-  SubpassMergeStatusNotMergedSamplesMismatchExt = 3
-  SubpassMergeStatusNotMergedViewsMismatchExt = 4
-  SubpassMergeStatusNotMergedAliasingExt = 5
-  SubpassMergeStatusNotMergedDependenciesExt = 6
-  SubpassMergeStatusNotMergedIncompatibleInputAttachmentExt = 7
-  SubpassMergeStatusNotMergedTooManyAttachmentsExt = 8
-  SubpassMergeStatusNotMergedInsufficientStorageExt = 9
-  SubpassMergeStatusNotMergedDepthStencilCountExt = 10
-  SubpassMergeStatusNotMergedResolveAttachmentReuseExt = 11
-  SubpassMergeStatusNotMergedSingleSubpassExt = 12
-  SubpassMergeStatusNotMergedUnspecifiedExt = 13
-
-type VkSciSyncClientTypeNV * = enum
-  SciSyncClientTypeSignalerNv = 0
-  SciSyncClientTypeWaiterNv = 1
-  SciSyncClientTypeSignalerWaiterNv = 2
-
-type VkSciSyncPrimitiveTypeNV * = enum
-  SciSyncPrimitiveTypeFenceNv = 0
-  SciSyncPrimitiveTypeSemaphoreNv = 1
-
-type VkProvokingVertexModeEXT * = enum
-  ProvokingVertexModeFirstVertexExt = 0
-  ProvokingVertexModeLastVertexExt = 1
-
-type VkPipelineCacheValidationVersion * = enum
-  PipelineCacheValidationVersionSafetyCriticalOne = 1
-
-type VkAccelerationStructureMotionInstanceTypeNV * = enum
-  AccelerationStructureMotionInstanceTypeStaticNv = 0
-  AccelerationStructureMotionInstanceTypeMatrixMotionNv = 1
-  AccelerationStructureMotionInstanceTypeSrtMotionNv = 2
-
-type VkDeviceAddressBindingTypeEXT * = enum
-  DeviceAddressBindingTypeBindExt = 0
-  DeviceAddressBindingTypeUnbindExt = 1
-
-type VkQueryResultStatusKHR * = enum
-  QueryResultStatusErrorKhr = -1
-  QueryResultStatusNotReadyKhr = 0
-  QueryResultStatusCompleteKhr = 1
-
-type VkVideoEncodeTuningModeKHR * = enum
-  VideoEncodeTuningModeDefaultKhr = 0
-  VideoEncodeTuningModeHighQualityKhr = 1
-  VideoEncodeTuningModeLowLatencyKhr = 2
-  VideoEncodeTuningModeUltraLowLatencyKhr = 3
-  VideoEncodeTuningModeLosslessKhr = 4
-
-type VkPipelineRobustnessBufferBehaviorEXT * = enum
-  PipelineRobustnessBufferBehaviorDeviceDefaultExt = 0
-  PipelineRobustnessBufferBehaviorDisabledExt = 1
-  PipelineRobustnessBufferBehaviorRobustBufferAccessExt = 2
-  PipelineRobustnessBufferBehaviorRobustBufferAccess2Ext = 3
-
-type VkPipelineRobustnessImageBehaviorEXT * = enum
-  PipelineRobustnessImageBehaviorDeviceDefaultExt = 0
-  PipelineRobustnessImageBehaviorDisabledExt = 1
-  PipelineRobustnessImageBehaviorRobustImageAccessExt = 2
-  PipelineRobustnessImageBehaviorRobustImageAccess2Ext = 3
-
-type VkOpticalFlowPerformanceLevelNV * = enum
-  OpticalFlowPerformanceLevelUnknownNv = 0
-  OpticalFlowPerformanceLevelSlowNv = 1
-  OpticalFlowPerformanceLevelMediumNv = 2
-  OpticalFlowPerformanceLevelFastNv = 3
-
-type VkOpticalFlowSessionBindingPointNV * = enum
-  OpticalFlowSessionBindingPointUnknownNv = 0
-  OpticalFlowSessionBindingPointInputNv = 1
-  OpticalFlowSessionBindingPointReferenceNv = 2
-  OpticalFlowSessionBindingPointHintNv = 3
-  OpticalFlowSessionBindingPointFlowVectorNv = 4
-  OpticalFlowSessionBindingPointBackwardFlowVectorNv = 5
-  OpticalFlowSessionBindingPointCostNv = 6
-  OpticalFlowSessionBindingPointBackwardCostNv = 7
-  OpticalFlowSessionBindingPointGlobalFlowNv = 8
-
-type VkMicromapTypeEXT * = enum
-  MicromapTypeOpacityMicromapExt = 0
-
-type VkCopyMicromapModeEXT * = enum
-  CopyMicromapModeCloneExt = 0
-  CopyMicromapModeSerializeExt = 1
-  CopyMicromapModeDeserializeExt = 2
-  CopyMicromapModeCompactExt = 3
-
-type VkBuildMicromapModeEXT * = enum
-  BuildMicromapModeBuildExt = 0
-
-type VkOpacityMicromapFormatEXT * = enum
-  OpacityMicromapFormat2StateExt = 1
-  OpacityMicromapFormat4StateExt = 2
-
-type VkOpacityMicromapSpecialIndexEXT * = enum
-  OpacityMicromapSpecialIndexFullyUnknownOpaqueExt = -4
-  OpacityMicromapSpecialIndexFullyUnknownTransparentExt = -3
-  OpacityMicromapSpecialIndexFullyOpaqueExt = -2
-  OpacityMicromapSpecialIndexFullyTransparentExt = -1
-
-type VkDepthBiasRepresentationEXT * = enum
-  DepthBiasRepresentationLeastRepresentableValueFormatExt = 0
-  DepthBiasRepresentationLeastRepresentableValueForceUnormExt = 1
-  DepthBiasRepresentationFloatExt = 2
-
-type VkDeviceFaultAddressTypeEXT * = enum
-  DeviceFaultAddressTypeNoneExt = 0  ## Currently unused
-  DeviceFaultAddressTypeReadInvalidExt = 1
-  DeviceFaultAddressTypeWriteInvalidExt = 2
-  DeviceFaultAddressTypeExecuteInvalidExt = 3
-  DeviceFaultAddressTypeInstructionPointerUnknownExt = 4
-  DeviceFaultAddressTypeInstructionPointerInvalidExt = 5
-  DeviceFaultAddressTypeInstructionPointerFaultExt = 6
-
-type VkDeviceFaultVendorBinaryHeaderVersionEXT * = enum
-  DeviceFaultVendorBinaryHeaderVersionOneExt = 1
-
-type VkDisplacementMicromapFormatNV * = enum
-  DisplacementMicromapFormat64Triangles64BytesNv = 1
-  DisplacementMicromapFormat256Triangles128BytesNv = 2
-  DisplacementMicromapFormat1024Triangles128BytesNv = 3
-
-type VkShaderCodeTypeEXT * = enum
-  ShaderCodeTypeBinaryExt = 0
-  ShaderCodeTypeSpirvExt = 1
-
-type VkScopeKHR * = enum
-  ScopeDeviceKhr = 1
-  ScopeWorkgroupKhr = 2
-  ScopeSubgroupKhr = 3
-  ScopeQueueFamilyKhr = 5
-
-type VkComponentTypeKHR * = enum
-  ComponentTypeFloat16Khr = 0
-  ComponentTypeFloat32Khr = 1
-  ComponentTypeFloat64Khr = 2
-  ComponentTypeSint8Khr = 3
-  ComponentTypeSint16Khr = 4
-  ComponentTypeSint32Khr = 5
-  ComponentTypeSint64Khr = 6
-  ComponentTypeUint8Khr = 7
-  ComponentTypeUint16Khr = 8
-  ComponentTypeUint32Khr = 9
-  ComponentTypeUint64Khr = 10
-
-type VkCubicFilterWeightsQCOM * = enum
-  CubicFilterWeightsCatmullRomQcom = 0
-  CubicFilterWeightsZeroTangentCardinalQcom = 1
-  CubicFilterWeightsBSplineQcom = 2
-  CubicFilterWeightsMitchellNetravaliQcom = 3
-
-type VkBlockMatchWindowCompareModeQCOM * = enum
-  BlockMatchWindowCompareModeMinQcom = 0
-  BlockMatchWindowCompareModeMaxQcom = 1
-
-type VkLayeredDriverUnderlyingApiMSFT * = enum
-  LayeredDriverUnderlyingApiNoneMsft = 0
-  LayeredDriverUnderlyingApiD3d12Msft = 1
-
-type VkLatencyMarkerNV * = enum
-  LatencyMarkerSimulationStartNv = 0
-  LatencyMarkerSimulationEndNv = 1
-  LatencyMarkerRendersubmitStartNv = 2
-  LatencyMarkerRendersubmitEndNv = 3
-  LatencyMarkerPresentStartNv = 4
-  LatencyMarkerPresentEndNv = 5
-  LatencyMarkerInputSampleNv = 6
-  LatencyMarkerTriggerFlashNv = 7
-  LatencyMarkerOutOfBandRendersubmitStartNv = 8
-  LatencyMarkerOutOfBandRendersubmitEndNv = 9
-  LatencyMarkerOutOfBandPresentStartNv = 10
-  LatencyMarkerOutOfBandPresentEndNv = 11
-
-type VkOutOfBandQueueTypeNV * = enum
-  OutOfBandQueueTypeRenderNv = 0
-  OutOfBandQueueTypePresentNv = 1
 
 ## Value Bitmasks
 type VkQueueFlagBits * = enum
@@ -1180,17 +907,6 @@ type VkBufferUsageFlagBits * = enum
   BufferUsageVertexBufferBit = 128  ## Can be used as source of fixed-function vertex fetch (VBO)
   BufferUsageIndirectBufferBit = 256  ## Can be the source of indirect parameters (e.g. indirect buffer, parameter buffer)
 
-type VkBufferUsageFlagBits2KHR * = enum
-  BufferUsage2TransferSrcBitKhr = 1
-  BufferUsage2TransferDstBitKhr = 2
-  BufferUsage2UniformTexelBufferBitKhr = 4
-  BufferUsage2StorageTexelBufferBitKhr = 8
-  BufferUsage2UniformBufferBitKhr = 16
-  BufferUsage2StorageBufferBitKhr = 32
-  BufferUsage2IndexBufferBitKhr = 64
-  BufferUsage2VertexBufferBitKhr = 128
-  BufferUsage2IndirectBufferBitKhr = 256
-
 type VkBufferCreateFlagBits * = enum
   BufferCreateSparseBindingBit = 1  ## Buffer should support sparse backing
   BufferCreateSparseResidencyBit = 2  ## Buffer should support sparse backing with partial residency
@@ -1227,11 +943,6 @@ type VkPipelineCreateFlagBits * = enum
   PipelineCreateDisableOptimizationBit = 1
   PipelineCreateAllowDerivativesBit = 2
   PipelineCreateDerivativeBit = 4
-
-type VkPipelineCreateFlagBits2KHR * = enum
-  PipelineCreate2DisableOptimizationBitKhr = 1
-  PipelineCreate2AllowDerivativesBitKhr = 2
-  PipelineCreate2DerivativeBitKhr = 4
 
 type VkColorComponentFlagBits * = enum
   ColorComponentRBit = 1
@@ -1353,50 +1064,6 @@ type VkDependencyFlagBits * = enum
 type VkSemaphoreWaitFlagBits * = enum
   SemaphoreWaitAnyBit = 1
 
-type VkDisplayPlaneAlphaFlagBitsKHR * = enum
-  DisplayPlaneAlphaOpaqueBitKhr = 1
-  DisplayPlaneAlphaGlobalBitKhr = 2
-  DisplayPlaneAlphaPerPixelBitKhr = 4
-  DisplayPlaneAlphaPerPixelPremultipliedBitKhr = 8
-
-type VkCompositeAlphaFlagBitsKHR * = enum
-  CompositeAlphaOpaqueBitKhr = 1
-  CompositeAlphaPreMultipliedBitKhr = 2
-  CompositeAlphaPostMultipliedBitKhr = 4
-  CompositeAlphaInheritBitKhr = 8
-
-type VkSurfaceTransformFlagBitsKHR * = enum
-  SurfaceTransformIdentityBitKhr = 1
-  SurfaceTransformRotate90BitKhr = 2
-  SurfaceTransformRotate180BitKhr = 4
-  SurfaceTransformRotate270BitKhr = 8
-  SurfaceTransformHorizontalMirrorBitKhr = 16
-  SurfaceTransformHorizontalMirrorRotate90BitKhr = 32
-  SurfaceTransformHorizontalMirrorRotate180BitKhr = 64
-  SurfaceTransformHorizontalMirrorRotate270BitKhr = 128
-  SurfaceTransformInheritBitKhr = 256
-
-type VkSwapchainImageUsageFlagBitsANDROID * = enum
-  SwapchainImageUsageSharedBitAndroid = 1
-
-type VkDebugReportFlagBitsEXT * = enum
-  DebugReportInformationBitExt = 1
-  DebugReportWarningBitExt = 2
-  DebugReportPerformanceWarningBitExt = 4
-  DebugReportErrorBitExt = 8
-  DebugReportDebugBitExt = 16
-
-type VkExternalMemoryHandleTypeFlagBitsNV * = enum
-  ExternalMemoryHandleTypeOpaqueWin32BitNv = 1
-  ExternalMemoryHandleTypeOpaqueWin32KmtBitNv = 2
-  ExternalMemoryHandleTypeD3d11ImageBitNv = 4
-  ExternalMemoryHandleTypeD3d11ImageKmtBitNv = 8
-
-type VkExternalMemoryFeatureFlagBitsNV * = enum
-  ExternalMemoryFeatureDedicatedOnlyBitNv = 1
-  ExternalMemoryFeatureExportableBitNv = 2
-  ExternalMemoryFeatureImportableBitNv = 4
-
 type VkSubgroupFeatureFlagBits * = enum
   SubgroupFeatureBasicBit = 1  ## Basic subgroup operations
   SubgroupFeatureVoteBit = 2  ## Vote subgroup operations
@@ -1406,14 +1073,6 @@ type VkSubgroupFeatureFlagBits * = enum
   SubgroupFeatureShuffleRelativeBit = 32  ## Shuffle relative subgroup operations
   SubgroupFeatureClusteredBit = 64  ## Clustered subgroup operations
   SubgroupFeatureQuadBit = 128  ## Quad subgroup operations
-
-type VkIndirectCommandsLayoutUsageFlagBitsNV * = enum
-  IndirectCommandsLayoutUsageExplicitPreprocessBitNv = 1
-  IndirectCommandsLayoutUsageIndexedSequencesBitNv = 2
-  IndirectCommandsLayoutUsageUnorderedSequencesBitNv = 4
-
-type VkIndirectStateFlagBitsNV * = enum
-  IndirectStateFlagFrontfaceBitNv = 1
 
 type VkExternalMemoryHandleTypeFlagBits * = enum
   ExternalMemoryHandleTypeOpaqueFdBit = 1
@@ -1456,9 +1115,6 @@ type VkExternalFenceFeatureFlagBits * = enum
 type VkFenceImportFlagBits * = enum
   FenceImportTemporaryBit = 1
 
-type VkSurfaceCounterFlagBitsEXT * = enum
-  SurfaceCounterVblankBitExt = 1
-
 type VkPeerMemoryFeatureFlagBits * = enum
   PeerMemoryFeatureCopySrcBit = 1  ## Can read with vkCmdCopy commands
   PeerMemoryFeatureCopyDstBit = 2  ## Can write with vkCmdCopy commands
@@ -1468,31 +1124,11 @@ type VkPeerMemoryFeatureFlagBits * = enum
 type VkMemoryAllocateFlagBits * = enum
   MemoryAllocateDeviceMaskBit = 1  ## Force allocation on specific devices
 
-type VkDeviceGroupPresentModeFlagBitsKHR * = enum
-  DeviceGroupPresentModeLocalBitKhr = 1  ## Present from local memory
-  DeviceGroupPresentModeRemoteBitKhr = 2  ## Present from remote memory
-  DeviceGroupPresentModeSumBitKhr = 4  ## Present sum of local and/or remote memory
-  DeviceGroupPresentModeLocalMultiDeviceBitKhr = 8  ## Each physical device presents from local memory
-
-type VkDebugUtilsMessageSeverityFlagBitsEXT * = enum
-  DebugUtilsMessageSeverityVerboseBitExt = 1
-  DebugUtilsMessageSeverityInfoBitExt = 16
-  DebugUtilsMessageSeverityWarningBitExt = 256
-  DebugUtilsMessageSeverityErrorBitExt = 4096
-
-type VkDebugUtilsMessageTypeFlagBitsEXT * = enum
-  DebugUtilsMessageTypeGeneralBitExt = 1
-  DebugUtilsMessageTypeValidationBitExt = 2
-  DebugUtilsMessageTypePerformanceBitExt = 4
-
 type VkDescriptorBindingFlagBits * = enum
   DescriptorBindingUpdateAfterBindBit = 1
   DescriptorBindingUpdateUnusedWhilePendingBit = 2
   DescriptorBindingPartiallyBoundBit = 4
   DescriptorBindingVariableDescriptorCountBit = 8
-
-type VkConditionalRenderingFlagBitsEXT * = enum
-  ConditionalRenderingInvertedBitExt = 1
 
 type VkResolveModeFlagBits * = enum
   ResolveModeNone = 0
@@ -1501,43 +1137,10 @@ type VkResolveModeFlagBits * = enum
   ResolveModeMinBit = 4
   ResolveModeMaxBit = 8
 
-type VkGeometryInstanceFlagBitsKHR * = enum
-  GeometryInstanceTriangleFacingCullDisableBitKhr = 1
-  GeometryInstanceTriangleFlipFacingBitKhr = 2
-  GeometryInstanceForceOpaqueBitKhr = 4
-  GeometryInstanceForceNoOpaqueBitKhr = 8
-
-type VkGeometryFlagBitsKHR * = enum
-  GeometryOpaqueBitKhr = 1
-  GeometryNoDuplicateAnyHitInvocationBitKhr = 2
-
-type VkBuildAccelerationStructureFlagBitsKHR * = enum
-  BuildAccelerationStructureAllowUpdateBitKhr = 1
-  BuildAccelerationStructureAllowCompactionBitKhr = 2
-  BuildAccelerationStructurePreferFastTraceBitKhr = 4
-  BuildAccelerationStructurePreferFastBuildBitKhr = 8
-  BuildAccelerationStructureLowMemoryBitKhr = 16
-
-type VkAccelerationStructureCreateFlagBitsKHR * = enum
-  AccelerationStructureCreateDeviceAddressCaptureReplayBitKhr = 1
-
-type VkDeviceDiagnosticsConfigFlagBitsNV * = enum
-  DeviceDiagnosticsConfigEnableShaderDebugInfoBitNv = 1
-  DeviceDiagnosticsConfigEnableResourceTrackingBitNv = 2
-  DeviceDiagnosticsConfigEnableAutomaticCheckpointsBitNv = 4
-  DeviceDiagnosticsConfigEnableShaderErrorReportingBitNv = 8
-
 type VkPipelineCreationFeedbackFlagBits * = enum
   PipelineCreationFeedbackValidBit = 1
   PipelineCreationFeedbackApplicationPipelineCacheHitBit = 2
   PipelineCreationFeedbackBasePipelineAccelerationBit = 4
-
-type VkMemoryDecompressionMethodFlagBitsNV * = enum
-  MemoryDecompressionMethodGdeflate10BitNv = 1
-
-type VkPerformanceCounterDescriptionFlagBitsKHR * = enum
-  PerformanceCounterDescriptionPerformanceImpactingBitKhr = 1
-  PerformanceCounterDescriptionConcurrentlyImpactedBitKhr = 2
 
 type VkToolPurposeFlagBits * = enum
   ToolPurposeValidationBit = 1
@@ -1599,150 +1202,6 @@ type VkPipelineStageFlagBits2 * = enum
 type VkSubmitFlagBits * = enum
   SubmitProtectedBit = 1
 
-type VkGraphicsPipelineLibraryFlagBitsEXT * = enum
-  GraphicsPipelineLibraryVertexInputInterfaceBitExt = 1
-  GraphicsPipelineLibraryPreRasterizationShadersBitExt = 2
-  GraphicsPipelineLibraryFragmentShaderBitExt = 4
-  GraphicsPipelineLibraryFragmentOutputInterfaceBitExt = 8
-
-type VkDeviceAddressBindingFlagBitsEXT * = enum
-  DeviceAddressBindingInternalObjectBitExt = 1
-
-type VkFrameBoundaryFlagBitsEXT * = enum
-  FrameBoundaryFrameEndBitExt = 1
-
-type VkPresentScalingFlagBitsEXT * = enum
-  PresentScalingOneToOneBitExt = 1
-  PresentScalingAspectRatioStretchBitExt = 2
-  PresentScalingStretchBitExt = 4
-
-type VkPresentGravityFlagBitsEXT * = enum
-  PresentGravityMinBitExt = 1
-  PresentGravityMaxBitExt = 2
-  PresentGravityCenteredBitExt = 4
-
-type VkPhysicalDeviceSchedulingControlsFlagBitsARM * = enum
-  PhysicalDeviceSchedulingControlsShaderCoreCountArm = 1
-
-type VkVideoCodecOperationFlagBitsKHR * = enum
-  VideoCodecOperationNoneKhr = 0
-
-type VkVideoChromaSubsamplingFlagBitsKHR * = enum
-  VideoChromaSubsamplingInvalidKhr = 0
-  VideoChromaSubsamplingMonochromeBitKhr = 1
-  VideoChromaSubsampling420BitKhr = 2
-  VideoChromaSubsampling422BitKhr = 4
-  VideoChromaSubsampling444BitKhr = 8
-
-type VkVideoComponentBitDepthFlagBitsKHR * = enum
-  VideoComponentBitDepthInvalidKhr = 0
-  VideoComponentBitDepth8BitKhr = 1
-  VideoComponentBitDepth10BitKhr = 4
-  VideoComponentBitDepth12BitKhr = 16
-
-type VkVideoCapabilityFlagBitsKHR * = enum
-  VideoCapabilityProtectedContentBitKhr = 1
-  VideoCapabilitySeparateReferenceImagesBitKhr = 2
-
-type VkVideoSessionCreateFlagBitsKHR * = enum
-  VideoSessionCreateProtectedContentBitKhr = 1
-
-type VkVideoDecodeH264PictureLayoutFlagBitsKHR * = enum
-  VideoDecodeH264PictureLayoutProgressiveKhr = 0
-  VideoDecodeH264PictureLayoutInterlacedInterleavedLinesBitKhr = 1
-  VideoDecodeH264PictureLayoutInterlacedSeparatePlanesBitKhr = 2
-
-type VkVideoCodingControlFlagBitsKHR * = enum
-  VideoCodingControlResetBitKhr = 1
-
-type VkVideoDecodeUsageFlagBitsKHR * = enum
-  VideoDecodeUsageDefaultKhr = 0
-  VideoDecodeUsageTranscodingBitKhr = 1
-  VideoDecodeUsageOfflineBitKhr = 2
-  VideoDecodeUsageStreamingBitKhr = 4
-
-type VkVideoDecodeCapabilityFlagBitsKHR * = enum
-  VideoDecodeCapabilityDpbAndOutputCoincideBitKhr = 1
-  VideoDecodeCapabilityDpbAndOutputDistinctBitKhr = 2
-
-type VkVideoEncodeUsageFlagBitsKHR * = enum
-  VideoEncodeUsageDefaultKhr = 0
-  VideoEncodeUsageTranscodingBitKhr = 1
-  VideoEncodeUsageStreamingBitKhr = 2
-  VideoEncodeUsageRecordingBitKhr = 4
-  VideoEncodeUsageConferencingBitKhr = 8
-
-type VkVideoEncodeContentFlagBitsKHR * = enum
-  VideoEncodeContentDefaultKhr = 0
-  VideoEncodeContentCameraBitKhr = 1
-  VideoEncodeContentDesktopBitKhr = 2
-  VideoEncodeContentRenderedBitKhr = 4
-
-type VkVideoEncodeCapabilityFlagBitsKHR * = enum
-  VideoEncodeCapabilityPrecedingExternallyEncodedBytesBitKhr = 1
-  VideoEncodeCapabilityInsufficientBitstreamBufferRangeDetectionBitKhr = 2
-
-type VkVideoEncodeFeedbackFlagBitsKHR * = enum
-  VideoEncodeFeedbackBitstreamBufferOffsetBitKhr = 1
-  VideoEncodeFeedbackBitstreamBytesWrittenBitKhr = 2
-  VideoEncodeFeedbackBitstreamHasOverridesBitKhr = 4
-
-type VkVideoEncodeRateControlModeFlagBitsKHR * = enum
-  VideoEncodeRateControlModeDefaultKhr = 0
-  VideoEncodeRateControlModeDisabledBitKhr = 1
-  VideoEncodeRateControlModeCbrBitKhr = 2
-  VideoEncodeRateControlModeVbrBitKhr = 4
-
-type VkVideoEncodeH264CapabilityFlagBitsKHR * = enum
-  VideoEncodeH264CapabilityHrdComplianceBitKhr = 1
-  VideoEncodeH264CapabilityPredictionWeightTableGeneratedBitKhr = 2
-  VideoEncodeH264CapabilityRowUnalignedSliceBitKhr = 4
-  VideoEncodeH264CapabilityDifferentSliceTypeBitKhr = 8
-  VideoEncodeH264CapabilityBFrameInL0ListBitKhr = 16
-  VideoEncodeH264CapabilityBFrameInL1ListBitKhr = 32
-  VideoEncodeH264CapabilityPerPictureTypeMinMaxQpBitKhr = 64
-  VideoEncodeH264CapabilityPerSliceConstantQpBitKhr = 128
-  VideoEncodeH264CapabilityGeneratePrefixNaluBitKhr = 256
-
-type VkVideoEncodeH264StdFlagBitsKHR * = enum
-  VideoEncodeH264StdSeparateColorPlaneFlagSetBitKhr = 1
-  VideoEncodeH264StdQpprimeYZeroTransformBypassFlagSetBitKhr = 2
-  VideoEncodeH264StdScalingMatrixPresentFlagSetBitKhr = 4
-  VideoEncodeH264StdChromaQpIndexOffsetBitKhr = 8
-  VideoEncodeH264StdSecondChromaQpIndexOffsetBitKhr = 16
-  VideoEncodeH264StdPicInitQpMinus26BitKhr = 32
-  VideoEncodeH264StdWeightedPredFlagSetBitKhr = 64
-  VideoEncodeH264StdWeightedBipredIdcExplicitBitKhr = 128
-  VideoEncodeH264StdWeightedBipredIdcImplicitBitKhr = 256
-  VideoEncodeH264StdTransform8x8ModeFlagSetBitKhr = 512
-  VideoEncodeH264StdDirectSpatialMvPredFlagUnsetBitKhr = 1024
-  VideoEncodeH264StdEntropyCodingModeFlagUnsetBitKhr = 2048
-  VideoEncodeH264StdEntropyCodingModeFlagSetBitKhr = 4096
-  VideoEncodeH264StdDirect8x8InferenceFlagUnsetBitKhr = 8192
-  VideoEncodeH264StdConstrainedIntraPredFlagSetBitKhr = 16384
-  VideoEncodeH264StdDeblockingFilterDisabledBitKhr = 32768
-  VideoEncodeH264StdDeblockingFilterEnabledBitKhr = 65536
-  VideoEncodeH264StdDeblockingFilterPartialBitKhr = 131072
-  VideoEncodeH264StdSliceQpDeltaBitKhr = 524288
-  VideoEncodeH264StdDifferentSliceQpDeltaBitKhr = 1048576
-
-type VkVideoEncodeH264RateControlFlagBitsKHR * = enum
-  VideoEncodeH264RateControlAttemptHrdComplianceBitKhr = 1
-  VideoEncodeH264RateControlRegularGopBitKhr = 2
-  VideoEncodeH264RateControlReferencePatternFlatBitKhr = 4
-  VideoEncodeH264RateControlReferencePatternDyadicBitKhr = 8
-  VideoEncodeH264RateControlTemporalLayerPatternDyadicBitKhr = 16
-
-type VkHostImageCopyFlagBitsEXT * = enum
-  HostImageCopyMemcpyExt = 1
-
-type VkImageConstraintsInfoFlagBitsFUCHSIA * = enum
-  ImageConstraintsInfoCpuReadRarelyFuchsia = 1
-  ImageConstraintsInfoCpuReadOftenFuchsia = 2
-  ImageConstraintsInfoCpuWriteRarelyFuchsia = 4
-  ImageConstraintsInfoCpuWriteOftenFuchsia = 8
-  ImageConstraintsInfoProtectedOptionalFuchsia = 16
-
 type VkFormatFeatureFlagBits2 * = enum
   FormatFeature2SampledImageBit = 1
   FormatFeature2StorageImageBit = 2
@@ -1776,135 +1235,5 @@ type VkRenderingFlagBits * = enum
   RenderingContentsSecondaryCommandBuffersBit = 1
   RenderingSuspendingBit = 2
   RenderingResumingBit = 4
-
-type VkVideoEncodeH265CapabilityFlagBitsKHR * = enum
-  VideoEncodeH265CapabilityHrdComplianceBitKhr = 1
-  VideoEncodeH265CapabilityPredictionWeightTableGeneratedBitKhr = 2
-  VideoEncodeH265CapabilityRowUnalignedSliceSegmentBitKhr = 4
-  VideoEncodeH265CapabilityDifferentSliceSegmentTypeBitKhr = 8
-  VideoEncodeH265CapabilityBFrameInL0ListBitKhr = 16
-  VideoEncodeH265CapabilityBFrameInL1ListBitKhr = 32
-  VideoEncodeH265CapabilityPerPictureTypeMinMaxQpBitKhr = 64
-  VideoEncodeH265CapabilityPerSliceSegmentConstantQpBitKhr = 128
-  VideoEncodeH265CapabilityMultipleTilesPerSliceSegmentBitKhr = 256
-  VideoEncodeH265CapabilityMultipleSliceSegmentsPerTileBitKhr = 512
-
-type VkVideoEncodeH265StdFlagBitsKHR * = enum
-  VideoEncodeH265StdSeparateColorPlaneFlagSetBitKhr = 1
-  VideoEncodeH265StdSampleAdaptiveOffsetEnabledFlagSetBitKhr = 2
-  VideoEncodeH265StdScalingListDataPresentFlagSetBitKhr = 4
-  VideoEncodeH265StdPcmEnabledFlagSetBitKhr = 8
-  VideoEncodeH265StdSpsTemporalMvpEnabledFlagSetBitKhr = 16
-  VideoEncodeH265StdInitQpMinus26BitKhr = 32
-  VideoEncodeH265StdWeightedPredFlagSetBitKhr = 64
-  VideoEncodeH265StdWeightedBipredFlagSetBitKhr = 128
-  VideoEncodeH265StdLog2ParallelMergeLevelMinus2BitKhr = 256
-  VideoEncodeH265StdSignDataHidingEnabledFlagSetBitKhr = 512
-  VideoEncodeH265StdTransformSkipEnabledFlagSetBitKhr = 1024
-  VideoEncodeH265StdTransformSkipEnabledFlagUnsetBitKhr = 2048
-  VideoEncodeH265StdPpsSliceChromaQpOffsetsPresentFlagSetBitKhr = 4096
-  VideoEncodeH265StdTransquantBypassEnabledFlagSetBitKhr = 8192
-  VideoEncodeH265StdConstrainedIntraPredFlagSetBitKhr = 16384
-  VideoEncodeH265StdEntropyCodingSyncEnabledFlagSetBitKhr = 32768
-  VideoEncodeH265StdDeblockingFilterOverrideEnabledFlagSetBitKhr = 65536
-  VideoEncodeH265StdDependentSliceSegmentsEnabledFlagSetBitKhr = 131072
-  VideoEncodeH265StdDependentSliceSegmentFlagSetBitKhr = 262144
-  VideoEncodeH265StdSliceQpDeltaBitKhr = 524288
-  VideoEncodeH265StdDifferentSliceQpDeltaBitKhr = 1048576
-
-type VkVideoEncodeH265RateControlFlagBitsKHR * = enum
-  VideoEncodeH265RateControlAttemptHrdComplianceBitKhr = 1
-  VideoEncodeH265RateControlRegularGopBitKhr = 2
-  VideoEncodeH265RateControlReferencePatternFlatBitKhr = 4
-  VideoEncodeH265RateControlReferencePatternDyadicBitKhr = 8
-  VideoEncodeH265RateControlTemporalSubLayerPatternDyadicBitKhr = 16
-
-type VkVideoEncodeH265CtbSizeFlagBitsKHR * = enum
-  VideoEncodeH265CtbSize16BitKhr = 1
-  VideoEncodeH265CtbSize32BitKhr = 2
-  VideoEncodeH265CtbSize64BitKhr = 4
-
-type VkVideoEncodeH265TransformBlockSizeFlagBitsKHR * = enum
-  VideoEncodeH265TransformBlockSize4BitKhr = 1
-  VideoEncodeH265TransformBlockSize8BitKhr = 2
-  VideoEncodeH265TransformBlockSize16BitKhr = 4
-  VideoEncodeH265TransformBlockSize32BitKhr = 8
-
-type VkExportMetalObjectTypeFlagBitsEXT * = enum
-  ExportMetalObjectTypeMetalDeviceBitExt = 1
-  ExportMetalObjectTypeMetalCommandQueueBitExt = 2
-  ExportMetalObjectTypeMetalBufferBitExt = 4
-  ExportMetalObjectTypeMetalTextureBitExt = 8
-  ExportMetalObjectTypeMetalIosurfaceBitExt = 16
-  ExportMetalObjectTypeMetalSharedEventBitExt = 32
-
-type VkImageCompressionFlagBitsEXT * = enum
-  ImageCompressionDefaultExt = 0
-  ImageCompressionFixedRateDefaultExt = 1
-  ImageCompressionFixedRateExplicitExt = 2
-  ImageCompressionDisabledExt = 4
-
-type VkImageCompressionFixedRateFlagBitsEXT * = enum
-  ImageCompressionFixedRateNoneExt = 0
-  ImageCompressionFixedRate1bpcBitExt = 1
-  ImageCompressionFixedRate2bpcBitExt = 2
-  ImageCompressionFixedRate3bpcBitExt = 4
-  ImageCompressionFixedRate4bpcBitExt = 8
-  ImageCompressionFixedRate5bpcBitExt = 16
-  ImageCompressionFixedRate6bpcBitExt = 32
-  ImageCompressionFixedRate7bpcBitExt = 64
-  ImageCompressionFixedRate8bpcBitExt = 128
-  ImageCompressionFixedRate9bpcBitExt = 256
-  ImageCompressionFixedRate10bpcBitExt = 512
-  ImageCompressionFixedRate11bpcBitExt = 1024
-  ImageCompressionFixedRate12bpcBitExt = 2048
-  ImageCompressionFixedRate13bpcBitExt = 4096
-  ImageCompressionFixedRate14bpcBitExt = 8192
-  ImageCompressionFixedRate15bpcBitExt = 16384
-  ImageCompressionFixedRate16bpcBitExt = 32768
-  ImageCompressionFixedRate17bpcBitExt = 65536
-  ImageCompressionFixedRate18bpcBitExt = 131072
-  ImageCompressionFixedRate19bpcBitExt = 262144
-  ImageCompressionFixedRate20bpcBitExt = 524288
-  ImageCompressionFixedRate21bpcBitExt = 1048576
-  ImageCompressionFixedRate22bpcBitExt = 2097152
-  ImageCompressionFixedRate23bpcBitExt = 4194304
-  ImageCompressionFixedRate24bpcBitExt = 8388608
-
-type VkOpticalFlowGridSizeFlagBitsNV * = enum
-  OpticalFlowGridSizeUnknownNv = 0
-  OpticalFlowGridSize1x1BitNv = 1
-  OpticalFlowGridSize2x2BitNv = 2
-  OpticalFlowGridSize4x4BitNv = 4
-  OpticalFlowGridSize8x8BitNv = 8
-
-type VkOpticalFlowUsageFlagBitsNV * = enum
-  OpticalFlowUsageUnknownNv = 0
-  OpticalFlowUsageInputBitNv = 1
-  OpticalFlowUsageOutputBitNv = 2
-  OpticalFlowUsageHintBitNv = 4
-  OpticalFlowUsageCostBitNv = 8
-  OpticalFlowUsageGlobalFlowBitNv = 16
-
-type VkOpticalFlowSessionCreateFlagBitsNV * = enum
-  OpticalFlowSessionCreateEnableHintBitNv = 1
-  OpticalFlowSessionCreateEnableCostBitNv = 2
-  OpticalFlowSessionCreateEnableGlobalFlowBitNv = 4
-  OpticalFlowSessionCreateAllowRegionsBitNv = 8
-  OpticalFlowSessionCreateBothDirectionsBitNv = 16
-
-type VkOpticalFlowExecuteFlagBitsNV * = enum
-  OpticalFlowExecuteDisableTemporalHintsBitNv = 1
-
-type VkBuildMicromapFlagBitsEXT * = enum
-  BuildMicromapPreferFastTraceBitExt = 1
-  BuildMicromapPreferFastBuildBitExt = 2
-  BuildMicromapAllowCompactionBitExt = 4
-
-type VkMicromapCreateFlagBitsEXT * = enum
-  MicromapCreateDeviceAddressCaptureReplayBitExt = 1
-
-type VkShaderCreateFlagBitsEXT * = enum
-  ShaderCreateLinkStageBitExt = 1
 
 

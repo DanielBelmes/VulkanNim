@@ -26,6 +26,11 @@ type SomeTable[A,B] = Table[A,B] | OrderedTable[A,B] | CountTable[A]
 proc containsOrIncl *[A, B](table :var SomeTable[A,B]; key :A; value :B) :bool=
   if key in table: return true
   table[key] = value
+proc pop *[A, B](table :var SomeTable[A,B]; key :A) :bool=
+  if key in table:
+    table.del(key)
+    return true
+  return false
 
 
 template unreachable *(msg :string= "")=  raise newException(Unreachable, msg)

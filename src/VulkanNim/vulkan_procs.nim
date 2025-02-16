@@ -183,7 +183,6 @@ proc vkCmdDrawIndexedIndirectCount*(commandBuffer: VkCommandBuffer, buffer: VkBu
 proc vkGetBufferOpaqueCaptureAddress*(device: VkDevice, pInfo: ptr VkBufferDeviceAddressInfo): uint64 {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetBufferDeviceAddress*(device: VkDevice, pInfo: ptr VkBufferDeviceAddressInfo): VkDeviceAddress {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetDeviceMemoryOpaqueCaptureAddress*(device: VkDevice, pInfo: ptr VkDeviceMemoryOpaqueCaptureAddressInfo): uint64 {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetFaultData*(device: VkDevice, faultQueryBehavior: VkFaultQueryBehavior, pUnrecordedFaults: ptr VkBool32, pFaultCount: ptr uint32, pFaults: ptr VkFaultData): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkGetPhysicalDeviceToolProperties*(physicalDevice: VkPhysicalDevice, pToolCount: ptr uint32, pToolProperties: ptr VkPhysicalDeviceToolProperties): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetCullMode*(commandBuffer: VkCommandBuffer, cullMode: VkCullModeFlags): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdSetFrontFace*(commandBuffer: VkCommandBuffer, frontFace: VkFrontFace): void {.cdecl, importc, dynlib: vkDLL.}
@@ -216,7 +215,6 @@ proc vkCmdWaitEvents2*(commandBuffer: VkCommandBuffer, eventCount: uint32, pEven
 proc vkCmdPipelineBarrier2*(commandBuffer: VkCommandBuffer, pDependencyInfo: ptr VkDependencyInfo): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkQueueSubmit2*(queue: VkQueue, submitCount: uint32, pSubmits: ptr VkSubmitInfo2, fence: VkFence): VkResult {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdWriteTimestamp2*(commandBuffer: VkCommandBuffer, stage: VkPipelineStageFlags2, queryPool: VkQueryPool, query: uint32): void {.cdecl, importc, dynlib: vkDLL.}
-proc vkGetCommandPoolMemoryConsumption*(device: VkDevice, commandPool: VkCommandPool, commandBuffer: VkCommandBuffer, pConsumption: ptr VkCommandPoolMemoryConsumption): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdBeginRendering*(commandBuffer: VkCommandBuffer, pRenderingInfo: ptr VkRenderingInfo): void {.cdecl, importc, dynlib: vkDLL.}
 proc vkCmdEndRendering*(commandBuffer: VkCommandBuffer): void {.cdecl, importc, dynlib: vkDLL.}
 
