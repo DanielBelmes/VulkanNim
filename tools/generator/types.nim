@@ -50,8 +50,8 @@ template vkVersionMajor*(version: untyped): untyped =
 """
     of "VK_VERSION_MINOR":
       result = """
-template vkVersionMajor*(version: untyped): untyped =
-  ((uint32)(version) shr 22)
+template vkVersionMinor*(version: untyped): untyped =
+  (((uint32)(version) shr 12) and 0x000003FF)
 """
     of "VK_VERSION_PATCH":
       result = """
