@@ -11,8 +11,8 @@ template vkMakeVersion*(major, minor, patch: untyped): untyped =
   (((major) shl 22) or ((minor) shl 12) or (patch))
 template vkVersionMajor*(version: untyped): untyped =
   ((uint32)(version) shr 22)
-template vkVersionMajor*(version: untyped): untyped =
-  ((uint32)(version) shr 22)
+template vkVersionMinor*(version: untyped): untyped =
+  (((uint32)(version) shr 12) and 0x000003FF)
 template vkVersionPatch*(version: untyped): untyped =
   ((uint32)(version) and 0x00000FFF)
 template vkMakeApiVersion*(variant, major, minor, patch: untyped): untyped =
