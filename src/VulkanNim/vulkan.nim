@@ -7,3 +7,4 @@ include vulkan_enums
 include vulkan_structs
 include vulkan_procs
 include vulkan_handles
+include vulkan_extension_inspection

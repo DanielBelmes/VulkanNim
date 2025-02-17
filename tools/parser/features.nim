@@ -38,8 +38,8 @@ proc readFeatures *(parser :var Parser; node :XmlNode) :void=
         elif cct.tag == "enum"    : # Enum entries contain more data than just their name
           if data.constants.containsOrIncl( cct.attr("name"), EnumFeatureData(
             extends   : cct.attr("extends"),
-            extnumber : cct.attr("extnumber"),
-            offset    : cct.attr("offset"),
+            extnumber : if cct.attr("extnumber") != "": cct.attr("extnumber").parseInt() else: -42,
+            offset    : if cct.attr("offset") != "": cct.attr("offset").parseInt() else: -1,
             bitpos    : cct.attr("bitpos"),
             alias     : cct.attr("alias"),
             dir       : cct.attr("dir"),

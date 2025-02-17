@@ -13,19 +13,21 @@ const genTemplate = """
 
 const procTemplate = "proc {name}*({args}): {returnType} {{.cdecl, importc, dynlib: vkDLL.}}"
 
-proc generateProc(`proc`: CommandData): string =
+proc generateProc(`proc`: CommandData, api: string): string =
   let name: string = toNimSafeIdentifier(`proc`.proto.name)
   let returnType: string = c2NimType(`proc`.proto.typ)
   var args: string = ""
   let paramLen = `proc`.params.len-1
   for index, arg in `proc`.params:
+    if arg.api.len > 0 and api notin arg.api:
+      continue
     var prefix = ""
     if arg.typ.postfix == "*":
       prefix = "ptr "
     elif arg.typ.postfix == "**":
       prefix = "ptr ptr "
     let typ = if arg.typ.typ == "void" and prefix.len > 0: "pointer" else: c2NimType(arg.typ.typ)
-    args &= fmt"{toNimSafeIdentifier(arg.typ.name)}: {prefix}{typ}"
+    args &= fmt"{toNimSafeIdentifier(arg.typ.name)}: {prefix}{toNimSafeIdentifier(typ)}"
     if index < paramLen:
       args &= ", "
   return fmt(procTemplate)
@@ -34,7 +36,7 @@ proc generateProcs *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_procs.nim"
   var procs :string = ""
   for `proc` in gen.registry.commands:
-    procs &= generateProc(`proc`)
+    procs &= generateProc(`proc`, gen.api)
     procs &= '\n'
   writeFile(outputDir,fmt genTemplate)
 

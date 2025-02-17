@@ -7,6 +7,9 @@ const genTemplate = """
 
 ## Vulkan Structs
 {structs}
+
+## Vulkan Struct Alias
+{structAliases}
 """
 
 const memberTemplate = "  {memberName}*: {prefix}{`type`}{value}\n"
@@ -33,19 +36,19 @@ proc generateStruct *(api: string, name: string, struct :StructureData, types: O
     members &= fmt memberTemplate
   return fmt structTemplate #returnedOnly?, structextends?
 
+proc generateStructAlias *(api: string, name: string, aliasData :AliasData) :string=
+  return fmt"type {name}* = {aliasData.name}" & "\n"
+
 proc generateStructs *(gen :Generator) :void=
   let outputDir = fmt"./src/VulkanNim/{gen.api}_structs.nim"
   var structs :string = ""
+  var structAliases: string = ""
   let structMap = gen.registry.structs
   let types = gen.registry.types
   for name in structMap.keys():
-    # let alias = getAlias(gen.registry.structAliases, name)
-    # if alias.isSome():
-    #   if isTypeFromExtension(gen.registry.extensions, alias.get()): continue
-    #   if not isTypeFromFeature(gen.api, gen.registry.features, alias.get()): continue
-    # if isTypeFromExtension(gen.registry.extensions, name): continue
-    # if not isTypeFromFeature(gen.api, gen.registry.features, name): continue
     structs &= generateStruct(gen.api, toNimSafeIdentifier(name), structMap[name], types)
     structs &= '\n'
+  for name, aliasData  in gen.registry.structAliases:
+    structAliases &= generateStructAlias(gen.api, toNimSafeIdentifier(name), aliasData)
   writeFile(outputDir,fmt genTemplate)
 

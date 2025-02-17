@@ -169,8 +169,8 @@ type RemoveData* = object
 
 type EnumFeatureData * = object
   extends   *:string
-  extnumber *:string
-  offset    *:string
+  extnumber *:int
+  offset    *:int
   bitpos    *:string
   alias     *:string
   dir       *:string

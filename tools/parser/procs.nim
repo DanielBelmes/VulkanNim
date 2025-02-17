@@ -61,7 +61,7 @@ proc readProcs *(parser :var Parser; node :XmlNode) :void=
             noautovalidity : if arg.attr("noautovalidity") != "": arg.attr("noautovalidity").parseBool() else: false,
             stride         : arg.attr("stride"),
             altlen         : arg.attr("altlen"),
-            api            : arg.attr("api").split(","),
+            api            : if arg.attr("api") != "": arg.attr("api").split(",") else: @[],
             length         : arg.attr("len"),
             validstructs   : arg.attr("validstructs"),
             xmlLine        : arg.lineNumber(),
