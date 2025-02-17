@@ -16,6 +16,7 @@ include {gen.api}_enums
 include {gen.api}_structs
 include {gen.api}_procs
 include {gen.api}_handles
+include {gen.api}_extension_inspection
 """
   writeFile(outputDir,fmt genTemplate)
 

@@ -27,7 +27,6 @@ static:assert DefaultAPI in ValidAPIs
 proc main=
   # Interpret the arguments given to the generator
   let args = nstd.getArgs()
-  var enabledExtensions: seq[string] = @[#[ "VK_KHR_portability_subset","VK_KHR_swapchain" ]#]
   var XML, targetAPI: string
   if args.len in 1..2:
     if not args[0].endsWith(".xml"): raise newException(ArgsError, &"The first argument input must be a valid .xml file. See {Help}")
@@ -47,7 +46,7 @@ proc main=
 
   parser.readRegistry() #Parse XML into IR
 
-  transformDatabase(parser, enabledExtensions) #Modify registry databse based on enabled api, features, and extensions
+  transformDatabase(parser) #Modify registry databse based on enabled api, features, and extensions
 
   var generator = Generator(
     api : targetAPI,
