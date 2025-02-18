@@ -5,7 +5,7 @@ import std/bitops
 
 proc getEnumValue(enumData: EnumFeatureData | RequireEnumData): int64 =
   if enumData.value != "":
-    var enumValueStr = c2NimType(enumData.value)
+    var enumValueStr = c2NimType(enumData.value,0)
 
     if enumValueStr.contains('x'):
       result = fromHex[int](enumValueStr)

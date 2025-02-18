@@ -136,14 +136,14 @@ const VK_NULL_HANDLE* = 0
 proc genFuncPointer(name: string, data: FuncPointerData ): string =
   var arguments = ""
   for index, arg in data.arguments:
-    arguments &= fmt"{toNimSafeIdentifier(arg.name)}: {c2NimType(arg.`type`, arg.isPtr)}"
+    arguments &= fmt"{toNimSafeIdentifier(arg.name)}: {c2NimType(arg.`type`, if arg.isPtr: 1 else: 0)}"
     if index < data.arguments.len - 1:
       arguments &= "; "
-  return fmt"type {toNimSafeIdentifier(name)}* = proc({arguments}): {c2NimType(data.`type`)} {{.cdecl.}}" & '\n'
+  return fmt"type {toNimSafeIdentifier(name)}* = proc({arguments}): {c2NimType(data.`type`,0)} {{.cdecl.}}" & '\n'
 
 proc genBaseTypes(name:string, baseType: BaseTypeData): string =
   if baseType.typeinfo.type != "":
-    let `type` = c2NimType(baseType.typeinfo.type)
+    let `type` = c2NimType(baseType.typeinfo.type, baseType.typeinfo.postfix.count("*"))
     return fmt"type {name}* = distinct {`type`}" & "\n"
   else:
     return fmt"type {name}* = ptr object" & "\n"

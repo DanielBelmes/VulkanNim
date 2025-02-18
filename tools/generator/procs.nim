@@ -19,15 +19,11 @@ proc generateProc(`proc`: CommandData, api: string): string =
   var args: string = ""
   let paramLen = `proc`.params.len-1
   for index, arg in `proc`.params:
+    echo arg
     if arg.api.len > 0 and api notin arg.api:
       continue
-    var prefix = ""
-    if arg.typ.postfix == "*":
-      prefix = "ptr "
-    elif arg.typ.postfix == "**":
-      prefix = "ptr ptr "
-    let typ = if arg.typ.typ == "void" and prefix.len > 0: "pointer" else: c2NimType(arg.typ.typ)
-    args &= fmt"{toNimSafeIdentifier(arg.typ.name)}: {prefix}{toNimSafeIdentifier(typ)}"
+    let typ = if arg.typ.typ == "void" and arg.typ.postfix.len > 0: "pointer" else: c2NimType(toNimSafeIdentifier(arg.typ.typ), arg.typ.postfix.count("*"))
+    args &= fmt"{toNimSafeIdentifier(arg.typ.name)}: {typ}"
     if index < paramLen:
       args &= ", "
   return fmt(procTemplate)

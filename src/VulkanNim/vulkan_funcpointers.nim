@@ -14,7 +14,7 @@ type PFN_vkAllocationFunction* = proc(pUserData: pointer; size: csize_t; alignme
 type PFN_vkFreeFunction* = proc(pUserData: pointer; pMemory: pointer): void {.cdecl.}
 type PFN_vkVoidFunction* = proc(): void {.cdecl.}
 type PFN_vkDebugReportCallbackEXT* = proc(flags: VkDebugReportFlagsEXT; objectType: VkDebugReportObjectTypeEXT; `object`: uint64; location: csize_t; messageCode: int32; pLayerPrefix: cstring; pMessage: cstring; pUserData: pointer): VkBool32 {.cdecl.}
-type PFN_vkDebugUtilsMessengerCallbackEXT* = proc(messageSeverity: VkDebugUtilsMessageSeverityFlagBitsEXT; messageTypes: VkDebugUtilsMessageTypeFlagsEXT; pCallbackData: VkDebugUtilsMessengerCallbackDataEXT; pUserData: pointer): VkBool32 {.cdecl.}
-type PFN_vkDeviceMemoryReportCallbackEXT* = proc(pCallbackData: VkDeviceMemoryReportCallbackDataEXT; pUserData: pointer): void {.cdecl.}
+type PFN_vkDebugUtilsMessengerCallbackEXT* = proc(messageSeverity: VkDebugUtilsMessageSeverityFlagBitsEXT; messageTypes: VkDebugUtilsMessageTypeFlagsEXT; pCallbackData: ptr VkDebugUtilsMessengerCallbackDataEXT; pUserData: pointer): VkBool32 {.cdecl.}
+type PFN_vkDeviceMemoryReportCallbackEXT* = proc(pCallbackData: ptr VkDeviceMemoryReportCallbackDataEXT; pUserData: pointer): void {.cdecl.}
 type PFN_vkGetInstanceProcAddrLUNARG* = proc(instance: VkInstance; pName: cstring): PFN_vkVoidFunction {.cdecl.}
 
