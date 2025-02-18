@@ -12,7 +12,7 @@ const genTemplate = """
 {structAliases}
 """
 
-const memberTemplate = "  {memberName}*: {prefix}{`type`}{value}\n"
+const memberTemplate = "  {memberName}*: {`type`}{value}\n"
 
 const structTemplate = """
 type {name}* {isUnion}= object
@@ -29,8 +29,7 @@ proc generateStruct *(api: string, name: string, struct :StructureData, types: O
     if member.api != "" and member.api != api: continue
     let memberName = toNimSafeIdentifier(member.name)
     let stars = if(member.`type`.`type` == "void"): 0 else: member.`type`.postfix.count('*') #might have const but we won't deal with that for now
-    let prefix = "ptr ".repeat(stars) #This is sick. will be empty string if 0
-    let safeType = if(member.`type`.`type` == "void"): "pointer" else: toNimSafeIdentifier(c2NimType(member.`type`.`type`))
+    let safeType = if(member.`type`.`type` == "void"): "pointer" else: c2NimType(toNimSafeIdentifier(member.`type`.`type`),member.`type`.postfix.count("*"))
     let `type` = if(member.arraySizes.len() > 0): fmt"array[{member.arraySizes[0]}, {safeType}]" else: safeType #TODO look up enum array sizes
     let value = if(member.value != ""): " = " & symbolToNim(member.value) else: ""
     members &= fmt memberTemplate

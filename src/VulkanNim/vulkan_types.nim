@@ -51,7 +51,7 @@ type VkFlags* = distinct uint32
 type VkFlags64* = distinct uint64
 type VkDeviceSize* = distinct uint64
 type VkDeviceAddress* = distinct uint64
-type VkRemoteAddressNV* = distinct void
+type VkRemoteAddressNV* = distinct pointer
 
 
 # Bitmasks

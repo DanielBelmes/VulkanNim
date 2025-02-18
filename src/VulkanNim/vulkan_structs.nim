@@ -88,9 +88,9 @@ type VkLayerProperties* = object
 type VkApplicationInfo* = object
   sType*: VkStructureType = StructureTypeApplicationInfo
   pNext*: pointer
-  pApplicationName*: ptr char
+  pApplicationName*: cstring
   applicationVersion*: uint32
-  pEngineName*: ptr char
+  pEngineName*: cstring
   engineVersion*: uint32
   apiVersion*: uint32
 
@@ -120,9 +120,9 @@ type VkDeviceCreateInfo* = object
   queueCreateInfoCount*: uint32
   pQueueCreateInfos*: ptr VkDeviceQueueCreateInfo
   enabledLayerCount*: uint32
-  ppEnabledLayerNames*: ptr ptr char
+  ppEnabledLayerNames*: cstringArray
   enabledExtensionCount*: uint32
-  ppEnabledExtensionNames*: ptr ptr char
+  ppEnabledExtensionNames*: cstringArray
   pEnabledFeatures*: ptr VkPhysicalDeviceFeatures
 
 
@@ -132,9 +132,9 @@ type VkInstanceCreateInfo* = object
   flags*: VkInstanceCreateFlags
   pApplicationInfo*: ptr VkApplicationInfo
   enabledLayerCount*: uint32
-  ppEnabledLayerNames*: ptr ptr char
+  ppEnabledLayerNames*: cstringArray
   enabledExtensionCount*: uint32
-  ppEnabledExtensionNames*: ptr ptr char
+  ppEnabledExtensionNames*: cstringArray
 
 
 type VkQueueFamilyProperties* = object
@@ -532,7 +532,7 @@ type VkPipelineShaderStageCreateInfo* = object
   flags*: VkPipelineShaderStageCreateFlags
   stage*: VkShaderStageFlagBits
   module*: VkShaderModule
-  pName*: ptr char
+  pName*: cstring
   pSpecializationInfo*: ptr VkSpecializationInfo
 
 
@@ -1143,7 +1143,7 @@ type VkSubmitInfo* = object
 
 type VkDisplayPropertiesKHR* = object
   display*: VkDisplayKHR
-  displayName*: ptr char
+  displayName*: cstring
   physicalDimensions*: VkExtent2D
   physicalResolution*: VkExtent2D
   supportedTransforms*: VkSurfaceTransformFlagsKHR
@@ -1364,8 +1364,8 @@ type VkLayerSettingsCreateInfoEXT* = object
 
 
 type VkLayerSettingEXT* = object
-  pLayerName*: ptr char
-  pSettingName*: ptr char
+  pLayerName*: cstring
+  pSettingName*: cstring
   `type`*: VkLayerSettingTypeEXT
   valueCount*: uint32
   pValues*: pointer
@@ -1391,7 +1391,7 @@ type VkDebugMarkerObjectNameInfoEXT* = object
   pNext*: pointer
   objectType*: VkDebugReportObjectTypeEXT
   `object`*: uint64
-  pObjectName*: ptr char
+  pObjectName*: cstring
 
 
 type VkDebugMarkerObjectTagInfoEXT* = object
@@ -1407,7 +1407,7 @@ type VkDebugMarkerObjectTagInfoEXT* = object
 type VkDebugMarkerMarkerInfoEXT* = object
   sType*: VkStructureType = StructureTypeDebugMarkerMarkerInfoExt
   pNext*: pointer
-  pMarkerName*: ptr char
+  pMarkerName*: cstring
   color*: array[4, float32]
 
 
@@ -3116,7 +3116,7 @@ type VkDebugUtilsObjectNameInfoEXT* = object
   pNext*: pointer
   objectType*: VkObjectType
   objectHandle*: uint64
-  pObjectName*: ptr char
+  pObjectName*: cstring
 
 
 type VkDebugUtilsObjectTagInfoEXT* = object
@@ -3132,7 +3132,7 @@ type VkDebugUtilsObjectTagInfoEXT* = object
 type VkDebugUtilsLabelEXT* = object
   sType*: VkStructureType = StructureTypeDebugUtilsLabelExt
   pNext*: pointer
-  pLabelName*: ptr char
+  pLabelName*: cstring
   color*: array[4, float32]
 
 
@@ -3150,9 +3150,9 @@ type VkDebugUtilsMessengerCallbackDataEXT* = object
   sType*: VkStructureType = StructureTypeDebugUtilsMessengerCallbackDataExt
   pNext*: pointer
   flags*: VkDebugUtilsMessengerCallbackDataFlagsEXT
-  pMessageIdName*: ptr char
+  pMessageIdName*: cstring
   messageIdNumber*: int32
-  pMessage*: ptr char
+  pMessage*: cstring
   queueLabelCount*: uint32
   pQueueLabels*: ptr VkDebugUtilsLabelEXT
   cmdBufLabelCount*: uint32
@@ -4587,7 +4587,7 @@ type VkPerformanceValueDataINTEL* {.union.} = object
   value64*: uint64
   valueFloat*: float32
   valueBool*: VkBool32
-  valueString*: ptr char
+  valueString*: cstring
 
 
 type VkPerformanceValueINTEL* = object
@@ -6765,7 +6765,7 @@ type VkCuFunctionCreateInfoNVX* = object
   sType*: VkStructureType = StructureTypeCuFunctionCreateInfoNvx
   pNext*: pointer
   module*: VkCuModuleNVX
-  pName*: ptr char
+  pName*: cstring
 
 
 type VkCuLaunchInfoNVX* = object
@@ -7162,7 +7162,7 @@ type VkCudaFunctionCreateInfoNV* = object
   sType*: VkStructureType = StructureTypeCudaFunctionCreateInfoNv
   pNext*: pointer
   module*: VkCudaModuleNV
-  pName*: ptr char
+  pName*: cstring
 
 
 type VkCudaLaunchInfoNV* = object
@@ -8219,7 +8219,7 @@ type VkShaderCreateInfoEXT* = object
   codeType*: VkShaderCodeTypeEXT
   codeSize*: csize_t
   pCode*: pointer
-  pName*: ptr char
+  pName*: cstring
   setLayoutCount*: uint32
   pSetLayouts*: ptr VkDescriptorSetLayout
   pushConstantRangeCount*: uint32
@@ -8340,7 +8340,7 @@ type VkExecutionGraphPipelineCreateInfoAMDX* = object
 type VkPipelineShaderStageNodeCreateInfoAMDX* = object
   sType*: VkStructureType = StructureTypePipelineShaderStageNodeCreateInfoAmdx
   pNext*: pointer
-  pName*: ptr char
+  pName*: cstring
   index*: uint32
 
 
