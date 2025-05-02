@@ -3,7 +3,7 @@
 import std/sets
 
 ## Value Enums
-type VkImageLayout * = enum
+type VkImageLayout *{.size:sizeof(cint).}= enum
   ImageLayoutUndefined = 0  ## Implicit layout an image is when its contents are undefined due to various reasons (e.g. right after creation)
   ImageLayoutGeneral = 1  ## General layout when image can be used for any kind of access
   ImageLayoutColorAttachmentOptimal = 2  ## Optimal layout when image is only used for color attachment read/write
@@ -34,28 +34,28 @@ type VkImageLayout * = enum
   ImageLayoutAttachmentOptimal = 1000314001
   ImageLayoutAttachmentFeedbackLoopOptimalExt = 1000339000
 
-type VkAttachmentLoadOp * = enum
+type VkAttachmentLoadOp *{.size:sizeof(cint).}= enum
   AttachmentLoadOpLoad = 0
   AttachmentLoadOpClear = 1
   AttachmentLoadOpDontCare = 2
   AttachmentLoadOpNoneKhr = 1000400000
 
-type VkAttachmentStoreOp * = enum
+type VkAttachmentStoreOp *{.size:sizeof(cint).}= enum
   AttachmentStoreOpStore = 0
   AttachmentStoreOpDontCare = 1
   AttachmentStoreOpNone = 1000301000
 
-type VkImageType * = enum
+type VkImageType *{.size:sizeof(cint).}= enum
   ImageType1d = 0
   ImageType2d = 1
   ImageType3d = 2
 
-type VkImageTiling * = enum
+type VkImageTiling *{.size:sizeof(cint).}= enum
   ImageTilingOptimal = 0
   ImageTilingLinear = 1
   ImageTilingDrmFormatModifierExt = 1000158000
 
-type VkImageViewType * = enum
+type VkImageViewType *{.size:sizeof(cint).}= enum
   ImageViewType1d = 0
   ImageViewType2d = 1
   ImageViewType3d = 2
@@ -64,11 +64,11 @@ type VkImageViewType * = enum
   ImageViewType2dArray = 5
   ImageViewTypeCubeArray = 6
 
-type VkCommandBufferLevel * = enum
+type VkCommandBufferLevel *{.size:sizeof(cint).}= enum
   CommandBufferLevelPrimary = 0
   CommandBufferLevelSecondary = 1
 
-type VkComponentSwizzle * = enum
+type VkComponentSwizzle *{.size:sizeof(cint).}= enum
   ComponentSwizzleIdentity = 0
   ComponentSwizzleZero = 1
   ComponentSwizzleOne = 2
@@ -77,7 +77,7 @@ type VkComponentSwizzle * = enum
   ComponentSwizzleB = 5
   ComponentSwizzleA = 6
 
-type VkDescriptorType * = enum
+type VkDescriptorType *{.size:sizeof(cint).}= enum
   DescriptorTypeSampler = 0
   DescriptorTypeCombinedImageSampler = 1
   DescriptorTypeSampledImage = 2
@@ -96,7 +96,7 @@ type VkDescriptorType * = enum
   DescriptorTypeSampleWeightImageQcom = 1000440000
   DescriptorTypeBlockMatchImageQcom = 1000440001
 
-type VkQueryType * = enum
+type VkQueryType *{.size:sizeof(cint).}= enum
   QueryTypeOcclusion = 0
   QueryTypePipelineStatistics = 1  ## Optional
   QueryTypeTimestamp = 2
@@ -115,7 +115,7 @@ type VkQueryType * = enum
   QueryTypeMicromapSerializationSizeExt = 1000396000
   QueryTypeMicromapCompactedSizeExt = 1000396001
 
-type VkBorderColor * = enum
+type VkBorderColor *{.size:sizeof(cint).}= enum
   BorderColorFloatTransparentBlack = 0
   BorderColorIntTransparentBlack = 1
   BorderColorFloatOpaqueBlack = 2
@@ -125,17 +125,17 @@ type VkBorderColor * = enum
   BorderColorFloatCustomExt = 1000287003
   BorderColorIntCustomExt = 1000287004
 
-type VkPipelineBindPoint * = enum
+type VkPipelineBindPoint *{.size:sizeof(cint).}= enum
   PipelineBindPointGraphics = 0
   PipelineBindPointCompute = 1
   PipelineBindPointExecutionGraphAmdx = 1000134000
   PipelineBindPointRayTracingKhr = 1000165000
   PipelineBindPointSubpassShadingHuawei = 1000369003
 
-type VkPipelineCacheHeaderVersion * = enum
+type VkPipelineCacheHeaderVersion *{.size:sizeof(cint).}= enum
   PipelineCacheHeaderVersionOne = 1
 
-type VkPrimitiveTopology * = enum
+type VkPrimitiveTopology *{.size:sizeof(cint).}= enum
   PrimitiveTopologyPointList = 0
   PrimitiveTopologyLineList = 1
   PrimitiveTopologyLineStrip = 2
@@ -148,33 +148,33 @@ type VkPrimitiveTopology * = enum
   PrimitiveTopologyTriangleStripWithAdjacency = 9
   PrimitiveTopologyPatchList = 10
 
-type VkSharingMode * = enum
+type VkSharingMode *{.size:sizeof(cint).}= enum
   SharingModeExclusive = 0
   SharingModeConcurrent = 1
 
-type VkIndexType * = enum
+type VkIndexType *{.size:sizeof(cint).}= enum
   IndexTypeUint16 = 0
   IndexTypeUint32 = 1
   IndexTypeNoneKhr = 1000165000
   IndexTypeUint8Khr = 1000265000
 
-type VkFilter * = enum
+type VkFilter *{.size:sizeof(cint).}= enum
   FilterNearest = 0
   FilterLinear = 1
   FilterCubicExt = 1000015000
 
-type VkSamplerMipmapMode * = enum
+type VkSamplerMipmapMode *{.size:sizeof(cint).}= enum
   SamplerMipmapModeNearest = 0  ## Choose nearest mip level
   SamplerMipmapModeLinear = 1  ## Linear filter between mip levels
 
-type VkSamplerAddressMode * = enum
+type VkSamplerAddressMode *{.size:sizeof(cint).}= enum
   SamplerAddressModeRepeat = 0
   SamplerAddressModeMirroredRepeat = 1
   SamplerAddressModeClampToEdge = 2
   SamplerAddressModeClampToBorder = 3
   SamplerAddressModeMirrorClampToEdge = 4
 
-type VkCompareOp * = enum
+type VkCompareOp *{.size:sizeof(cint).}= enum
   CompareOpNever = 0
   CompareOpLess = 1
   CompareOpEqual = 2
@@ -184,17 +184,17 @@ type VkCompareOp * = enum
   CompareOpGreaterOrEqual = 6
   CompareOpAlways = 7
 
-type VkPolygonMode * = enum
+type VkPolygonMode *{.size:sizeof(cint).}= enum
   PolygonModeFill = 0
   PolygonModeLine = 1
   PolygonModePoint = 2
   PolygonModeFillRectangleNv = 1000153000
 
-type VkFrontFace * = enum
+type VkFrontFace *{.size:sizeof(cint).}= enum
   FrontFaceCounterClockwise = 0
   FrontFaceClockwise = 1
 
-type VkBlendFactor * = enum
+type VkBlendFactor *{.size:sizeof(cint).}= enum
   BlendFactorZero = 0
   BlendFactorOne = 1
   BlendFactorSrcColor = 2
@@ -215,7 +215,7 @@ type VkBlendFactor * = enum
   BlendFactorSrc1Alpha = 17
   BlendFactorOneMinusSrc1Alpha = 18
 
-type VkBlendOp * = enum
+type VkBlendOp *{.size:sizeof(cint).}= enum
   BlendOpAdd = 0
   BlendOpSubtract = 1
   BlendOpReverseSubtract = 2
@@ -268,7 +268,7 @@ type VkBlendOp * = enum
   BlendOpGreenExt = 1000148044
   BlendOpBlueExt = 1000148045
 
-type VkStencilOp * = enum
+type VkStencilOp *{.size:sizeof(cint).}= enum
   StencilOpKeep = 0
   StencilOpZero = 1
   StencilOpReplace = 2
@@ -278,7 +278,7 @@ type VkStencilOp * = enum
   StencilOpIncrementAndWrap = 6
   StencilOpDecrementAndWrap = 7
 
-type VkLogicOp * = enum
+type VkLogicOp *{.size:sizeof(cint).}= enum
   LogicOpClear = 0
   LogicOpAnd = 1
   LogicOpAndReverse = 2
@@ -296,28 +296,28 @@ type VkLogicOp * = enum
   LogicOpNand = 14
   LogicOpSet = 15
 
-type VkInternalAllocationType * = enum
+type VkInternalAllocationType *{.size:sizeof(cint).}= enum
   InternalAllocationTypeExecutable = 0
 
-type VkSystemAllocationScope * = enum
+type VkSystemAllocationScope *{.size:sizeof(cint).}= enum
   SystemAllocationScopeCommand = 0
   SystemAllocationScopeObject = 1
   SystemAllocationScopeCache = 2
   SystemAllocationScopeDevice = 3
   SystemAllocationScopeInstance = 4
 
-type VkPhysicalDeviceType * = enum
+type VkPhysicalDeviceType *{.size:sizeof(cint).}= enum
   PhysicalDeviceTypeOther = 0
   PhysicalDeviceTypeIntegratedGpu = 1
   PhysicalDeviceTypeDiscreteGpu = 2
   PhysicalDeviceTypeVirtualGpu = 3
   PhysicalDeviceTypeCpu = 4
 
-type VkVertexInputRate * = enum
+type VkVertexInputRate *{.size:sizeof(cint).}= enum
   VertexInputRateVertex = 0
   VertexInputRateInstance = 1
 
-type VkFormat * = enum
+type VkFormat *{.size:sizeof(cint).}= enum
   FormatUndefined = 0
   FormatR4g4UnormPack8 = 1
   FormatR4g4b4a4UnormPack16 = 2
@@ -599,7 +599,7 @@ type VkFormat * = enum
   FormatA1b5g5r5UnormPack16Khr = 1000470000
   FormatA8UnormKhr = 1000470001
 
-type VkStructureType * = enum
+type VkStructureType *{.size:sizeof(cint).}= enum
   StructureTypeApplicationInfo = 0
   StructureTypeInstanceCreateInfo = 1
   StructureTypeDeviceQueueCreateInfo = 2
@@ -1519,12 +1519,12 @@ type VkStructureType * = enum
   StructureTypePhysicalDeviceShaderAtomicFloat16VectorFeaturesNv = 1000563000
   StructureTypePhysicalDeviceRayTracingValidationFeaturesNv = 1000568000
 
-type VkSubpassContents * = enum
+type VkSubpassContents *{.size:sizeof(cint).}= enum
   SubpassContentsInline = 0
   SubpassContentsSecondaryCommandBuffers = 1
   SubpassContentsInlineAndSecondaryCommandBuffersExt = 1000451000
 
-type VkResult * = enum
+type VkResult *{.size:sizeof(cint).}= enum
   ErrorCompressionExhaustedExt = -1000338000
   ErrorInvalidVideoStdParametersKhr = -1000299000
   ErrorInvalidOpaqueCaptureAddress = -1000257000
@@ -1573,7 +1573,7 @@ type VkResult * = enum
   PipelineCompileRequired = 1000297000
   IncompatibleShaderBinaryExt = 1000482000
 
-type VkDynamicState * = enum
+type VkDynamicState *{.size:sizeof(cint).}= enum
   DynamicStateViewport = 0
   DynamicStateScissor = 1
   DynamicStateLineWidth = 2
@@ -1647,11 +1647,11 @@ type VkDynamicState * = enum
   DynamicStateCoverageReductionModeNv = 1000455032
   DynamicStateAttachmentFeedbackLoopEnableExt = 1000524000
 
-type VkDescriptorUpdateTemplateType * = enum
+type VkDescriptorUpdateTemplateType *{.size:sizeof(cint).}= enum
   DescriptorUpdateTemplateTypeDescriptorSet = 0  ## Create descriptor update template for descriptor set updates
   DescriptorUpdateTemplateTypePushDescriptorsKhr = 1
 
-type VkObjectType * = enum
+type VkObjectType *{.size:sizeof(cint).}= enum
   ObjectTypeUnknown = 0
   ObjectTypeInstance = 1
   ObjectTypePhysicalDevice = 2
@@ -1705,19 +1705,19 @@ type VkObjectType * = enum
   ObjectTypeShaderExt = 1000482000
   ObjectTypeSemaphoreSciSyncPoolNv = 1000489000
 
-type VkRayTracingInvocationReorderModeNV * = enum
+type VkRayTracingInvocationReorderModeNV *{.size:sizeof(cint).}= enum
   RayTracingInvocationReorderModeNoneNv = 0
   RayTracingInvocationReorderModeReorderNv = 1
 
-type VkDirectDriverLoadingModeLUNARG * = enum
+type VkDirectDriverLoadingModeLUNARG *{.size:sizeof(cint).}= enum
   DirectDriverLoadingModeExclusiveLunarg = 0
   DirectDriverLoadingModeInclusiveLunarg = 1
 
-type VkSemaphoreType * = enum
+type VkSemaphoreType *{.size:sizeof(cint).}= enum
   SemaphoreTypeBinary = 0
   SemaphoreTypeTimeline = 1
 
-type VkPresentModeKHR * = enum
+type VkPresentModeKHR *{.size:sizeof(cint).}= enum
   PresentModeImmediateKhr = 0
   PresentModeMailboxKhr = 1
   PresentModeFifoKhr = 2
@@ -1725,7 +1725,7 @@ type VkPresentModeKHR * = enum
   PresentModeSharedDemandRefreshKhr = 1000111000
   PresentModeSharedContinuousRefreshKhr = 1000111001
 
-type VkColorSpaceKHR * = enum
+type VkColorSpaceKHR *{.size:sizeof(cint).}= enum
   ColorSpaceSrgbNonlinearKhr = 0
   ColorSpaceDisplayP3NonlinearExt = 1000104001
   ColorSpaceExtendedSrgbLinearExt = 1000104002
@@ -1743,13 +1743,13 @@ type VkColorSpaceKHR * = enum
   ColorSpaceExtendedSrgbNonlinearExt = 1000104014
   ColorSpaceDisplayNativeAmd = 1000213000
 
-type VkTimeDomainKHR * = enum
+type VkTimeDomainKHR *{.size:sizeof(cint).}= enum
   TimeDomainDeviceKhr = 0
   TimeDomainClockMonotonicKhr = 1
   TimeDomainClockMonotonicRawKhr = 2
   TimeDomainQueryPerformanceCounterKhr = 3
 
-type VkDebugReportObjectTypeEXT * = enum
+type VkDebugReportObjectTypeEXT *{.size:sizeof(cint).}= enum
   DebugReportObjectTypeUnknownExt = 0
   DebugReportObjectTypeInstanceExt = 1
   DebugReportObjectTypePhysicalDeviceExt = 2
@@ -1792,29 +1792,29 @@ type VkDebugReportObjectTypeEXT * = enum
   DebugReportObjectTypeCudaFunctionNvExt = 1000307001
   DebugReportObjectTypeBufferCollectionFuchsiaExt = 1000366000
 
-type VkDeviceMemoryReportEventTypeEXT * = enum
+type VkDeviceMemoryReportEventTypeEXT *{.size:sizeof(cint).}= enum
   DeviceMemoryReportEventTypeAllocateExt = 0
   DeviceMemoryReportEventTypeFreeExt = 1
   DeviceMemoryReportEventTypeImportExt = 2
   DeviceMemoryReportEventTypeUnimportExt = 3
   DeviceMemoryReportEventTypeAllocationFailedExt = 4
 
-type VkRasterizationOrderAMD * = enum
+type VkRasterizationOrderAMD *{.size:sizeof(cint).}= enum
   RasterizationOrderStrictAmd = 0
   RasterizationOrderRelaxedAmd = 1
 
-type VkValidationCheckEXT * = enum
+type VkValidationCheckEXT *{.size:sizeof(cint).}= enum
   ValidationCheckAllExt = 0
   ValidationCheckShadersExt = 1
 
-type VkValidationFeatureEnableEXT * = enum
+type VkValidationFeatureEnableEXT *{.size:sizeof(cint).}= enum
   ValidationFeatureEnableGpuAssistedExt = 0
   ValidationFeatureEnableGpuAssistedReserveBindingSlotExt = 1
   ValidationFeatureEnableBestPracticesExt = 2
   ValidationFeatureEnableDebugPrintfExt = 3
   ValidationFeatureEnableSynchronizationValidationExt = 4
 
-type VkValidationFeatureDisableEXT * = enum
+type VkValidationFeatureDisableEXT *{.size:sizeof(cint).}= enum
   ValidationFeatureDisableAllExt = 0
   ValidationFeatureDisableShadersExt = 1
   ValidationFeatureDisableThreadSafetyExt = 2
@@ -1824,7 +1824,7 @@ type VkValidationFeatureDisableEXT * = enum
   ValidationFeatureDisableUniqueHandlesExt = 6
   ValidationFeatureDisableShaderValidationCacheExt = 7
 
-type VkLayerSettingTypeEXT * = enum
+type VkLayerSettingTypeEXT *{.size:sizeof(cint).}= enum
   LayerSettingTypeBool32Ext = 0
   LayerSettingTypeInt32Ext = 1
   LayerSettingTypeInt64Ext = 2
@@ -1834,7 +1834,7 @@ type VkLayerSettingTypeEXT * = enum
   LayerSettingTypeFloat64Ext = 6
   LayerSettingTypeStringExt = 7
 
-type VkIndirectCommandsTokenTypeNV * = enum
+type VkIndirectCommandsTokenTypeNV *{.size:sizeof(cint).}= enum
   IndirectCommandsTokenTypeShaderGroupNv = 0
   IndirectCommandsTokenTypeStateFlagsNv = 1
   IndirectCommandsTokenTypeIndexBufferNv = 2
@@ -1847,18 +1847,18 @@ type VkIndirectCommandsTokenTypeNV * = enum
   IndirectCommandsTokenTypePipelineNv = 1000428003
   IndirectCommandsTokenTypeDispatchNv = 1000428004
 
-type VkDisplayPowerStateEXT * = enum
+type VkDisplayPowerStateEXT *{.size:sizeof(cint).}= enum
   DisplayPowerStateOffExt = 0
   DisplayPowerStateSuspendExt = 1
   DisplayPowerStateOnExt = 2
 
-type VkDeviceEventTypeEXT * = enum
+type VkDeviceEventTypeEXT *{.size:sizeof(cint).}= enum
   DeviceEventTypeDisplayHotplugExt = 0
 
-type VkDisplayEventTypeEXT * = enum
+type VkDisplayEventTypeEXT *{.size:sizeof(cint).}= enum
   DisplayEventTypeFirstPixelOutExt = 0
 
-type VkViewportCoordinateSwizzleNV * = enum
+type VkViewportCoordinateSwizzleNV *{.size:sizeof(cint).}= enum
   ViewportCoordinateSwizzlePositiveXNv = 0
   ViewportCoordinateSwizzleNegativeXNv = 1
   ViewportCoordinateSwizzlePositiveYNv = 2
@@ -1868,74 +1868,74 @@ type VkViewportCoordinateSwizzleNV * = enum
   ViewportCoordinateSwizzlePositiveWNv = 6
   ViewportCoordinateSwizzleNegativeWNv = 7
 
-type VkDiscardRectangleModeEXT * = enum
+type VkDiscardRectangleModeEXT *{.size:sizeof(cint).}= enum
   DiscardRectangleModeInclusiveExt = 0
   DiscardRectangleModeExclusiveExt = 1
 
-type VkPointClippingBehavior * = enum
+type VkPointClippingBehavior *{.size:sizeof(cint).}= enum
   PointClippingBehaviorAllClipPlanes = 0
   PointClippingBehaviorUserClipPlanesOnly = 1
 
-type VkSamplerReductionMode * = enum
+type VkSamplerReductionMode *{.size:sizeof(cint).}= enum
   SamplerReductionModeWeightedAverage = 0
   SamplerReductionModeMin = 1
   SamplerReductionModeMax = 2
   SamplerReductionModeWeightedAverageRangeclampQcom = 1000521000
 
-type VkTessellationDomainOrigin * = enum
+type VkTessellationDomainOrigin *{.size:sizeof(cint).}= enum
   TessellationDomainOriginUpperLeft = 0
   TessellationDomainOriginLowerLeft = 1
 
-type VkSamplerYcbcrModelConversion * = enum
+type VkSamplerYcbcrModelConversion *{.size:sizeof(cint).}= enum
   SamplerYcbcrModelConversionRgbIdentity = 0
   SamplerYcbcrModelConversionYcbcrIdentity = 1  ## just range expansion
   SamplerYcbcrModelConversionYcbcr709 = 2  ## aka HD YUV
   SamplerYcbcrModelConversionYcbcr601 = 3  ## aka SD YUV
   SamplerYcbcrModelConversionYcbcr2020 = 4  ## aka UHD YUV
 
-type VkSamplerYcbcrRange * = enum
+type VkSamplerYcbcrRange *{.size:sizeof(cint).}= enum
   SamplerYcbcrRangeItuFull = 0  ## Luma 0..1 maps to 0..255, chroma -0.5..0.5 to 1..255 (clamped)
   SamplerYcbcrRangeItuNarrow = 1  ## Luma 0..1 maps to 16..235, chroma -0.5..0.5 to 16..240
 
-type VkChromaLocation * = enum
+type VkChromaLocation *{.size:sizeof(cint).}= enum
   ChromaLocationCositedEven = 0
   ChromaLocationMidpoint = 1
 
-type VkBlendOverlapEXT * = enum
+type VkBlendOverlapEXT *{.size:sizeof(cint).}= enum
   BlendOverlapUncorrelatedExt = 0
   BlendOverlapDisjointExt = 1
   BlendOverlapConjointExt = 2
 
-type VkCoverageModulationModeNV * = enum
+type VkCoverageModulationModeNV *{.size:sizeof(cint).}= enum
   CoverageModulationModeNoneNv = 0
   CoverageModulationModeRgbNv = 1
   CoverageModulationModeAlphaNv = 2
   CoverageModulationModeRgbaNv = 3
 
-type VkCoverageReductionModeNV * = enum
+type VkCoverageReductionModeNV *{.size:sizeof(cint).}= enum
   CoverageReductionModeMergeNv = 0
   CoverageReductionModeTruncateNv = 1
 
-type VkValidationCacheHeaderVersionEXT * = enum
+type VkValidationCacheHeaderVersionEXT *{.size:sizeof(cint).}= enum
   ValidationCacheHeaderVersionOneExt = 1
 
-type VkShaderInfoTypeAMD * = enum
+type VkShaderInfoTypeAMD *{.size:sizeof(cint).}= enum
   ShaderInfoTypeStatisticsAmd = 0
   ShaderInfoTypeBinaryAmd = 1
   ShaderInfoTypeDisassemblyAmd = 2
 
-type VkQueueGlobalPriorityKHR * = enum
+type VkQueueGlobalPriorityKHR *{.size:sizeof(cint).}= enum
   QueueGlobalPriorityLowKhr = 128
   QueueGlobalPriorityMediumKhr = 256
   QueueGlobalPriorityHighKhr = 512
   QueueGlobalPriorityRealtimeKhr = 1024
 
-type VkConservativeRasterizationModeEXT * = enum
+type VkConservativeRasterizationModeEXT *{.size:sizeof(cint).}= enum
   ConservativeRasterizationModeDisabledExt = 0
   ConservativeRasterizationModeOverestimateExt = 1
   ConservativeRasterizationModeUnderestimateExt = 2
 
-type VkVendorId * = enum
+type VkVendorId *{.size:sizeof(cint).}= enum
   VendorIdViv = 0x10001  ## Vivante vendor ID
   VendorIdVsi = 0x10002  ## VeriSilicon vendor ID
   VendorIdKazan = 0x10003  ## Kazan Software Renderer
@@ -1944,7 +1944,7 @@ type VkVendorId * = enum
   VendorIdPocl = 0x10006  ## PoCL vendor ID
   VendorIdMobileye = 0x10007  ## Mobileye vendor ID
 
-type VkDriverId * = enum
+type VkDriverId *{.size:sizeof(cint).}= enum
   DriverIdAmdProprietary = 1  ## Advanced Micro Devices, Inc.
   DriverIdAmdOpenSource = 2  ## Advanced Micro Devices, Inc.
   DriverIdMesaRadv = 3  ## Mesa open source project
@@ -1972,7 +1972,7 @@ type VkDriverId * = enum
   DriverIdImaginationOpenSourceMesa = 25  ## Imagination Technologies
   DriverIdMesaAgxv = 26  ## Mesa open source project
 
-type VkShadingRatePaletteEntryNV * = enum
+type VkShadingRatePaletteEntryNV *{.size:sizeof(cint).}= enum
   ShadingRatePaletteEntryNoInvocationsNv = 0
   ShadingRatePaletteEntry16InvocationsPerPixelNv = 1
   ShadingRatePaletteEntry8InvocationsPerPixelNv = 2
@@ -1986,74 +1986,74 @@ type VkShadingRatePaletteEntryNV * = enum
   ShadingRatePaletteEntry1InvocationPer2x4PixelsNv = 10
   ShadingRatePaletteEntry1InvocationPer4x4PixelsNv = 11
 
-type VkCoarseSampleOrderTypeNV * = enum
+type VkCoarseSampleOrderTypeNV *{.size:sizeof(cint).}= enum
   CoarseSampleOrderTypeDefaultNv = 0
   CoarseSampleOrderTypeCustomNv = 1
   CoarseSampleOrderTypePixelMajorNv = 2
   CoarseSampleOrderTypeSampleMajorNv = 3
 
-type VkCopyAccelerationStructureModeKHR * = enum
+type VkCopyAccelerationStructureModeKHR *{.size:sizeof(cint).}= enum
   CopyAccelerationStructureModeCloneKhr = 0
   CopyAccelerationStructureModeCompactKhr = 1
   CopyAccelerationStructureModeSerializeKhr = 2
   CopyAccelerationStructureModeDeserializeKhr = 3
 
-type VkBuildAccelerationStructureModeKHR * = enum
+type VkBuildAccelerationStructureModeKHR *{.size:sizeof(cint).}= enum
   BuildAccelerationStructureModeBuildKhr = 0
   BuildAccelerationStructureModeUpdateKhr = 1
 
-type VkAccelerationStructureTypeKHR * = enum
+type VkAccelerationStructureTypeKHR *{.size:sizeof(cint).}= enum
   AccelerationStructureTypeTopLevelKhr = 0
   AccelerationStructureTypeBottomLevelKhr = 1
   AccelerationStructureTypeGenericKhr = 2
 
-type VkGeometryTypeKHR * = enum
+type VkGeometryTypeKHR *{.size:sizeof(cint).}= enum
   GeometryTypeTrianglesKhr = 0
   GeometryTypeAabbsKhr = 1
   GeometryTypeInstancesKhr = 2
 
-type VkAccelerationStructureMemoryRequirementsTypeNV * = enum
+type VkAccelerationStructureMemoryRequirementsTypeNV *{.size:sizeof(cint).}= enum
   AccelerationStructureMemoryRequirementsTypeObjectNv = 0
   AccelerationStructureMemoryRequirementsTypeBuildScratchNv = 1
   AccelerationStructureMemoryRequirementsTypeUpdateScratchNv = 2
 
-type VkAccelerationStructureBuildTypeKHR * = enum
+type VkAccelerationStructureBuildTypeKHR *{.size:sizeof(cint).}= enum
   AccelerationStructureBuildTypeHostKhr = 0
   AccelerationStructureBuildTypeDeviceKhr = 1
   AccelerationStructureBuildTypeHostOrDeviceKhr = 2
 
-type VkRayTracingShaderGroupTypeKHR * = enum
+type VkRayTracingShaderGroupTypeKHR *{.size:sizeof(cint).}= enum
   RayTracingShaderGroupTypeGeneralKhr = 0
   RayTracingShaderGroupTypeTrianglesHitGroupKhr = 1
   RayTracingShaderGroupTypeProceduralHitGroupKhr = 2
 
-type VkAccelerationStructureCompatibilityKHR * = enum
+type VkAccelerationStructureCompatibilityKHR *{.size:sizeof(cint).}= enum
   AccelerationStructureCompatibilityCompatibleKhr = 0
   AccelerationStructureCompatibilityIncompatibleKhr = 1
 
-type VkShaderGroupShaderKHR * = enum
+type VkShaderGroupShaderKHR *{.size:sizeof(cint).}= enum
   ShaderGroupShaderGeneralKhr = 0
   ShaderGroupShaderClosestHitKhr = 1
   ShaderGroupShaderAnyHitKhr = 2
   ShaderGroupShaderIntersectionKhr = 3
 
-type VkMemoryOverallocationBehaviorAMD * = enum
+type VkMemoryOverallocationBehaviorAMD *{.size:sizeof(cint).}= enum
   MemoryOverallocationBehaviorDefaultAmd = 0
   MemoryOverallocationBehaviorAllowedAmd = 1
   MemoryOverallocationBehaviorDisallowedAmd = 2
 
-type VkFullScreenExclusiveEXT * = enum
+type VkFullScreenExclusiveEXT *{.size:sizeof(cint).}= enum
   FullScreenExclusiveDefaultExt = 0
   FullScreenExclusiveAllowedExt = 1
   FullScreenExclusiveDisallowedExt = 2
   FullScreenExclusiveApplicationControlledExt = 3
 
-type VkPerformanceCounterScopeKHR * = enum
+type VkPerformanceCounterScopeKHR *{.size:sizeof(cint).}= enum
   PerformanceCounterScopeCommandBufferKhr = 0
   PerformanceCounterScopeRenderPassKhr = 1
   PerformanceCounterScopeCommandKhr = 2
 
-type VkPerformanceCounterUnitKHR * = enum
+type VkPerformanceCounterUnitKHR *{.size:sizeof(cint).}= enum
   PerformanceCounterUnitGenericKhr = 0
   PerformanceCounterUnitPercentageKhr = 1
   PerformanceCounterUnitNanosecondsKhr = 2
@@ -2066,7 +2066,7 @@ type VkPerformanceCounterUnitKHR * = enum
   PerformanceCounterUnitHertzKhr = 9
   PerformanceCounterUnitCyclesKhr = 10
 
-type VkPerformanceCounterStorageKHR * = enum
+type VkPerformanceCounterStorageKHR *{.size:sizeof(cint).}= enum
   PerformanceCounterStorageInt32Khr = 0
   PerformanceCounterStorageInt64Khr = 1
   PerformanceCounterStorageUint32Khr = 2
@@ -2074,52 +2074,52 @@ type VkPerformanceCounterStorageKHR * = enum
   PerformanceCounterStorageFloat32Khr = 4
   PerformanceCounterStorageFloat64Khr = 5
 
-type VkPerformanceConfigurationTypeINTEL * = enum
+type VkPerformanceConfigurationTypeINTEL *{.size:sizeof(cint).}= enum
   PerformanceConfigurationTypeCommandQueueMetricsDiscoveryActivatedIntel = 0
 
-type VkQueryPoolSamplingModeINTEL * = enum
+type VkQueryPoolSamplingModeINTEL *{.size:sizeof(cint).}= enum
   QueryPoolSamplingModeManualIntel = 0
 
-type VkPerformanceOverrideTypeINTEL * = enum
+type VkPerformanceOverrideTypeINTEL *{.size:sizeof(cint).}= enum
   PerformanceOverrideTypeNullHardwareIntel = 0
   PerformanceOverrideTypeFlushGpuCachesIntel = 1
 
-type VkPerformanceParameterTypeINTEL * = enum
+type VkPerformanceParameterTypeINTEL *{.size:sizeof(cint).}= enum
   PerformanceParameterTypeHwCountersSupportedIntel = 0
   PerformanceParameterTypeStreamMarkerValidBitsIntel = 1
 
-type VkPerformanceValueTypeINTEL * = enum
+type VkPerformanceValueTypeINTEL *{.size:sizeof(cint).}= enum
   PerformanceValueTypeUint32Intel = 0
   PerformanceValueTypeUint64Intel = 1
   PerformanceValueTypeFloatIntel = 2
   PerformanceValueTypeBoolIntel = 3
   PerformanceValueTypeStringIntel = 4
 
-type VkShaderFloatControlsIndependence * = enum
+type VkShaderFloatControlsIndependence *{.size:sizeof(cint).}= enum
   ShaderFloatControlsIndependence32BitOnly = 0
   ShaderFloatControlsIndependenceAll = 1
   ShaderFloatControlsIndependenceNone = 2
 
-type VkPipelineExecutableStatisticFormatKHR * = enum
+type VkPipelineExecutableStatisticFormatKHR *{.size:sizeof(cint).}= enum
   PipelineExecutableStatisticFormatBool32Khr = 0
   PipelineExecutableStatisticFormatInt64Khr = 1
   PipelineExecutableStatisticFormatUint64Khr = 2
   PipelineExecutableStatisticFormatFloat64Khr = 3
 
-type VkLineRasterizationModeKHR * = enum
+type VkLineRasterizationModeKHR *{.size:sizeof(cint).}= enum
   LineRasterizationModeDefaultKhr = 0
   LineRasterizationModeRectangularKhr = 1
   LineRasterizationModeBresenhamKhr = 2
   LineRasterizationModeRectangularSmoothKhr = 3
 
-type VkFragmentShadingRateCombinerOpKHR * = enum
+type VkFragmentShadingRateCombinerOpKHR *{.size:sizeof(cint).}= enum
   FragmentShadingRateCombinerOpKeepKhr = 0
   FragmentShadingRateCombinerOpReplaceKhr = 1
   FragmentShadingRateCombinerOpMinKhr = 2
   FragmentShadingRateCombinerOpMaxKhr = 3
   FragmentShadingRateCombinerOpMulKhr = 4
 
-type VkFragmentShadingRateNV * = enum
+type VkFragmentShadingRateNV *{.size:sizeof(cint).}= enum
   FragmentShadingRate1InvocationPerPixelNv = 0
   FragmentShadingRate1InvocationPer1x2PixelsNv = 1
   FragmentShadingRate1InvocationPer2x1PixelsNv = 4
@@ -2133,11 +2133,11 @@ type VkFragmentShadingRateNV * = enum
   FragmentShadingRate16InvocationsPerPixelNv = 14
   FragmentShadingRateNoInvocationsNv = 15
 
-type VkFragmentShadingRateTypeNV * = enum
+type VkFragmentShadingRateTypeNV *{.size:sizeof(cint).}= enum
   FragmentShadingRateTypeFragmentSizeNv = 0
   FragmentShadingRateTypeEnumsNv = 1
 
-type VkSubpassMergeStatusEXT * = enum
+type VkSubpassMergeStatusEXT *{.size:sizeof(cint).}= enum
   SubpassMergeStatusMergedExt = 0
   SubpassMergeStatusDisallowedExt = 1
   SubpassMergeStatusNotMergedSideEffectsExt = 2
@@ -2153,60 +2153,60 @@ type VkSubpassMergeStatusEXT * = enum
   SubpassMergeStatusNotMergedSingleSubpassExt = 12
   SubpassMergeStatusNotMergedUnspecifiedExt = 13
 
-type VkSciSyncClientTypeNV * = enum
+type VkSciSyncClientTypeNV *{.size:sizeof(cint).}= enum
   SciSyncClientTypeSignalerNv = 0
   SciSyncClientTypeWaiterNv = 1
   SciSyncClientTypeSignalerWaiterNv = 2
 
-type VkSciSyncPrimitiveTypeNV * = enum
+type VkSciSyncPrimitiveTypeNV *{.size:sizeof(cint).}= enum
   SciSyncPrimitiveTypeFenceNv = 0
   SciSyncPrimitiveTypeSemaphoreNv = 1
 
-type VkProvokingVertexModeEXT * = enum
+type VkProvokingVertexModeEXT *{.size:sizeof(cint).}= enum
   ProvokingVertexModeFirstVertexExt = 0
   ProvokingVertexModeLastVertexExt = 1
 
-type VkAccelerationStructureMotionInstanceTypeNV * = enum
+type VkAccelerationStructureMotionInstanceTypeNV *{.size:sizeof(cint).}= enum
   AccelerationStructureMotionInstanceTypeStaticNv = 0
   AccelerationStructureMotionInstanceTypeMatrixMotionNv = 1
   AccelerationStructureMotionInstanceTypeSrtMotionNv = 2
 
-type VkDeviceAddressBindingTypeEXT * = enum
+type VkDeviceAddressBindingTypeEXT *{.size:sizeof(cint).}= enum
   DeviceAddressBindingTypeBindExt = 0
   DeviceAddressBindingTypeUnbindExt = 1
 
-type VkQueryResultStatusKHR * = enum
+type VkQueryResultStatusKHR *{.size:sizeof(cint).}= enum
   QueryResultStatusInsufficientBitstreamBufferRangeKhr = -1000299000
   QueryResultStatusErrorKhr = -1
   QueryResultStatusNotReadyKhr = 0
   QueryResultStatusCompleteKhr = 1
 
-type VkVideoEncodeTuningModeKHR * = enum
+type VkVideoEncodeTuningModeKHR *{.size:sizeof(cint).}= enum
   VideoEncodeTuningModeDefaultKhr = 0
   VideoEncodeTuningModeHighQualityKhr = 1
   VideoEncodeTuningModeLowLatencyKhr = 2
   VideoEncodeTuningModeUltraLowLatencyKhr = 3
   VideoEncodeTuningModeLosslessKhr = 4
 
-type VkPipelineRobustnessBufferBehaviorEXT * = enum
+type VkPipelineRobustnessBufferBehaviorEXT *{.size:sizeof(cint).}= enum
   PipelineRobustnessBufferBehaviorDeviceDefaultExt = 0
   PipelineRobustnessBufferBehaviorDisabledExt = 1
   PipelineRobustnessBufferBehaviorRobustBufferAccessExt = 2
   PipelineRobustnessBufferBehaviorRobustBufferAccess2Ext = 3
 
-type VkPipelineRobustnessImageBehaviorEXT * = enum
+type VkPipelineRobustnessImageBehaviorEXT *{.size:sizeof(cint).}= enum
   PipelineRobustnessImageBehaviorDeviceDefaultExt = 0
   PipelineRobustnessImageBehaviorDisabledExt = 1
   PipelineRobustnessImageBehaviorRobustImageAccessExt = 2
   PipelineRobustnessImageBehaviorRobustImageAccess2Ext = 3
 
-type VkOpticalFlowPerformanceLevelNV * = enum
+type VkOpticalFlowPerformanceLevelNV *{.size:sizeof(cint).}= enum
   OpticalFlowPerformanceLevelUnknownNv = 0
   OpticalFlowPerformanceLevelSlowNv = 1
   OpticalFlowPerformanceLevelMediumNv = 2
   OpticalFlowPerformanceLevelFastNv = 3
 
-type VkOpticalFlowSessionBindingPointNV * = enum
+type VkOpticalFlowSessionBindingPointNV *{.size:sizeof(cint).}= enum
   OpticalFlowSessionBindingPointUnknownNv = 0
   OpticalFlowSessionBindingPointInputNv = 1
   OpticalFlowSessionBindingPointReferenceNv = 2
@@ -2217,35 +2217,35 @@ type VkOpticalFlowSessionBindingPointNV * = enum
   OpticalFlowSessionBindingPointBackwardCostNv = 7
   OpticalFlowSessionBindingPointGlobalFlowNv = 8
 
-type VkMicromapTypeEXT * = enum
+type VkMicromapTypeEXT *{.size:sizeof(cint).}= enum
   MicromapTypeOpacityMicromapExt = 0
   MicromapTypeDisplacementMicromapNv = 1000397000
 
-type VkCopyMicromapModeEXT * = enum
+type VkCopyMicromapModeEXT *{.size:sizeof(cint).}= enum
   CopyMicromapModeCloneExt = 0
   CopyMicromapModeSerializeExt = 1
   CopyMicromapModeDeserializeExt = 2
   CopyMicromapModeCompactExt = 3
 
-type VkBuildMicromapModeEXT * = enum
+type VkBuildMicromapModeEXT *{.size:sizeof(cint).}= enum
   BuildMicromapModeBuildExt = 0
 
-type VkOpacityMicromapFormatEXT * = enum
+type VkOpacityMicromapFormatEXT *{.size:sizeof(cint).}= enum
   OpacityMicromapFormat2StateExt = 1
   OpacityMicromapFormat4StateExt = 2
 
-type VkOpacityMicromapSpecialIndexEXT * = enum
+type VkOpacityMicromapSpecialIndexEXT *{.size:sizeof(cint).}= enum
   OpacityMicromapSpecialIndexFullyUnknownOpaqueExt = -4
   OpacityMicromapSpecialIndexFullyUnknownTransparentExt = -3
   OpacityMicromapSpecialIndexFullyOpaqueExt = -2
   OpacityMicromapSpecialIndexFullyTransparentExt = -1
 
-type VkDepthBiasRepresentationEXT * = enum
+type VkDepthBiasRepresentationEXT *{.size:sizeof(cint).}= enum
   DepthBiasRepresentationLeastRepresentableValueFormatExt = 0
   DepthBiasRepresentationLeastRepresentableValueForceUnormExt = 1
   DepthBiasRepresentationFloatExt = 2
 
-type VkDeviceFaultAddressTypeEXT * = enum
+type VkDeviceFaultAddressTypeEXT *{.size:sizeof(cint).}= enum
   DeviceFaultAddressTypeNoneExt = 0  ## Currently unused
   DeviceFaultAddressTypeReadInvalidExt = 1
   DeviceFaultAddressTypeWriteInvalidExt = 2
@@ -2254,25 +2254,25 @@ type VkDeviceFaultAddressTypeEXT * = enum
   DeviceFaultAddressTypeInstructionPointerInvalidExt = 5
   DeviceFaultAddressTypeInstructionPointerFaultExt = 6
 
-type VkDeviceFaultVendorBinaryHeaderVersionEXT * = enum
+type VkDeviceFaultVendorBinaryHeaderVersionEXT *{.size:sizeof(cint).}= enum
   DeviceFaultVendorBinaryHeaderVersionOneExt = 1
 
-type VkDisplacementMicromapFormatNV * = enum
+type VkDisplacementMicromapFormatNV *{.size:sizeof(cint).}= enum
   DisplacementMicromapFormat64Triangles64BytesNv = 1
   DisplacementMicromapFormat256Triangles128BytesNv = 2
   DisplacementMicromapFormat1024Triangles128BytesNv = 3
 
-type VkShaderCodeTypeEXT * = enum
+type VkShaderCodeTypeEXT *{.size:sizeof(cint).}= enum
   ShaderCodeTypeBinaryExt = 0
   ShaderCodeTypeSpirvExt = 1
 
-type VkScopeKHR * = enum
+type VkScopeKHR *{.size:sizeof(cint).}= enum
   ScopeDeviceKhr = 1
   ScopeWorkgroupKhr = 2
   ScopeSubgroupKhr = 3
   ScopeQueueFamilyKhr = 5
 
-type VkComponentTypeKHR * = enum
+type VkComponentTypeKHR *{.size:sizeof(cint).}= enum
   ComponentTypeFloat16Khr = 0
   ComponentTypeFloat32Khr = 1
   ComponentTypeFloat64Khr = 2
@@ -2285,21 +2285,21 @@ type VkComponentTypeKHR * = enum
   ComponentTypeUint32Khr = 9
   ComponentTypeUint64Khr = 10
 
-type VkCubicFilterWeightsQCOM * = enum
+type VkCubicFilterWeightsQCOM *{.size:sizeof(cint).}= enum
   CubicFilterWeightsCatmullRomQcom = 0
   CubicFilterWeightsZeroTangentCardinalQcom = 1
   CubicFilterWeightsBSplineQcom = 2
   CubicFilterWeightsMitchellNetravaliQcom = 3
 
-type VkBlockMatchWindowCompareModeQCOM * = enum
+type VkBlockMatchWindowCompareModeQCOM *{.size:sizeof(cint).}= enum
   BlockMatchWindowCompareModeMinQcom = 0
   BlockMatchWindowCompareModeMaxQcom = 1
 
-type VkLayeredDriverUnderlyingApiMSFT * = enum
+type VkLayeredDriverUnderlyingApiMSFT *{.size:sizeof(cint).}= enum
   LayeredDriverUnderlyingApiNoneMsft = 0
   LayeredDriverUnderlyingApiD3d12Msft = 1
 
-type VkLatencyMarkerNV * = enum
+type VkLatencyMarkerNV *{.size:sizeof(cint).}= enum
   LatencyMarkerSimulationStartNv = 0
   LatencyMarkerSimulationEndNv = 1
   LatencyMarkerRendersubmitStartNv = 2
@@ -2313,7 +2313,7 @@ type VkLatencyMarkerNV * = enum
   LatencyMarkerOutOfBandPresentStartNv = 10
   LatencyMarkerOutOfBandPresentEndNv = 11
 
-type VkOutOfBandQueueTypeNV * = enum
+type VkOutOfBandQueueTypeNV *{.size:sizeof(cint).}= enum
   OutOfBandQueueTypeRenderNv = 0
   OutOfBandQueueTypePresentNv = 1
 
@@ -2338,783 +2338,783 @@ type VkSamplerReductionModeEXT* = VkSamplerReductionMode
 type VkShaderFloatControlsIndependenceKHR* = VkShaderFloatControlsIndependence
 type VkDriverIdKHR* = VkDriverId
 ## Value Bitmasks
-type VkQueueFlagBits * = enum
-  QueueGraphicsBit = 1  ## Queue supports graphics operations
-  QueueComputeBit = 2  ## Queue supports compute operations
-  QueueTransferBit = 4  ## Queue supports transfer operations
-  QueueSparseBindingBit = 8  ## Queue supports sparse resource memory management operations
-
-type VkCullModeFlagBits * = enum
-  CullModeNone = 0
-  CullModeFrontBit = 1
-  CullModeBackBit = 2
-  CullModeFrontAndBack = 0x00000003
-
-type VkMemoryPropertyFlagBits * = enum
-  MemoryPropertyDeviceLocalBit = 1  ## If otherwise stated, then allocate memory on device
-  MemoryPropertyHostVisibleBit = 2  ## Memory is mappable by host
-  MemoryPropertyHostCoherentBit = 4  ## Memory will have i/o coherency. If not set, application may need to use vkFlushMappedMemoryRanges and vkInvalidateMappedMemoryRanges to flush/invalidate host cache
-  MemoryPropertyHostCachedBit = 8  ## Memory will be cached by the host
-  MemoryPropertyLazilyAllocatedBit = 16  ## Memory may be allocated by the driver when it is required
-
-type VkMemoryHeapFlagBits * = enum
-  MemoryHeapDeviceLocalBit = 1  ## If set, heap represents device memory
-
-type VkAccessFlagBits * = enum
-  AccessIndirectCommandReadBit = 1  ## Controls coherency of indirect command reads
-  AccessIndexReadBit = 2  ## Controls coherency of index reads
-  AccessVertexAttributeReadBit = 4  ## Controls coherency of vertex attribute reads
-  AccessUniformReadBit = 8  ## Controls coherency of uniform buffer reads
-  AccessInputAttachmentReadBit = 16  ## Controls coherency of input attachment reads
-  AccessShaderReadBit = 32  ## Controls coherency of shader reads
-  AccessShaderWriteBit = 64  ## Controls coherency of shader writes
-  AccessColorAttachmentReadBit = 128  ## Controls coherency of color attachment reads
-  AccessColorAttachmentWriteBit = 256  ## Controls coherency of color attachment writes
-  AccessDepthStencilAttachmentReadBit = 512  ## Controls coherency of depth/stencil attachment reads
-  AccessDepthStencilAttachmentWriteBit = 1024  ## Controls coherency of depth/stencil attachment writes
-  AccessTransferReadBit = 2048  ## Controls coherency of transfer reads
-  AccessTransferWriteBit = 4096  ## Controls coherency of transfer writes
-  AccessHostReadBit = 8192  ## Controls coherency of host reads
-  AccessHostWriteBit = 16384  ## Controls coherency of host writes
-  AccessMemoryReadBit = 32768  ## Controls coherency of memory reads
-  AccessMemoryWriteBit = 65536  ## Controls coherency of memory writes
-
-type VkBufferUsageFlagBits * = enum
-  BufferUsageTransferSrcBit = 1  ## Can be used as a source of transfer operations
-  BufferUsageTransferDstBit = 2  ## Can be used as a destination of transfer operations
-  BufferUsageUniformTexelBufferBit = 4  ## Can be used as TBO
-  BufferUsageStorageTexelBufferBit = 8  ## Can be used as IBO
-  BufferUsageUniformBufferBit = 16  ## Can be used as UBO
-  BufferUsageStorageBufferBit = 32  ## Can be used as SSBO
-  BufferUsageIndexBufferBit = 64  ## Can be used as source of fixed-function index fetch (index buffer)
-  BufferUsageVertexBufferBit = 128  ## Can be used as source of fixed-function vertex fetch (VBO)
-  BufferUsageIndirectBufferBit = 256  ## Can be the source of indirect parameters (e.g. indirect buffer, parameter buffer)
-
-type VkBufferUsageFlagBits2KHR * = enum
-  BufferUsage2TransferSrcBitKhr = 1
-  BufferUsage2TransferDstBitKhr = 2
-  BufferUsage2UniformTexelBufferBitKhr = 4
-  BufferUsage2StorageTexelBufferBitKhr = 8
-  BufferUsage2UniformBufferBitKhr = 16
-  BufferUsage2StorageBufferBitKhr = 32
-  BufferUsage2IndexBufferBitKhr = 64
-  BufferUsage2VertexBufferBitKhr = 128
-  BufferUsage2IndirectBufferBitKhr = 256
-
-type VkBufferCreateFlagBits * = enum
-  BufferCreateSparseBindingBit = 1  ## Buffer should support sparse backing
-  BufferCreateSparseResidencyBit = 2  ## Buffer should support sparse backing with partial residency
-  BufferCreateSparseAliasedBit = 4  ## Buffer should support constant data access to physical memory ranges mapped into multiple locations of sparse buffers
-
-type VkShaderStageFlagBits * = enum
-  ShaderStageVertexBit = 1
-  ShaderStageTessellationControlBit = 2
-  ShaderStageTessellationEvaluationBit = 4
-  ShaderStageGeometryBit = 8
-  ShaderStageFragmentBit = 16
-  ShaderStageAllGraphics = 0x0000001F
-  ShaderStageComputeBit = 32
-  ShaderStageAll = 0x7FFFFFFF
-
-type VkImageUsageFlagBits * = enum
-  ImageUsageTransferSrcBit = 1  ## Can be used as a source of transfer operations
-  ImageUsageTransferDstBit = 2  ## Can be used as a destination of transfer operations
-  ImageUsageSampledBit = 4  ## Can be sampled from (SAMPLED_IMAGE and COMBINED_IMAGE_SAMPLER descriptor types)
-  ImageUsageStorageBit = 8  ## Can be used as storage image (STORAGE_IMAGE descriptor type)
-  ImageUsageColorAttachmentBit = 16  ## Can be used as framebuffer color attachment
-  ImageUsageDepthStencilAttachmentBit = 32  ## Can be used as framebuffer depth/stencil attachment
-  ImageUsageTransientAttachmentBit = 64  ## Image data not needed outside of rendering
-  ImageUsageInputAttachmentBit = 128  ## Can be used as framebuffer input attachment
-
-type VkImageCreateFlagBits * = enum
-  ImageCreateSparseBindingBit = 1  ## Image should support sparse backing
-  ImageCreateSparseResidencyBit = 2  ## Image should support sparse backing with partial residency
-  ImageCreateSparseAliasedBit = 4  ## Image should support constant data access to physical memory ranges mapped into multiple locations of sparse images
-  ImageCreateMutableFormatBit = 8  ## Allows image views to have different format than the base image
-  ImageCreateCubeCompatibleBit = 16  ## Allows creating image views with cube type from the created image
-
-type VkPipelineCreateFlagBits * = enum
-  PipelineCreateDisableOptimizationBit = 1
-  PipelineCreateAllowDerivativesBit = 2
-  PipelineCreateDerivativeBit = 4
-
-type VkPipelineCreateFlagBits2KHR * = enum
-  PipelineCreate2DisableOptimizationBitKhr = 1
-  PipelineCreate2AllowDerivativesBitKhr = 2
-  PipelineCreate2DerivativeBitKhr = 4
-
-type VkColorComponentFlagBits * = enum
-  ColorComponentRBit = 1
-  ColorComponentGBit = 2
-  ColorComponentBBit = 4
-  ColorComponentABit = 8
-
-type VkFenceCreateFlagBits * = enum
-  FenceCreateSignaledBit = 1
-
-type VkFormatFeatureFlagBits * = enum
-  FormatFeatureSampledImageBit = 1  ## Format can be used for sampled images (SAMPLED_IMAGE and COMBINED_IMAGE_SAMPLER descriptor types)
-  FormatFeatureStorageImageBit = 2  ## Format can be used for storage images (STORAGE_IMAGE descriptor type)
-  FormatFeatureStorageImageAtomicBit = 4  ## Format supports atomic operations in case it is used for storage images
-  FormatFeatureUniformTexelBufferBit = 8  ## Format can be used for uniform texel buffers (TBOs)
-  FormatFeatureStorageTexelBufferBit = 16  ## Format can be used for storage texel buffers (IBOs)
-  FormatFeatureStorageTexelBufferAtomicBit = 32  ## Format supports atomic operations in case it is used for storage texel buffers
-  FormatFeatureVertexBufferBit = 64  ## Format can be used for vertex buffers (VBOs)
-  FormatFeatureColorAttachmentBit = 128  ## Format can be used for color attachment images
-  FormatFeatureColorAttachmentBlendBit = 256  ## Format supports blending in case it is used for color attachment images
-  FormatFeatureDepthStencilAttachmentBit = 512  ## Format can be used for depth/stencil attachment images
-  FormatFeatureBlitSrcBit = 1024  ## Format can be used as the source image of blits with vkCmdBlitImage
-  FormatFeatureBlitDstBit = 2048  ## Format can be used as the destination image of blits with vkCmdBlitImage
-  FormatFeatureSampledImageFilterLinearBit = 4096  ## Format can be filtered with VK_FILTER_LINEAR when being sampled
-
-type VkQueryControlFlagBits * = enum
-  QueryControlPreciseBit = 1  ## Require precise results to be collected by the query
-
-type VkQueryResultFlagBits * = enum
-  QueryResult64Bit = 1  ## Results of the queries are written to the destination buffer as 64-bit values
-  QueryResultWaitBit = 2  ## Results of the queries are waited on before proceeding with the result copy
-  QueryResultWithAvailabilityBit = 4  ## Besides the results of the query, the availability of the results is also written
-  QueryResultPartialBit = 8  ## Copy the partial results of the query even if the final results are not available
-
-type VkCommandBufferUsageFlagBits * = enum
-  CommandBufferUsageOneTimeSubmitBit = 1
-  CommandBufferUsageRenderPassContinueBit = 2
-  CommandBufferUsageSimultaneousUseBit = 4  ## Command buffer may be submitted/executed more than once simultaneously
-
-type VkQueryPipelineStatisticFlagBits * = enum
-  QueryPipelineStatisticInputAssemblyVerticesBit = 1  ## Optional
-  QueryPipelineStatisticInputAssemblyPrimitivesBit = 2  ## Optional
-  QueryPipelineStatisticVertexShaderInvocationsBit = 4  ## Optional
-  QueryPipelineStatisticGeometryShaderInvocationsBit = 8  ## Optional
-  QueryPipelineStatisticGeometryShaderPrimitivesBit = 16  ## Optional
-  QueryPipelineStatisticClippingInvocationsBit = 32  ## Optional
-  QueryPipelineStatisticClippingPrimitivesBit = 64  ## Optional
-  QueryPipelineStatisticFragmentShaderInvocationsBit = 128  ## Optional
-  QueryPipelineStatisticTessellationControlShaderPatchesBit = 256  ## Optional
-  QueryPipelineStatisticTessellationEvaluationShaderInvocationsBit = 512  ## Optional
-  QueryPipelineStatisticComputeShaderInvocationsBit = 1024  ## Optional
-
-type VkImageAspectFlagBits * = enum
-  ImageAspectColorBit = 1
-  ImageAspectDepthBit = 2
-  ImageAspectStencilBit = 4
-  ImageAspectMetadataBit = 8
-
-type VkSparseImageFormatFlagBits * = enum
-  SparseImageFormatSingleMiptailBit = 1  ## Image uses a single mip tail region for all array layers
-  SparseImageFormatAlignedMipSizeBit = 2  ## Image requires mip level dimensions to be an integer multiple of the sparse image block dimensions for non-tail mip levels.
-  SparseImageFormatNonstandardBlockSizeBit = 4  ## Image uses a non-standard sparse image block dimensions
-
-type VkSparseMemoryBindFlagBits * = enum
-  SparseMemoryBindMetadataBit = 1  ## Operation binds resource metadata to memory
-
-type VkPipelineStageFlagBits * = enum
-  PipelineStageTopOfPipeBit = 1  ## Before subsequent commands are processed
-  PipelineStageDrawIndirectBit = 2  ## Draw/DispatchIndirect command fetch
-  PipelineStageVertexInputBit = 4  ## Vertex/index fetch
-  PipelineStageVertexShaderBit = 8  ## Vertex shading
-  PipelineStageTessellationControlShaderBit = 16  ## Tessellation control shading
-  PipelineStageTessellationEvaluationShaderBit = 32  ## Tessellation evaluation shading
-  PipelineStageGeometryShaderBit = 64  ## Geometry shading
-  PipelineStageFragmentShaderBit = 128  ## Fragment shading
-  PipelineStageEarlyFragmentTestsBit = 256  ## Early fragment (depth and stencil) tests
-  PipelineStageLateFragmentTestsBit = 512  ## Late fragment (depth and stencil) tests
-  PipelineStageColorAttachmentOutputBit = 1024  ## Color attachment writes
-  PipelineStageComputeShaderBit = 2048  ## Compute shading
-  PipelineStageTransferBit = 4096  ## Transfer/copy operations
-  PipelineStageBottomOfPipeBit = 8192  ## After previous commands have completed
-  PipelineStageHostBit = 16384  ## Indicates host (CPU) is a source/sink of the dependency
-  PipelineStageAllGraphicsBit = 32768  ## All stages of the graphics pipeline
-  PipelineStageAllCommandsBit = 65536  ## All stages supported on the queue
-
-type VkCommandPoolCreateFlagBits * = enum
-  CommandPoolCreateTransientBit = 1  ## Command buffers have a short lifetime
-  CommandPoolCreateResetCommandBufferBit = 2  ## Command buffers may release their memory individually
-
-type VkCommandPoolResetFlagBits * = enum
-  CommandPoolResetReleaseResourcesBit = 1  ## Release resources owned by the pool
-
-type VkCommandBufferResetFlagBits * = enum
-  CommandBufferResetReleaseResourcesBit = 1  ## Release resources owned by the buffer
-
-type VkSampleCountFlagBits * = enum
-  SampleCount1Bit = 1  ## Sample count 1 supported
-  SampleCount2Bit = 2  ## Sample count 2 supported
-  SampleCount4Bit = 4  ## Sample count 4 supported
-  SampleCount8Bit = 8  ## Sample count 8 supported
-  SampleCount16Bit = 16  ## Sample count 16 supported
-  SampleCount32Bit = 32  ## Sample count 32 supported
-  SampleCount64Bit = 64  ## Sample count 64 supported
-
-type VkAttachmentDescriptionFlagBits * = enum
-  AttachmentDescriptionMayAliasBit = 1  ## The attachment may alias physical memory of another attachment in the same render pass
-
-type VkStencilFaceFlagBits * = enum
-  StencilFaceFrontBit = 1  ## Front face
-  StencilFaceBackBit = 2  ## Back face
-  StencilFaceFrontAndBack = 0x00000003  ## Front and back faces
-
-type VkDescriptorPoolCreateFlagBits * = enum
-  DescriptorPoolCreateFreeDescriptorSetBit = 1  ## Descriptor sets may be freed individually
-
-type VkDependencyFlagBits * = enum
-  DependencyByRegionBit = 1  ## Dependency is per pixel region
-
-type VkSemaphoreWaitFlagBits * = enum
-  SemaphoreWaitAnyBit = 1
-
-type VkDisplayPlaneAlphaFlagBitsKHR * = enum
-  DisplayPlaneAlphaOpaqueBitKhr = 1
-  DisplayPlaneAlphaGlobalBitKhr = 2
-  DisplayPlaneAlphaPerPixelBitKhr = 4
-  DisplayPlaneAlphaPerPixelPremultipliedBitKhr = 8
-
-type VkCompositeAlphaFlagBitsKHR * = enum
-  CompositeAlphaOpaqueBitKhr = 1
-  CompositeAlphaPreMultipliedBitKhr = 2
-  CompositeAlphaPostMultipliedBitKhr = 4
-  CompositeAlphaInheritBitKhr = 8
-
-type VkSurfaceTransformFlagBitsKHR * = enum
-  SurfaceTransformIdentityBitKhr = 1
-  SurfaceTransformRotate90BitKhr = 2
-  SurfaceTransformRotate180BitKhr = 4
-  SurfaceTransformRotate270BitKhr = 8
-  SurfaceTransformHorizontalMirrorBitKhr = 16
-  SurfaceTransformHorizontalMirrorRotate90BitKhr = 32
-  SurfaceTransformHorizontalMirrorRotate180BitKhr = 64
-  SurfaceTransformHorizontalMirrorRotate270BitKhr = 128
-  SurfaceTransformInheritBitKhr = 256
-
-type VkSwapchainImageUsageFlagBitsANDROID * = enum
-  SwapchainImageUsageSharedBitAndroid = 1
-
-type VkDebugReportFlagBitsEXT * = enum
-  DebugReportInformationBitExt = 1
-  DebugReportWarningBitExt = 2
-  DebugReportPerformanceWarningBitExt = 4
-  DebugReportErrorBitExt = 8
-  DebugReportDebugBitExt = 16
-
-type VkExternalMemoryHandleTypeFlagBitsNV * = enum
-  ExternalMemoryHandleTypeOpaqueWin32BitNv = 1
-  ExternalMemoryHandleTypeOpaqueWin32KmtBitNv = 2
-  ExternalMemoryHandleTypeD3d11ImageBitNv = 4
-  ExternalMemoryHandleTypeD3d11ImageKmtBitNv = 8
-
-type VkExternalMemoryFeatureFlagBitsNV * = enum
-  ExternalMemoryFeatureDedicatedOnlyBitNv = 1
-  ExternalMemoryFeatureExportableBitNv = 2
-  ExternalMemoryFeatureImportableBitNv = 4
-
-type VkSubgroupFeatureFlagBits * = enum
-  SubgroupFeatureBasicBit = 1  ## Basic subgroup operations
-  SubgroupFeatureVoteBit = 2  ## Vote subgroup operations
-  SubgroupFeatureArithmeticBit = 4  ## Arithmetic subgroup operations
-  SubgroupFeatureBallotBit = 8  ## Ballot subgroup operations
-  SubgroupFeatureShuffleBit = 16  ## Shuffle subgroup operations
-  SubgroupFeatureShuffleRelativeBit = 32  ## Shuffle relative subgroup operations
-  SubgroupFeatureClusteredBit = 64  ## Clustered subgroup operations
-  SubgroupFeatureQuadBit = 128  ## Quad subgroup operations
-
-type VkIndirectCommandsLayoutUsageFlagBitsNV * = enum
-  IndirectCommandsLayoutUsageExplicitPreprocessBitNv = 1
-  IndirectCommandsLayoutUsageIndexedSequencesBitNv = 2
-  IndirectCommandsLayoutUsageUnorderedSequencesBitNv = 4
-
-type VkIndirectStateFlagBitsNV * = enum
-  IndirectStateFlagFrontfaceBitNv = 1
-
-type VkExternalMemoryHandleTypeFlagBits * = enum
-  ExternalMemoryHandleTypeOpaqueFdBit = 1
-  ExternalMemoryHandleTypeOpaqueWin32Bit = 2
-  ExternalMemoryHandleTypeOpaqueWin32KmtBit = 4
-  ExternalMemoryHandleTypeD3d11TextureBit = 8
-  ExternalMemoryHandleTypeD3d11TextureKmtBit = 16
-  ExternalMemoryHandleTypeD3d12HeapBit = 32
-  ExternalMemoryHandleTypeD3d12ResourceBit = 64
-
-type VkExternalMemoryFeatureFlagBits * = enum
-  ExternalMemoryFeatureDedicatedOnlyBit = 1
-  ExternalMemoryFeatureExportableBit = 2
-  ExternalMemoryFeatureImportableBit = 4
-
-type VkExternalSemaphoreHandleTypeFlagBits * = enum
-  ExternalSemaphoreHandleTypeOpaqueFdBit = 1
-  ExternalSemaphoreHandleTypeOpaqueWin32Bit = 2
-  ExternalSemaphoreHandleTypeOpaqueWin32KmtBit = 4
-  ExternalSemaphoreHandleTypeD3d12FenceBit = 8
-  ExternalSemaphoreHandleTypeSyncFdBit = 16
-
-type VkExternalSemaphoreFeatureFlagBits * = enum
-  ExternalSemaphoreFeatureExportableBit = 1
-  ExternalSemaphoreFeatureImportableBit = 2
-
-type VkSemaphoreImportFlagBits * = enum
-  SemaphoreImportTemporaryBit = 1
-
-type VkExternalFenceHandleTypeFlagBits * = enum
-  ExternalFenceHandleTypeOpaqueFdBit = 1
-  ExternalFenceHandleTypeOpaqueWin32Bit = 2
-  ExternalFenceHandleTypeOpaqueWin32KmtBit = 4
-  ExternalFenceHandleTypeSyncFdBit = 8
-
-type VkExternalFenceFeatureFlagBits * = enum
-  ExternalFenceFeatureExportableBit = 1
-  ExternalFenceFeatureImportableBit = 2
-
-type VkFenceImportFlagBits * = enum
-  FenceImportTemporaryBit = 1
-
-type VkSurfaceCounterFlagBitsEXT * = enum
-  SurfaceCounterVblankBitExt = 1
-
-type VkPeerMemoryFeatureFlagBits * = enum
-  PeerMemoryFeatureCopySrcBit = 1  ## Can read with vkCmdCopy commands
-  PeerMemoryFeatureCopyDstBit = 2  ## Can write with vkCmdCopy commands
-  PeerMemoryFeatureGenericSrcBit = 4  ## Can read with any access type/command
-  PeerMemoryFeatureGenericDstBit = 8  ## Can write with and access type/command
-
-type VkMemoryAllocateFlagBits * = enum
-  MemoryAllocateDeviceMaskBit = 1  ## Force allocation on specific devices
-
-type VkDeviceGroupPresentModeFlagBitsKHR * = enum
-  DeviceGroupPresentModeLocalBitKhr = 1  ## Present from local memory
-  DeviceGroupPresentModeRemoteBitKhr = 2  ## Present from remote memory
-  DeviceGroupPresentModeSumBitKhr = 4  ## Present sum of local and/or remote memory
-  DeviceGroupPresentModeLocalMultiDeviceBitKhr = 8  ## Each physical device presents from local memory
-
-type VkDebugUtilsMessageSeverityFlagBitsEXT * = enum
-  DebugUtilsMessageSeverityVerboseBitExt = 1
-  DebugUtilsMessageSeverityInfoBitExt = 16
-  DebugUtilsMessageSeverityWarningBitExt = 256
-  DebugUtilsMessageSeverityErrorBitExt = 4096
-
-type VkDebugUtilsMessageTypeFlagBitsEXT * = enum
-  DebugUtilsMessageTypeGeneralBitExt = 1
-  DebugUtilsMessageTypeValidationBitExt = 2
-  DebugUtilsMessageTypePerformanceBitExt = 4
-
-type VkDescriptorBindingFlagBits * = enum
-  DescriptorBindingUpdateAfterBindBit = 1
-  DescriptorBindingUpdateUnusedWhilePendingBit = 2
-  DescriptorBindingPartiallyBoundBit = 4
-  DescriptorBindingVariableDescriptorCountBit = 8
-
-type VkConditionalRenderingFlagBitsEXT * = enum
-  ConditionalRenderingInvertedBitExt = 1
-
-type VkResolveModeFlagBits * = enum
-  ResolveModeNone = 0
-  ResolveModeSampleZeroBit = 1
-  ResolveModeAverageBit = 2
-  ResolveModeMinBit = 4
-  ResolveModeMaxBit = 8
-
-type VkGeometryInstanceFlagBitsKHR * = enum
-  GeometryInstanceTriangleFacingCullDisableBitKhr = 1
-  GeometryInstanceTriangleFlipFacingBitKhr = 2
-  GeometryInstanceForceOpaqueBitKhr = 4
-  GeometryInstanceForceNoOpaqueBitKhr = 8
-
-type VkGeometryFlagBitsKHR * = enum
-  GeometryOpaqueBitKhr = 1
-  GeometryNoDuplicateAnyHitInvocationBitKhr = 2
-
-type VkBuildAccelerationStructureFlagBitsKHR * = enum
-  BuildAccelerationStructureAllowUpdateBitKhr = 1
-  BuildAccelerationStructureAllowCompactionBitKhr = 2
-  BuildAccelerationStructurePreferFastTraceBitKhr = 4
-  BuildAccelerationStructurePreferFastBuildBitKhr = 8
-  BuildAccelerationStructureLowMemoryBitKhr = 16
-
-type VkAccelerationStructureCreateFlagBitsKHR * = enum
-  AccelerationStructureCreateDeviceAddressCaptureReplayBitKhr = 1
-
-type VkDeviceDiagnosticsConfigFlagBitsNV * = enum
-  DeviceDiagnosticsConfigEnableShaderDebugInfoBitNv = 1
-  DeviceDiagnosticsConfigEnableResourceTrackingBitNv = 2
-  DeviceDiagnosticsConfigEnableAutomaticCheckpointsBitNv = 4
-  DeviceDiagnosticsConfigEnableShaderErrorReportingBitNv = 8
-
-type VkPipelineCreationFeedbackFlagBits * = enum
-  PipelineCreationFeedbackValidBit = 1
-  PipelineCreationFeedbackApplicationPipelineCacheHitBit = 2
-  PipelineCreationFeedbackBasePipelineAccelerationBit = 4
-
-type VkMemoryDecompressionMethodFlagBitsNV * = enum
-  MemoryDecompressionMethodGdeflate10BitNv = 1
-
-type VkPerformanceCounterDescriptionFlagBitsKHR * = enum
-  PerformanceCounterDescriptionPerformanceImpactingBitKhr = 1
-  PerformanceCounterDescriptionConcurrentlyImpactedBitKhr = 2
-
-type VkToolPurposeFlagBits * = enum
-  ToolPurposeValidationBit = 1
-  ToolPurposeProfilingBit = 2
-  ToolPurposeTracingBit = 4
-  ToolPurposeAdditionalFeaturesBit = 8
-  ToolPurposeModifyingFeaturesBit = 16
-
-type VkAccessFlagBits2 * = enum
-  Access2None = 0
-  Access2IndirectCommandReadBit = 1
-  Access2IndexReadBit = 2
-  Access2VertexAttributeReadBit = 4
-  Access2UniformReadBit = 8
-  Access2InputAttachmentReadBit = 16
-  Access2ShaderReadBit = 32
-  Access2ShaderWriteBit = 64
-  Access2ColorAttachmentReadBit = 128
-  Access2ColorAttachmentWriteBit = 256
-  Access2DepthStencilAttachmentReadBit = 512
-  Access2DepthStencilAttachmentWriteBit = 1024
-  Access2TransferReadBit = 2048
-  Access2TransferWriteBit = 4096
-  Access2HostReadBit = 8192
-  Access2HostWriteBit = 16384
-  Access2MemoryReadBit = 32768
-  Access2MemoryWriteBit = 65536
-  Access2ShaderSampledReadBit = 4294967296
-  Access2ShaderStorageReadBit = 8589934592
-  Access2ShaderStorageWriteBit = 17179869184
-
-type VkPipelineStageFlagBits2 * = enum
-  PipelineStage2None = 0
-  PipelineStage2TopOfPipeBit = 1
-  PipelineStage2DrawIndirectBit = 2
-  PipelineStage2VertexInputBit = 4
-  PipelineStage2VertexShaderBit = 8
-  PipelineStage2TessellationControlShaderBit = 16
-  PipelineStage2TessellationEvaluationShaderBit = 32
-  PipelineStage2GeometryShaderBit = 64
-  PipelineStage2FragmentShaderBit = 128
-  PipelineStage2EarlyFragmentTestsBit = 256
-  PipelineStage2LateFragmentTestsBit = 512
-  PipelineStage2ColorAttachmentOutputBit = 1024
-  PipelineStage2ComputeShaderBit = 2048
-  PipelineStage2AllTransferBit = 4096
-  PipelineStage2BottomOfPipeBit = 8192
-  PipelineStage2HostBit = 16384
-  PipelineStage2AllGraphicsBit = 32768
-  PipelineStage2AllCommandsBit = 65536
-  PipelineStage2CopyBit = 4294967296
-  PipelineStage2ResolveBit = 8589934592
-  PipelineStage2BlitBit = 17179869184
-  PipelineStage2ClearBit = 34359738368
-  PipelineStage2IndexInputBit = 68719476736
-  PipelineStage2VertexAttributeInputBit = 137438953472
-  PipelineStage2PreRasterizationShadersBit = 274877906944
-
-type VkSubmitFlagBits * = enum
-  SubmitProtectedBit = 1
-
-type VkGraphicsPipelineLibraryFlagBitsEXT * = enum
-  GraphicsPipelineLibraryVertexInputInterfaceBitExt = 1
-  GraphicsPipelineLibraryPreRasterizationShadersBitExt = 2
-  GraphicsPipelineLibraryFragmentShaderBitExt = 4
-  GraphicsPipelineLibraryFragmentOutputInterfaceBitExt = 8
-
-type VkDeviceAddressBindingFlagBitsEXT * = enum
-  DeviceAddressBindingInternalObjectBitExt = 1
-
-type VkFrameBoundaryFlagBitsEXT * = enum
-  FrameBoundaryFrameEndBitExt = 1
-
-type VkPresentScalingFlagBitsEXT * = enum
-  PresentScalingOneToOneBitExt = 1
-  PresentScalingAspectRatioStretchBitExt = 2
-  PresentScalingStretchBitExt = 4
-
-type VkPresentGravityFlagBitsEXT * = enum
-  PresentGravityMinBitExt = 1
-  PresentGravityMaxBitExt = 2
-  PresentGravityCenteredBitExt = 4
-
-type VkPhysicalDeviceSchedulingControlsFlagBitsARM * = enum
-  PhysicalDeviceSchedulingControlsShaderCoreCountArm = 1
-
-type VkVideoCodecOperationFlagBitsKHR * = enum
-  VideoCodecOperationNoneKhr = 0
-
-type VkVideoChromaSubsamplingFlagBitsKHR * = enum
-  VideoChromaSubsamplingInvalidKhr = 0
-  VideoChromaSubsamplingMonochromeBitKhr = 1
-  VideoChromaSubsampling420BitKhr = 2
-  VideoChromaSubsampling422BitKhr = 4
-  VideoChromaSubsampling444BitKhr = 8
-
-type VkVideoComponentBitDepthFlagBitsKHR * = enum
-  VideoComponentBitDepthInvalidKhr = 0
-  VideoComponentBitDepth8BitKhr = 1
-  VideoComponentBitDepth10BitKhr = 4
-  VideoComponentBitDepth12BitKhr = 16
-
-type VkVideoCapabilityFlagBitsKHR * = enum
-  VideoCapabilityProtectedContentBitKhr = 1
-  VideoCapabilitySeparateReferenceImagesBitKhr = 2
-
-type VkVideoSessionCreateFlagBitsKHR * = enum
-  VideoSessionCreateProtectedContentBitKhr = 1
-
-type VkVideoDecodeH264PictureLayoutFlagBitsKHR * = enum
-  VideoDecodeH264PictureLayoutProgressiveKhr = 0
-  VideoDecodeH264PictureLayoutInterlacedInterleavedLinesBitKhr = 1
-  VideoDecodeH264PictureLayoutInterlacedSeparatePlanesBitKhr = 2
-
-type VkVideoCodingControlFlagBitsKHR * = enum
-  VideoCodingControlResetBitKhr = 1
-
-type VkVideoDecodeUsageFlagBitsKHR * = enum
-  VideoDecodeUsageDefaultKhr = 0
-  VideoDecodeUsageTranscodingBitKhr = 1
-  VideoDecodeUsageOfflineBitKhr = 2
-  VideoDecodeUsageStreamingBitKhr = 4
-
-type VkVideoDecodeCapabilityFlagBitsKHR * = enum
-  VideoDecodeCapabilityDpbAndOutputCoincideBitKhr = 1
-  VideoDecodeCapabilityDpbAndOutputDistinctBitKhr = 2
-
-type VkVideoEncodeUsageFlagBitsKHR * = enum
-  VideoEncodeUsageDefaultKhr = 0
-  VideoEncodeUsageTranscodingBitKhr = 1
-  VideoEncodeUsageStreamingBitKhr = 2
-  VideoEncodeUsageRecordingBitKhr = 4
-  VideoEncodeUsageConferencingBitKhr = 8
-
-type VkVideoEncodeContentFlagBitsKHR * = enum
-  VideoEncodeContentDefaultKhr = 0
-  VideoEncodeContentCameraBitKhr = 1
-  VideoEncodeContentDesktopBitKhr = 2
-  VideoEncodeContentRenderedBitKhr = 4
-
-type VkVideoEncodeCapabilityFlagBitsKHR * = enum
-  VideoEncodeCapabilityPrecedingExternallyEncodedBytesBitKhr = 1
-  VideoEncodeCapabilityInsufficientBitstreamBufferRangeDetectionBitKhr = 2
-
-type VkVideoEncodeFeedbackFlagBitsKHR * = enum
-  VideoEncodeFeedbackBitstreamBufferOffsetBitKhr = 1
-  VideoEncodeFeedbackBitstreamBytesWrittenBitKhr = 2
-  VideoEncodeFeedbackBitstreamHasOverridesBitKhr = 4
-
-type VkVideoEncodeRateControlModeFlagBitsKHR * = enum
-  VideoEncodeRateControlModeDefaultKhr = 0
-  VideoEncodeRateControlModeDisabledBitKhr = 1
-  VideoEncodeRateControlModeCbrBitKhr = 2
-  VideoEncodeRateControlModeVbrBitKhr = 4
-
-type VkVideoEncodeH264CapabilityFlagBitsKHR * = enum
-  VideoEncodeH264CapabilityHrdComplianceBitKhr = 1
-  VideoEncodeH264CapabilityPredictionWeightTableGeneratedBitKhr = 2
-  VideoEncodeH264CapabilityRowUnalignedSliceBitKhr = 4
-  VideoEncodeH264CapabilityDifferentSliceTypeBitKhr = 8
-  VideoEncodeH264CapabilityBFrameInL0ListBitKhr = 16
-  VideoEncodeH264CapabilityBFrameInL1ListBitKhr = 32
-  VideoEncodeH264CapabilityPerPictureTypeMinMaxQpBitKhr = 64
-  VideoEncodeH264CapabilityPerSliceConstantQpBitKhr = 128
-  VideoEncodeH264CapabilityGeneratePrefixNaluBitKhr = 256
-
-type VkVideoEncodeH264StdFlagBitsKHR * = enum
-  VideoEncodeH264StdSeparateColorPlaneFlagSetBitKhr = 1
-  VideoEncodeH264StdQpprimeYZeroTransformBypassFlagSetBitKhr = 2
-  VideoEncodeH264StdScalingMatrixPresentFlagSetBitKhr = 4
-  VideoEncodeH264StdChromaQpIndexOffsetBitKhr = 8
-  VideoEncodeH264StdSecondChromaQpIndexOffsetBitKhr = 16
-  VideoEncodeH264StdPicInitQpMinus26BitKhr = 32
-  VideoEncodeH264StdWeightedPredFlagSetBitKhr = 64
-  VideoEncodeH264StdWeightedBipredIdcExplicitBitKhr = 128
-  VideoEncodeH264StdWeightedBipredIdcImplicitBitKhr = 256
-  VideoEncodeH264StdTransform8x8ModeFlagSetBitKhr = 512
-  VideoEncodeH264StdDirectSpatialMvPredFlagUnsetBitKhr = 1024
-  VideoEncodeH264StdEntropyCodingModeFlagUnsetBitKhr = 2048
-  VideoEncodeH264StdEntropyCodingModeFlagSetBitKhr = 4096
-  VideoEncodeH264StdDirect8x8InferenceFlagUnsetBitKhr = 8192
-  VideoEncodeH264StdConstrainedIntraPredFlagSetBitKhr = 16384
-  VideoEncodeH264StdDeblockingFilterDisabledBitKhr = 32768
-  VideoEncodeH264StdDeblockingFilterEnabledBitKhr = 65536
-  VideoEncodeH264StdDeblockingFilterPartialBitKhr = 131072
-  VideoEncodeH264StdSliceQpDeltaBitKhr = 524288
-  VideoEncodeH264StdDifferentSliceQpDeltaBitKhr = 1048576
-
-type VkVideoEncodeH264RateControlFlagBitsKHR * = enum
-  VideoEncodeH264RateControlAttemptHrdComplianceBitKhr = 1
-  VideoEncodeH264RateControlRegularGopBitKhr = 2
-  VideoEncodeH264RateControlReferencePatternFlatBitKhr = 4
-  VideoEncodeH264RateControlReferencePatternDyadicBitKhr = 8
-  VideoEncodeH264RateControlTemporalLayerPatternDyadicBitKhr = 16
-
-type VkHostImageCopyFlagBitsEXT * = enum
-  HostImageCopyMemcpyExt = 1
-
-type VkImageConstraintsInfoFlagBitsFUCHSIA * = enum
-  ImageConstraintsInfoCpuReadRarelyFuchsia = 1
-  ImageConstraintsInfoCpuReadOftenFuchsia = 2
-  ImageConstraintsInfoCpuWriteRarelyFuchsia = 4
-  ImageConstraintsInfoCpuWriteOftenFuchsia = 8
-  ImageConstraintsInfoProtectedOptionalFuchsia = 16
-
-type VkFormatFeatureFlagBits2 * = enum
-  FormatFeature2SampledImageBit = 1
-  FormatFeature2StorageImageBit = 2
-  FormatFeature2StorageImageAtomicBit = 4
-  FormatFeature2UniformTexelBufferBit = 8
-  FormatFeature2StorageTexelBufferBit = 16
-  FormatFeature2StorageTexelBufferAtomicBit = 32
-  FormatFeature2VertexBufferBit = 64
-  FormatFeature2ColorAttachmentBit = 128
-  FormatFeature2ColorAttachmentBlendBit = 256
-  FormatFeature2DepthStencilAttachmentBit = 512
-  FormatFeature2BlitSrcBit = 1024
-  FormatFeature2BlitDstBit = 2048
-  FormatFeature2SampledImageFilterLinearBit = 4096
-  FormatFeature2SampledImageFilterCubicBit = 8192
-  FormatFeature2TransferSrcBit = 16384
-  FormatFeature2TransferDstBit = 32768
-  FormatFeature2SampledImageFilterMinmaxBit = 65536
-  FormatFeature2MidpointChromaSamplesBit = 131072
-  FormatFeature2SampledImageYcbcrConversionLinearFilterBit = 262144
-  FormatFeature2SampledImageYcbcrConversionSeparateReconstructionFilterBit = 524288
-  FormatFeature2SampledImageYcbcrConversionChromaReconstructionExplicitBit = 1048576
-  FormatFeature2SampledImageYcbcrConversionChromaReconstructionExplicitForceableBit = 2097152
-  FormatFeature2DisjointBit = 4194304
-  FormatFeature2CositedChromaSamplesBit = 8388608
-  FormatFeature2StorageReadWithoutFormatBit = 2147483648
-  FormatFeature2StorageWriteWithoutFormatBit = 4294967296
-  FormatFeature2SampledImageDepthComparisonBit = 8589934592
-
-type VkRenderingFlagBits * = enum
-  RenderingContentsSecondaryCommandBuffersBit = 1
-  RenderingSuspendingBit = 2
-  RenderingResumingBit = 4
-
-type VkVideoEncodeH265CapabilityFlagBitsKHR * = enum
-  VideoEncodeH265CapabilityHrdComplianceBitKhr = 1
-  VideoEncodeH265CapabilityPredictionWeightTableGeneratedBitKhr = 2
-  VideoEncodeH265CapabilityRowUnalignedSliceSegmentBitKhr = 4
-  VideoEncodeH265CapabilityDifferentSliceSegmentTypeBitKhr = 8
-  VideoEncodeH265CapabilityBFrameInL0ListBitKhr = 16
-  VideoEncodeH265CapabilityBFrameInL1ListBitKhr = 32
-  VideoEncodeH265CapabilityPerPictureTypeMinMaxQpBitKhr = 64
-  VideoEncodeH265CapabilityPerSliceSegmentConstantQpBitKhr = 128
-  VideoEncodeH265CapabilityMultipleTilesPerSliceSegmentBitKhr = 256
-  VideoEncodeH265CapabilityMultipleSliceSegmentsPerTileBitKhr = 512
-
-type VkVideoEncodeH265StdFlagBitsKHR * = enum
-  VideoEncodeH265StdSeparateColorPlaneFlagSetBitKhr = 1
-  VideoEncodeH265StdSampleAdaptiveOffsetEnabledFlagSetBitKhr = 2
-  VideoEncodeH265StdScalingListDataPresentFlagSetBitKhr = 4
-  VideoEncodeH265StdPcmEnabledFlagSetBitKhr = 8
-  VideoEncodeH265StdSpsTemporalMvpEnabledFlagSetBitKhr = 16
-  VideoEncodeH265StdInitQpMinus26BitKhr = 32
-  VideoEncodeH265StdWeightedPredFlagSetBitKhr = 64
-  VideoEncodeH265StdWeightedBipredFlagSetBitKhr = 128
-  VideoEncodeH265StdLog2ParallelMergeLevelMinus2BitKhr = 256
-  VideoEncodeH265StdSignDataHidingEnabledFlagSetBitKhr = 512
-  VideoEncodeH265StdTransformSkipEnabledFlagSetBitKhr = 1024
-  VideoEncodeH265StdTransformSkipEnabledFlagUnsetBitKhr = 2048
-  VideoEncodeH265StdPpsSliceChromaQpOffsetsPresentFlagSetBitKhr = 4096
-  VideoEncodeH265StdTransquantBypassEnabledFlagSetBitKhr = 8192
-  VideoEncodeH265StdConstrainedIntraPredFlagSetBitKhr = 16384
-  VideoEncodeH265StdEntropyCodingSyncEnabledFlagSetBitKhr = 32768
-  VideoEncodeH265StdDeblockingFilterOverrideEnabledFlagSetBitKhr = 65536
-  VideoEncodeH265StdDependentSliceSegmentsEnabledFlagSetBitKhr = 131072
-  VideoEncodeH265StdDependentSliceSegmentFlagSetBitKhr = 262144
-  VideoEncodeH265StdSliceQpDeltaBitKhr = 524288
-  VideoEncodeH265StdDifferentSliceQpDeltaBitKhr = 1048576
-
-type VkVideoEncodeH265RateControlFlagBitsKHR * = enum
-  VideoEncodeH265RateControlAttemptHrdComplianceBitKhr = 1
-  VideoEncodeH265RateControlRegularGopBitKhr = 2
-  VideoEncodeH265RateControlReferencePatternFlatBitKhr = 4
-  VideoEncodeH265RateControlReferencePatternDyadicBitKhr = 8
-  VideoEncodeH265RateControlTemporalSubLayerPatternDyadicBitKhr = 16
-
-type VkVideoEncodeH265CtbSizeFlagBitsKHR * = enum
-  VideoEncodeH265CtbSize16BitKhr = 1
-  VideoEncodeH265CtbSize32BitKhr = 2
-  VideoEncodeH265CtbSize64BitKhr = 4
-
-type VkVideoEncodeH265TransformBlockSizeFlagBitsKHR * = enum
-  VideoEncodeH265TransformBlockSize4BitKhr = 1
-  VideoEncodeH265TransformBlockSize8BitKhr = 2
-  VideoEncodeH265TransformBlockSize16BitKhr = 4
-  VideoEncodeH265TransformBlockSize32BitKhr = 8
-
-type VkExportMetalObjectTypeFlagBitsEXT * = enum
-  ExportMetalObjectTypeMetalDeviceBitExt = 1
-  ExportMetalObjectTypeMetalCommandQueueBitExt = 2
-  ExportMetalObjectTypeMetalBufferBitExt = 4
-  ExportMetalObjectTypeMetalTextureBitExt = 8
-  ExportMetalObjectTypeMetalIosurfaceBitExt = 16
-  ExportMetalObjectTypeMetalSharedEventBitExt = 32
-
-type VkImageCompressionFlagBitsEXT * = enum
-  ImageCompressionDefaultExt = 0
-  ImageCompressionFixedRateDefaultExt = 1
-  ImageCompressionFixedRateExplicitExt = 2
-  ImageCompressionDisabledExt = 4
-
-type VkImageCompressionFixedRateFlagBitsEXT * = enum
-  ImageCompressionFixedRateNoneExt = 0
-  ImageCompressionFixedRate1bpcBitExt = 1
-  ImageCompressionFixedRate2bpcBitExt = 2
-  ImageCompressionFixedRate3bpcBitExt = 4
-  ImageCompressionFixedRate4bpcBitExt = 8
-  ImageCompressionFixedRate5bpcBitExt = 16
-  ImageCompressionFixedRate6bpcBitExt = 32
-  ImageCompressionFixedRate7bpcBitExt = 64
-  ImageCompressionFixedRate8bpcBitExt = 128
-  ImageCompressionFixedRate9bpcBitExt = 256
-  ImageCompressionFixedRate10bpcBitExt = 512
-  ImageCompressionFixedRate11bpcBitExt = 1024
-  ImageCompressionFixedRate12bpcBitExt = 2048
-  ImageCompressionFixedRate13bpcBitExt = 4096
-  ImageCompressionFixedRate14bpcBitExt = 8192
-  ImageCompressionFixedRate15bpcBitExt = 16384
-  ImageCompressionFixedRate16bpcBitExt = 32768
-  ImageCompressionFixedRate17bpcBitExt = 65536
-  ImageCompressionFixedRate18bpcBitExt = 131072
-  ImageCompressionFixedRate19bpcBitExt = 262144
-  ImageCompressionFixedRate20bpcBitExt = 524288
-  ImageCompressionFixedRate21bpcBitExt = 1048576
-  ImageCompressionFixedRate22bpcBitExt = 2097152
-  ImageCompressionFixedRate23bpcBitExt = 4194304
-  ImageCompressionFixedRate24bpcBitExt = 8388608
-
-type VkOpticalFlowGridSizeFlagBitsNV * = enum
-  OpticalFlowGridSizeUnknownNv = 0
-  OpticalFlowGridSize1x1BitNv = 1
-  OpticalFlowGridSize2x2BitNv = 2
-  OpticalFlowGridSize4x4BitNv = 4
-  OpticalFlowGridSize8x8BitNv = 8
-
-type VkOpticalFlowUsageFlagBitsNV * = enum
-  OpticalFlowUsageUnknownNv = 0
-  OpticalFlowUsageInputBitNv = 1
-  OpticalFlowUsageOutputBitNv = 2
-  OpticalFlowUsageHintBitNv = 4
-  OpticalFlowUsageCostBitNv = 8
-  OpticalFlowUsageGlobalFlowBitNv = 16
-
-type VkOpticalFlowSessionCreateFlagBitsNV * = enum
-  OpticalFlowSessionCreateEnableHintBitNv = 1
-  OpticalFlowSessionCreateEnableCostBitNv = 2
-  OpticalFlowSessionCreateEnableGlobalFlowBitNv = 4
-  OpticalFlowSessionCreateAllowRegionsBitNv = 8
-  OpticalFlowSessionCreateBothDirectionsBitNv = 16
-
-type VkOpticalFlowExecuteFlagBitsNV * = enum
-  OpticalFlowExecuteDisableTemporalHintsBitNv = 1
-
-type VkBuildMicromapFlagBitsEXT * = enum
-  BuildMicromapPreferFastTraceBitExt = 1
-  BuildMicromapPreferFastBuildBitExt = 2
-  BuildMicromapAllowCompactionBitExt = 4
-
-type VkMicromapCreateFlagBitsEXT * = enum
-  MicromapCreateDeviceAddressCaptureReplayBitExt = 1
-
-type VkShaderCreateFlagBitsEXT * = enum
-  ShaderCreateLinkStageBitExt = 1
+type VkQueueFlagBits * = VkFlags
+const QueueGraphicsBit * = VkQueueFlagBits(1)  ## Queue supports graphics operations
+const QueueComputeBit * = VkQueueFlagBits(2)  ## Queue supports compute operations
+const QueueTransferBit * = VkQueueFlagBits(4)  ## Queue supports transfer operations
+const QueueSparseBindingBit * = VkQueueFlagBits(8)  ## Queue supports sparse resource memory management operations
+
+type VkCullModeFlagBits * = VkFlags
+const CullModeNone * = VkCullModeFlagBits(0)
+const CullModeFrontBit * = VkCullModeFlagBits(1)
+const CullModeBackBit * = VkCullModeFlagBits(2)
+const CullModeFrontAndBack * = VkCullModeFlagBits(0x00000003)
+
+type VkMemoryPropertyFlagBits * = VkFlags
+const MemoryPropertyDeviceLocalBit * = VkMemoryPropertyFlagBits(1)  ## If otherwise stated, then allocate memory on device
+const MemoryPropertyHostVisibleBit * = VkMemoryPropertyFlagBits(2)  ## Memory is mappable by host
+const MemoryPropertyHostCoherentBit * = VkMemoryPropertyFlagBits(4)  ## Memory will have i/o coherency. If not set, application may need to use vkFlushMappedMemoryRanges and vkInvalidateMappedMemoryRanges to flush/invalidate host cache
+const MemoryPropertyHostCachedBit * = VkMemoryPropertyFlagBits(8)  ## Memory will be cached by the host
+const MemoryPropertyLazilyAllocatedBit * = VkMemoryPropertyFlagBits(16)  ## Memory may be allocated by the driver when it is required
+
+type VkMemoryHeapFlagBits * = VkFlags
+const MemoryHeapDeviceLocalBit * = VkMemoryHeapFlagBits(1)  ## If set, heap represents device memory
+
+type VkAccessFlagBits * = VkFlags
+const AccessIndirectCommandReadBit * = VkAccessFlagBits(1)  ## Controls coherency of indirect command reads
+const AccessIndexReadBit * = VkAccessFlagBits(2)  ## Controls coherency of index reads
+const AccessVertexAttributeReadBit * = VkAccessFlagBits(4)  ## Controls coherency of vertex attribute reads
+const AccessUniformReadBit * = VkAccessFlagBits(8)  ## Controls coherency of uniform buffer reads
+const AccessInputAttachmentReadBit * = VkAccessFlagBits(16)  ## Controls coherency of input attachment reads
+const AccessShaderReadBit * = VkAccessFlagBits(32)  ## Controls coherency of shader reads
+const AccessShaderWriteBit * = VkAccessFlagBits(64)  ## Controls coherency of shader writes
+const AccessColorAttachmentReadBit * = VkAccessFlagBits(128)  ## Controls coherency of color attachment reads
+const AccessColorAttachmentWriteBit * = VkAccessFlagBits(256)  ## Controls coherency of color attachment writes
+const AccessDepthStencilAttachmentReadBit * = VkAccessFlagBits(512)  ## Controls coherency of depth/stencil attachment reads
+const AccessDepthStencilAttachmentWriteBit * = VkAccessFlagBits(1024)  ## Controls coherency of depth/stencil attachment writes
+const AccessTransferReadBit * = VkAccessFlagBits(2048)  ## Controls coherency of transfer reads
+const AccessTransferWriteBit * = VkAccessFlagBits(4096)  ## Controls coherency of transfer writes
+const AccessHostReadBit * = VkAccessFlagBits(8192)  ## Controls coherency of host reads
+const AccessHostWriteBit * = VkAccessFlagBits(16384)  ## Controls coherency of host writes
+const AccessMemoryReadBit * = VkAccessFlagBits(32768)  ## Controls coherency of memory reads
+const AccessMemoryWriteBit * = VkAccessFlagBits(65536)  ## Controls coherency of memory writes
+
+type VkBufferUsageFlagBits * = VkFlags
+const BufferUsageTransferSrcBit * = VkBufferUsageFlagBits(1)  ## Can be used as a source of transfer operations
+const BufferUsageTransferDstBit * = VkBufferUsageFlagBits(2)  ## Can be used as a destination of transfer operations
+const BufferUsageUniformTexelBufferBit * = VkBufferUsageFlagBits(4)  ## Can be used as TBO
+const BufferUsageStorageTexelBufferBit * = VkBufferUsageFlagBits(8)  ## Can be used as IBO
+const BufferUsageUniformBufferBit * = VkBufferUsageFlagBits(16)  ## Can be used as UBO
+const BufferUsageStorageBufferBit * = VkBufferUsageFlagBits(32)  ## Can be used as SSBO
+const BufferUsageIndexBufferBit * = VkBufferUsageFlagBits(64)  ## Can be used as source of fixed-function index fetch (index buffer)
+const BufferUsageVertexBufferBit * = VkBufferUsageFlagBits(128)  ## Can be used as source of fixed-function vertex fetch (VBO)
+const BufferUsageIndirectBufferBit * = VkBufferUsageFlagBits(256)  ## Can be the source of indirect parameters (e.g. indirect buffer, parameter buffer)
+
+type VkBufferUsageFlagBits2KHR * = VkFlags64
+const BufferUsage2TransferSrcBitKhr * = VkBufferUsageFlagBits2KHR(1)
+const BufferUsage2TransferDstBitKhr * = VkBufferUsageFlagBits2KHR(2)
+const BufferUsage2UniformTexelBufferBitKhr * = VkBufferUsageFlagBits2KHR(4)
+const BufferUsage2StorageTexelBufferBitKhr * = VkBufferUsageFlagBits2KHR(8)
+const BufferUsage2UniformBufferBitKhr * = VkBufferUsageFlagBits2KHR(16)
+const BufferUsage2StorageBufferBitKhr * = VkBufferUsageFlagBits2KHR(32)
+const BufferUsage2IndexBufferBitKhr * = VkBufferUsageFlagBits2KHR(64)
+const BufferUsage2VertexBufferBitKhr * = VkBufferUsageFlagBits2KHR(128)
+const BufferUsage2IndirectBufferBitKhr * = VkBufferUsageFlagBits2KHR(256)
+
+type VkBufferCreateFlagBits * = VkFlags
+const BufferCreateSparseBindingBit * = VkBufferCreateFlagBits(1)  ## Buffer should support sparse backing
+const BufferCreateSparseResidencyBit * = VkBufferCreateFlagBits(2)  ## Buffer should support sparse backing with partial residency
+const BufferCreateSparseAliasedBit * = VkBufferCreateFlagBits(4)  ## Buffer should support constant data access to physical memory ranges mapped into multiple locations of sparse buffers
+
+type VkShaderStageFlagBits * = VkFlags
+const ShaderStageVertexBit * = VkShaderStageFlagBits(1)
+const ShaderStageTessellationControlBit * = VkShaderStageFlagBits(2)
+const ShaderStageTessellationEvaluationBit * = VkShaderStageFlagBits(4)
+const ShaderStageGeometryBit * = VkShaderStageFlagBits(8)
+const ShaderStageFragmentBit * = VkShaderStageFlagBits(16)
+const ShaderStageAllGraphics * = VkShaderStageFlagBits(0x0000001F)
+const ShaderStageComputeBit * = VkShaderStageFlagBits(32)
+const ShaderStageAll * = VkShaderStageFlagBits(0x7FFFFFFF)
+
+type VkImageUsageFlagBits * = VkFlags
+const ImageUsageTransferSrcBit * = VkImageUsageFlagBits(1)  ## Can be used as a source of transfer operations
+const ImageUsageTransferDstBit * = VkImageUsageFlagBits(2)  ## Can be used as a destination of transfer operations
+const ImageUsageSampledBit * = VkImageUsageFlagBits(4)  ## Can be sampled from (SAMPLED_IMAGE and COMBINED_IMAGE_SAMPLER descriptor types)
+const ImageUsageStorageBit * = VkImageUsageFlagBits(8)  ## Can be used as storage image (STORAGE_IMAGE descriptor type)
+const ImageUsageColorAttachmentBit * = VkImageUsageFlagBits(16)  ## Can be used as framebuffer color attachment
+const ImageUsageDepthStencilAttachmentBit * = VkImageUsageFlagBits(32)  ## Can be used as framebuffer depth/stencil attachment
+const ImageUsageTransientAttachmentBit * = VkImageUsageFlagBits(64)  ## Image data not needed outside of rendering
+const ImageUsageInputAttachmentBit * = VkImageUsageFlagBits(128)  ## Can be used as framebuffer input attachment
+
+type VkImageCreateFlagBits * = VkFlags
+const ImageCreateSparseBindingBit * = VkImageCreateFlagBits(1)  ## Image should support sparse backing
+const ImageCreateSparseResidencyBit * = VkImageCreateFlagBits(2)  ## Image should support sparse backing with partial residency
+const ImageCreateSparseAliasedBit * = VkImageCreateFlagBits(4)  ## Image should support constant data access to physical memory ranges mapped into multiple locations of sparse images
+const ImageCreateMutableFormatBit * = VkImageCreateFlagBits(8)  ## Allows image views to have different format than the base image
+const ImageCreateCubeCompatibleBit * = VkImageCreateFlagBits(16)  ## Allows creating image views with cube type from the created image
+
+type VkPipelineCreateFlagBits * = VkFlags
+const PipelineCreateDisableOptimizationBit * = VkPipelineCreateFlagBits(1)
+const PipelineCreateAllowDerivativesBit * = VkPipelineCreateFlagBits(2)
+const PipelineCreateDerivativeBit * = VkPipelineCreateFlagBits(4)
+
+type VkPipelineCreateFlagBits2KHR * = VkFlags64
+const PipelineCreate2DisableOptimizationBitKhr * = VkPipelineCreateFlagBits2KHR(1)
+const PipelineCreate2AllowDerivativesBitKhr * = VkPipelineCreateFlagBits2KHR(2)
+const PipelineCreate2DerivativeBitKhr * = VkPipelineCreateFlagBits2KHR(4)
+
+type VkColorComponentFlagBits * = VkFlags
+const ColorComponentRBit * = VkColorComponentFlagBits(1)
+const ColorComponentGBit * = VkColorComponentFlagBits(2)
+const ColorComponentBBit * = VkColorComponentFlagBits(4)
+const ColorComponentABit * = VkColorComponentFlagBits(8)
+
+type VkFenceCreateFlagBits * = VkFlags
+const FenceCreateSignaledBit * = VkFenceCreateFlagBits(1)
+
+type VkFormatFeatureFlagBits * = VkFlags
+const FormatFeatureSampledImageBit * = VkFormatFeatureFlagBits(1)  ## Format can be used for sampled images (SAMPLED_IMAGE and COMBINED_IMAGE_SAMPLER descriptor types)
+const FormatFeatureStorageImageBit * = VkFormatFeatureFlagBits(2)  ## Format can be used for storage images (STORAGE_IMAGE descriptor type)
+const FormatFeatureStorageImageAtomicBit * = VkFormatFeatureFlagBits(4)  ## Format supports atomic operations in case it is used for storage images
+const FormatFeatureUniformTexelBufferBit * = VkFormatFeatureFlagBits(8)  ## Format can be used for uniform texel buffers (TBOs)
+const FormatFeatureStorageTexelBufferBit * = VkFormatFeatureFlagBits(16)  ## Format can be used for storage texel buffers (IBOs)
+const FormatFeatureStorageTexelBufferAtomicBit * = VkFormatFeatureFlagBits(32)  ## Format supports atomic operations in case it is used for storage texel buffers
+const FormatFeatureVertexBufferBit * = VkFormatFeatureFlagBits(64)  ## Format can be used for vertex buffers (VBOs)
+const FormatFeatureColorAttachmentBit * = VkFormatFeatureFlagBits(128)  ## Format can be used for color attachment images
+const FormatFeatureColorAttachmentBlendBit * = VkFormatFeatureFlagBits(256)  ## Format supports blending in case it is used for color attachment images
+const FormatFeatureDepthStencilAttachmentBit * = VkFormatFeatureFlagBits(512)  ## Format can be used for depth/stencil attachment images
+const FormatFeatureBlitSrcBit * = VkFormatFeatureFlagBits(1024)  ## Format can be used as the source image of blits with vkCmdBlitImage
+const FormatFeatureBlitDstBit * = VkFormatFeatureFlagBits(2048)  ## Format can be used as the destination image of blits with vkCmdBlitImage
+const FormatFeatureSampledImageFilterLinearBit * = VkFormatFeatureFlagBits(4096)  ## Format can be filtered with VK_FILTER_LINEAR when being sampled
+
+type VkQueryControlFlagBits * = VkFlags
+const QueryControlPreciseBit * = VkQueryControlFlagBits(1)  ## Require precise results to be collected by the query
+
+type VkQueryResultFlagBits * = VkFlags
+const QueryResult64Bit * = VkQueryResultFlagBits(1)  ## Results of the queries are written to the destination buffer as 64-bit values
+const QueryResultWaitBit * = VkQueryResultFlagBits(2)  ## Results of the queries are waited on before proceeding with the result copy
+const QueryResultWithAvailabilityBit * = VkQueryResultFlagBits(4)  ## Besides the results of the query, the availability of the results is also written
+const QueryResultPartialBit * = VkQueryResultFlagBits(8)  ## Copy the partial results of the query even if the final results are not available
+
+type VkCommandBufferUsageFlagBits * = VkFlags
+const CommandBufferUsageOneTimeSubmitBit * = VkCommandBufferUsageFlagBits(1)
+const CommandBufferUsageRenderPassContinueBit * = VkCommandBufferUsageFlagBits(2)
+const CommandBufferUsageSimultaneousUseBit * = VkCommandBufferUsageFlagBits(4)  ## Command buffer may be submitted/executed more than once simultaneously
+
+type VkQueryPipelineStatisticFlagBits * = VkFlags
+const QueryPipelineStatisticInputAssemblyVerticesBit * = VkQueryPipelineStatisticFlagBits(1)  ## Optional
+const QueryPipelineStatisticInputAssemblyPrimitivesBit * = VkQueryPipelineStatisticFlagBits(2)  ## Optional
+const QueryPipelineStatisticVertexShaderInvocationsBit * = VkQueryPipelineStatisticFlagBits(4)  ## Optional
+const QueryPipelineStatisticGeometryShaderInvocationsBit * = VkQueryPipelineStatisticFlagBits(8)  ## Optional
+const QueryPipelineStatisticGeometryShaderPrimitivesBit * = VkQueryPipelineStatisticFlagBits(16)  ## Optional
+const QueryPipelineStatisticClippingInvocationsBit * = VkQueryPipelineStatisticFlagBits(32)  ## Optional
+const QueryPipelineStatisticClippingPrimitivesBit * = VkQueryPipelineStatisticFlagBits(64)  ## Optional
+const QueryPipelineStatisticFragmentShaderInvocationsBit * = VkQueryPipelineStatisticFlagBits(128)  ## Optional
+const QueryPipelineStatisticTessellationControlShaderPatchesBit * = VkQueryPipelineStatisticFlagBits(256)  ## Optional
+const QueryPipelineStatisticTessellationEvaluationShaderInvocationsBit * = VkQueryPipelineStatisticFlagBits(512)  ## Optional
+const QueryPipelineStatisticComputeShaderInvocationsBit * = VkQueryPipelineStatisticFlagBits(1024)  ## Optional
+
+type VkImageAspectFlagBits * = VkFlags
+const ImageAspectColorBit * = VkImageAspectFlagBits(1)
+const ImageAspectDepthBit * = VkImageAspectFlagBits(2)
+const ImageAspectStencilBit * = VkImageAspectFlagBits(4)
+const ImageAspectMetadataBit * = VkImageAspectFlagBits(8)
+
+type VkSparseImageFormatFlagBits * = VkFlags
+const SparseImageFormatSingleMiptailBit * = VkSparseImageFormatFlagBits(1)  ## Image uses a single mip tail region for all array layers
+const SparseImageFormatAlignedMipSizeBit * = VkSparseImageFormatFlagBits(2)  ## Image requires mip level dimensions to be an integer multiple of the sparse image block dimensions for non-tail mip levels.
+const SparseImageFormatNonstandardBlockSizeBit * = VkSparseImageFormatFlagBits(4)  ## Image uses a non-standard sparse image block dimensions
+
+type VkSparseMemoryBindFlagBits * = VkFlags
+const SparseMemoryBindMetadataBit * = VkSparseMemoryBindFlagBits(1)  ## Operation binds resource metadata to memory
+
+type VkPipelineStageFlagBits * = VkFlags
+const PipelineStageTopOfPipeBit * = VkPipelineStageFlagBits(1)  ## Before subsequent commands are processed
+const PipelineStageDrawIndirectBit * = VkPipelineStageFlagBits(2)  ## Draw/DispatchIndirect command fetch
+const PipelineStageVertexInputBit * = VkPipelineStageFlagBits(4)  ## Vertex/index fetch
+const PipelineStageVertexShaderBit * = VkPipelineStageFlagBits(8)  ## Vertex shading
+const PipelineStageTessellationControlShaderBit * = VkPipelineStageFlagBits(16)  ## Tessellation control shading
+const PipelineStageTessellationEvaluationShaderBit * = VkPipelineStageFlagBits(32)  ## Tessellation evaluation shading
+const PipelineStageGeometryShaderBit * = VkPipelineStageFlagBits(64)  ## Geometry shading
+const PipelineStageFragmentShaderBit * = VkPipelineStageFlagBits(128)  ## Fragment shading
+const PipelineStageEarlyFragmentTestsBit * = VkPipelineStageFlagBits(256)  ## Early fragment (depth and stencil) tests
+const PipelineStageLateFragmentTestsBit * = VkPipelineStageFlagBits(512)  ## Late fragment (depth and stencil) tests
+const PipelineStageColorAttachmentOutputBit * = VkPipelineStageFlagBits(1024)  ## Color attachment writes
+const PipelineStageComputeShaderBit * = VkPipelineStageFlagBits(2048)  ## Compute shading
+const PipelineStageTransferBit * = VkPipelineStageFlagBits(4096)  ## Transfer/copy operations
+const PipelineStageBottomOfPipeBit * = VkPipelineStageFlagBits(8192)  ## After previous commands have completed
+const PipelineStageHostBit * = VkPipelineStageFlagBits(16384)  ## Indicates host (CPU) is a source/sink of the dependency
+const PipelineStageAllGraphicsBit * = VkPipelineStageFlagBits(32768)  ## All stages of the graphics pipeline
+const PipelineStageAllCommandsBit * = VkPipelineStageFlagBits(65536)  ## All stages supported on the queue
+
+type VkCommandPoolCreateFlagBits * = VkFlags
+const CommandPoolCreateTransientBit * = VkCommandPoolCreateFlagBits(1)  ## Command buffers have a short lifetime
+const CommandPoolCreateResetCommandBufferBit * = VkCommandPoolCreateFlagBits(2)  ## Command buffers may release their memory individually
+
+type VkCommandPoolResetFlagBits * = VkFlags
+const CommandPoolResetReleaseResourcesBit * = VkCommandPoolResetFlagBits(1)  ## Release resources owned by the pool
+
+type VkCommandBufferResetFlagBits * = VkFlags
+const CommandBufferResetReleaseResourcesBit * = VkCommandBufferResetFlagBits(1)  ## Release resources owned by the buffer
+
+type VkSampleCountFlagBits * = VkFlags
+const SampleCount1Bit * = VkSampleCountFlagBits(1)  ## Sample count 1 supported
+const SampleCount2Bit * = VkSampleCountFlagBits(2)  ## Sample count 2 supported
+const SampleCount4Bit * = VkSampleCountFlagBits(4)  ## Sample count 4 supported
+const SampleCount8Bit * = VkSampleCountFlagBits(8)  ## Sample count 8 supported
+const SampleCount16Bit * = VkSampleCountFlagBits(16)  ## Sample count 16 supported
+const SampleCount32Bit * = VkSampleCountFlagBits(32)  ## Sample count 32 supported
+const SampleCount64Bit * = VkSampleCountFlagBits(64)  ## Sample count 64 supported
+
+type VkAttachmentDescriptionFlagBits * = VkFlags
+const AttachmentDescriptionMayAliasBit * = VkAttachmentDescriptionFlagBits(1)  ## The attachment may alias physical memory of another attachment in the same render pass
+
+type VkStencilFaceFlagBits * = VkFlags
+const StencilFaceFrontBit * = VkStencilFaceFlagBits(1)  ## Front face
+const StencilFaceBackBit * = VkStencilFaceFlagBits(2)  ## Back face
+const StencilFaceFrontAndBack * = VkStencilFaceFlagBits(0x00000003)  ## Front and back faces
+
+type VkDescriptorPoolCreateFlagBits * = VkFlags
+const DescriptorPoolCreateFreeDescriptorSetBit * = VkDescriptorPoolCreateFlagBits(1)  ## Descriptor sets may be freed individually
+
+type VkDependencyFlagBits * = VkFlags
+const DependencyByRegionBit * = VkDependencyFlagBits(1)  ## Dependency is per pixel region
+
+type VkSemaphoreWaitFlagBits * = VkFlags
+const SemaphoreWaitAnyBit * = VkSemaphoreWaitFlagBits(1)
+
+type VkDisplayPlaneAlphaFlagBitsKHR * = VkFlags
+const DisplayPlaneAlphaOpaqueBitKhr * = VkDisplayPlaneAlphaFlagBitsKHR(1)
+const DisplayPlaneAlphaGlobalBitKhr * = VkDisplayPlaneAlphaFlagBitsKHR(2)
+const DisplayPlaneAlphaPerPixelBitKhr * = VkDisplayPlaneAlphaFlagBitsKHR(4)
+const DisplayPlaneAlphaPerPixelPremultipliedBitKhr * = VkDisplayPlaneAlphaFlagBitsKHR(8)
+
+type VkCompositeAlphaFlagBitsKHR * = VkFlags
+const CompositeAlphaOpaqueBitKhr * = VkCompositeAlphaFlagBitsKHR(1)
+const CompositeAlphaPreMultipliedBitKhr * = VkCompositeAlphaFlagBitsKHR(2)
+const CompositeAlphaPostMultipliedBitKhr * = VkCompositeAlphaFlagBitsKHR(4)
+const CompositeAlphaInheritBitKhr * = VkCompositeAlphaFlagBitsKHR(8)
+
+type VkSurfaceTransformFlagBitsKHR * = VkFlags
+const SurfaceTransformIdentityBitKhr * = VkSurfaceTransformFlagBitsKHR(1)
+const SurfaceTransformRotate90BitKhr * = VkSurfaceTransformFlagBitsKHR(2)
+const SurfaceTransformRotate180BitKhr * = VkSurfaceTransformFlagBitsKHR(4)
+const SurfaceTransformRotate270BitKhr * = VkSurfaceTransformFlagBitsKHR(8)
+const SurfaceTransformHorizontalMirrorBitKhr * = VkSurfaceTransformFlagBitsKHR(16)
+const SurfaceTransformHorizontalMirrorRotate90BitKhr * = VkSurfaceTransformFlagBitsKHR(32)
+const SurfaceTransformHorizontalMirrorRotate180BitKhr * = VkSurfaceTransformFlagBitsKHR(64)
+const SurfaceTransformHorizontalMirrorRotate270BitKhr * = VkSurfaceTransformFlagBitsKHR(128)
+const SurfaceTransformInheritBitKhr * = VkSurfaceTransformFlagBitsKHR(256)
+
+type VkSwapchainImageUsageFlagBitsANDROID * = VkFlags
+const SwapchainImageUsageSharedBitAndroid * = VkSwapchainImageUsageFlagBitsANDROID(1)
+
+type VkDebugReportFlagBitsEXT * = VkFlags
+const DebugReportInformationBitExt * = VkDebugReportFlagBitsEXT(1)
+const DebugReportWarningBitExt * = VkDebugReportFlagBitsEXT(2)
+const DebugReportPerformanceWarningBitExt * = VkDebugReportFlagBitsEXT(4)
+const DebugReportErrorBitExt * = VkDebugReportFlagBitsEXT(8)
+const DebugReportDebugBitExt * = VkDebugReportFlagBitsEXT(16)
+
+type VkExternalMemoryHandleTypeFlagBitsNV * = VkFlags
+const ExternalMemoryHandleTypeOpaqueWin32BitNv * = VkExternalMemoryHandleTypeFlagBitsNV(1)
+const ExternalMemoryHandleTypeOpaqueWin32KmtBitNv * = VkExternalMemoryHandleTypeFlagBitsNV(2)
+const ExternalMemoryHandleTypeD3d11ImageBitNv * = VkExternalMemoryHandleTypeFlagBitsNV(4)
+const ExternalMemoryHandleTypeD3d11ImageKmtBitNv * = VkExternalMemoryHandleTypeFlagBitsNV(8)
+
+type VkExternalMemoryFeatureFlagBitsNV * = VkFlags
+const ExternalMemoryFeatureDedicatedOnlyBitNv * = VkExternalMemoryFeatureFlagBitsNV(1)
+const ExternalMemoryFeatureExportableBitNv * = VkExternalMemoryFeatureFlagBitsNV(2)
+const ExternalMemoryFeatureImportableBitNv * = VkExternalMemoryFeatureFlagBitsNV(4)
+
+type VkSubgroupFeatureFlagBits * = VkFlags
+const SubgroupFeatureBasicBit * = VkSubgroupFeatureFlagBits(1)  ## Basic subgroup operations
+const SubgroupFeatureVoteBit * = VkSubgroupFeatureFlagBits(2)  ## Vote subgroup operations
+const SubgroupFeatureArithmeticBit * = VkSubgroupFeatureFlagBits(4)  ## Arithmetic subgroup operations
+const SubgroupFeatureBallotBit * = VkSubgroupFeatureFlagBits(8)  ## Ballot subgroup operations
+const SubgroupFeatureShuffleBit * = VkSubgroupFeatureFlagBits(16)  ## Shuffle subgroup operations
+const SubgroupFeatureShuffleRelativeBit * = VkSubgroupFeatureFlagBits(32)  ## Shuffle relative subgroup operations
+const SubgroupFeatureClusteredBit * = VkSubgroupFeatureFlagBits(64)  ## Clustered subgroup operations
+const SubgroupFeatureQuadBit * = VkSubgroupFeatureFlagBits(128)  ## Quad subgroup operations
+
+type VkIndirectCommandsLayoutUsageFlagBitsNV * = VkFlags
+const IndirectCommandsLayoutUsageExplicitPreprocessBitNv * = VkIndirectCommandsLayoutUsageFlagBitsNV(1)
+const IndirectCommandsLayoutUsageIndexedSequencesBitNv * = VkIndirectCommandsLayoutUsageFlagBitsNV(2)
+const IndirectCommandsLayoutUsageUnorderedSequencesBitNv * = VkIndirectCommandsLayoutUsageFlagBitsNV(4)
+
+type VkIndirectStateFlagBitsNV * = VkFlags
+const IndirectStateFlagFrontfaceBitNv * = VkIndirectStateFlagBitsNV(1)
+
+type VkExternalMemoryHandleTypeFlagBits * = VkFlags
+const ExternalMemoryHandleTypeOpaqueFdBit * = VkExternalMemoryHandleTypeFlagBits(1)
+const ExternalMemoryHandleTypeOpaqueWin32Bit * = VkExternalMemoryHandleTypeFlagBits(2)
+const ExternalMemoryHandleTypeOpaqueWin32KmtBit * = VkExternalMemoryHandleTypeFlagBits(4)
+const ExternalMemoryHandleTypeD3d11TextureBit * = VkExternalMemoryHandleTypeFlagBits(8)
+const ExternalMemoryHandleTypeD3d11TextureKmtBit * = VkExternalMemoryHandleTypeFlagBits(16)
+const ExternalMemoryHandleTypeD3d12HeapBit * = VkExternalMemoryHandleTypeFlagBits(32)
+const ExternalMemoryHandleTypeD3d12ResourceBit * = VkExternalMemoryHandleTypeFlagBits(64)
+
+type VkExternalMemoryFeatureFlagBits * = VkFlags
+const ExternalMemoryFeatureDedicatedOnlyBit * = VkExternalMemoryFeatureFlagBits(1)
+const ExternalMemoryFeatureExportableBit * = VkExternalMemoryFeatureFlagBits(2)
+const ExternalMemoryFeatureImportableBit * = VkExternalMemoryFeatureFlagBits(4)
+
+type VkExternalSemaphoreHandleTypeFlagBits * = VkFlags
+const ExternalSemaphoreHandleTypeOpaqueFdBit * = VkExternalSemaphoreHandleTypeFlagBits(1)
+const ExternalSemaphoreHandleTypeOpaqueWin32Bit * = VkExternalSemaphoreHandleTypeFlagBits(2)
+const ExternalSemaphoreHandleTypeOpaqueWin32KmtBit * = VkExternalSemaphoreHandleTypeFlagBits(4)
+const ExternalSemaphoreHandleTypeD3d12FenceBit * = VkExternalSemaphoreHandleTypeFlagBits(8)
+const ExternalSemaphoreHandleTypeSyncFdBit * = VkExternalSemaphoreHandleTypeFlagBits(16)
+
+type VkExternalSemaphoreFeatureFlagBits * = VkFlags
+const ExternalSemaphoreFeatureExportableBit * = VkExternalSemaphoreFeatureFlagBits(1)
+const ExternalSemaphoreFeatureImportableBit * = VkExternalSemaphoreFeatureFlagBits(2)
+
+type VkSemaphoreImportFlagBits * = VkFlags
+const SemaphoreImportTemporaryBit * = VkSemaphoreImportFlagBits(1)
+
+type VkExternalFenceHandleTypeFlagBits * = VkFlags
+const ExternalFenceHandleTypeOpaqueFdBit * = VkExternalFenceHandleTypeFlagBits(1)
+const ExternalFenceHandleTypeOpaqueWin32Bit * = VkExternalFenceHandleTypeFlagBits(2)
+const ExternalFenceHandleTypeOpaqueWin32KmtBit * = VkExternalFenceHandleTypeFlagBits(4)
+const ExternalFenceHandleTypeSyncFdBit * = VkExternalFenceHandleTypeFlagBits(8)
+
+type VkExternalFenceFeatureFlagBits * = VkFlags
+const ExternalFenceFeatureExportableBit * = VkExternalFenceFeatureFlagBits(1)
+const ExternalFenceFeatureImportableBit * = VkExternalFenceFeatureFlagBits(2)
+
+type VkFenceImportFlagBits * = VkFlags
+const FenceImportTemporaryBit * = VkFenceImportFlagBits(1)
+
+type VkSurfaceCounterFlagBitsEXT * = VkFlags
+const SurfaceCounterVblankBitExt * = VkSurfaceCounterFlagBitsEXT(1)
+
+type VkPeerMemoryFeatureFlagBits * = VkFlags
+const PeerMemoryFeatureCopySrcBit * = VkPeerMemoryFeatureFlagBits(1)  ## Can read with vkCmdCopy commands
+const PeerMemoryFeatureCopyDstBit * = VkPeerMemoryFeatureFlagBits(2)  ## Can write with vkCmdCopy commands
+const PeerMemoryFeatureGenericSrcBit * = VkPeerMemoryFeatureFlagBits(4)  ## Can read with any access type/command
+const PeerMemoryFeatureGenericDstBit * = VkPeerMemoryFeatureFlagBits(8)  ## Can write with and access type/command
+
+type VkMemoryAllocateFlagBits * = VkFlags
+const MemoryAllocateDeviceMaskBit * = VkMemoryAllocateFlagBits(1)  ## Force allocation on specific devices
+
+type VkDeviceGroupPresentModeFlagBitsKHR * = VkFlags
+const DeviceGroupPresentModeLocalBitKhr * = VkDeviceGroupPresentModeFlagBitsKHR(1)  ## Present from local memory
+const DeviceGroupPresentModeRemoteBitKhr * = VkDeviceGroupPresentModeFlagBitsKHR(2)  ## Present from remote memory
+const DeviceGroupPresentModeSumBitKhr * = VkDeviceGroupPresentModeFlagBitsKHR(4)  ## Present sum of local and/or remote memory
+const DeviceGroupPresentModeLocalMultiDeviceBitKhr * = VkDeviceGroupPresentModeFlagBitsKHR(8)  ## Each physical device presents from local memory
+
+type VkDebugUtilsMessageSeverityFlagBitsEXT * = VkFlags
+const DebugUtilsMessageSeverityVerboseBitExt * = VkDebugUtilsMessageSeverityFlagBitsEXT(1)
+const DebugUtilsMessageSeverityInfoBitExt * = VkDebugUtilsMessageSeverityFlagBitsEXT(16)
+const DebugUtilsMessageSeverityWarningBitExt * = VkDebugUtilsMessageSeverityFlagBitsEXT(256)
+const DebugUtilsMessageSeverityErrorBitExt * = VkDebugUtilsMessageSeverityFlagBitsEXT(4096)
+
+type VkDebugUtilsMessageTypeFlagBitsEXT * = VkFlags
+const DebugUtilsMessageTypeGeneralBitExt * = VkDebugUtilsMessageTypeFlagBitsEXT(1)
+const DebugUtilsMessageTypeValidationBitExt * = VkDebugUtilsMessageTypeFlagBitsEXT(2)
+const DebugUtilsMessageTypePerformanceBitExt * = VkDebugUtilsMessageTypeFlagBitsEXT(4)
+
+type VkDescriptorBindingFlagBits * = VkFlags
+const DescriptorBindingUpdateAfterBindBit * = VkDescriptorBindingFlagBits(1)
+const DescriptorBindingUpdateUnusedWhilePendingBit * = VkDescriptorBindingFlagBits(2)
+const DescriptorBindingPartiallyBoundBit * = VkDescriptorBindingFlagBits(4)
+const DescriptorBindingVariableDescriptorCountBit * = VkDescriptorBindingFlagBits(8)
+
+type VkConditionalRenderingFlagBitsEXT * = VkFlags
+const ConditionalRenderingInvertedBitExt * = VkConditionalRenderingFlagBitsEXT(1)
+
+type VkResolveModeFlagBits * = VkFlags
+const ResolveModeNone * = VkResolveModeFlagBits(0)
+const ResolveModeSampleZeroBit * = VkResolveModeFlagBits(1)
+const ResolveModeAverageBit * = VkResolveModeFlagBits(2)
+const ResolveModeMinBit * = VkResolveModeFlagBits(4)
+const ResolveModeMaxBit * = VkResolveModeFlagBits(8)
+
+type VkGeometryInstanceFlagBitsKHR * = VkFlags
+const GeometryInstanceTriangleFacingCullDisableBitKhr * = VkGeometryInstanceFlagBitsKHR(1)
+const GeometryInstanceTriangleFlipFacingBitKhr * = VkGeometryInstanceFlagBitsKHR(2)
+const GeometryInstanceForceOpaqueBitKhr * = VkGeometryInstanceFlagBitsKHR(4)
+const GeometryInstanceForceNoOpaqueBitKhr * = VkGeometryInstanceFlagBitsKHR(8)
+
+type VkGeometryFlagBitsKHR * = VkFlags
+const GeometryOpaqueBitKhr * = VkGeometryFlagBitsKHR(1)
+const GeometryNoDuplicateAnyHitInvocationBitKhr * = VkGeometryFlagBitsKHR(2)
+
+type VkBuildAccelerationStructureFlagBitsKHR * = VkFlags
+const BuildAccelerationStructureAllowUpdateBitKhr * = VkBuildAccelerationStructureFlagBitsKHR(1)
+const BuildAccelerationStructureAllowCompactionBitKhr * = VkBuildAccelerationStructureFlagBitsKHR(2)
+const BuildAccelerationStructurePreferFastTraceBitKhr * = VkBuildAccelerationStructureFlagBitsKHR(4)
+const BuildAccelerationStructurePreferFastBuildBitKhr * = VkBuildAccelerationStructureFlagBitsKHR(8)
+const BuildAccelerationStructureLowMemoryBitKhr * = VkBuildAccelerationStructureFlagBitsKHR(16)
+
+type VkAccelerationStructureCreateFlagBitsKHR * = VkFlags
+const AccelerationStructureCreateDeviceAddressCaptureReplayBitKhr * = VkAccelerationStructureCreateFlagBitsKHR(1)
+
+type VkDeviceDiagnosticsConfigFlagBitsNV * = VkFlags
+const DeviceDiagnosticsConfigEnableShaderDebugInfoBitNv * = VkDeviceDiagnosticsConfigFlagBitsNV(1)
+const DeviceDiagnosticsConfigEnableResourceTrackingBitNv * = VkDeviceDiagnosticsConfigFlagBitsNV(2)
+const DeviceDiagnosticsConfigEnableAutomaticCheckpointsBitNv * = VkDeviceDiagnosticsConfigFlagBitsNV(4)
+const DeviceDiagnosticsConfigEnableShaderErrorReportingBitNv * = VkDeviceDiagnosticsConfigFlagBitsNV(8)
+
+type VkPipelineCreationFeedbackFlagBits * = VkFlags
+const PipelineCreationFeedbackValidBit * = VkPipelineCreationFeedbackFlagBits(1)
+const PipelineCreationFeedbackApplicationPipelineCacheHitBit * = VkPipelineCreationFeedbackFlagBits(2)
+const PipelineCreationFeedbackBasePipelineAccelerationBit * = VkPipelineCreationFeedbackFlagBits(4)
+
+type VkMemoryDecompressionMethodFlagBitsNV * = VkFlags64
+const MemoryDecompressionMethodGdeflate10BitNv * = VkMemoryDecompressionMethodFlagBitsNV(1)
+
+type VkPerformanceCounterDescriptionFlagBitsKHR * = VkFlags
+const PerformanceCounterDescriptionPerformanceImpactingBitKhr * = VkPerformanceCounterDescriptionFlagBitsKHR(1)
+const PerformanceCounterDescriptionConcurrentlyImpactedBitKhr * = VkPerformanceCounterDescriptionFlagBitsKHR(2)
+
+type VkToolPurposeFlagBits * = VkFlags
+const ToolPurposeValidationBit * = VkToolPurposeFlagBits(1)
+const ToolPurposeProfilingBit * = VkToolPurposeFlagBits(2)
+const ToolPurposeTracingBit * = VkToolPurposeFlagBits(4)
+const ToolPurposeAdditionalFeaturesBit * = VkToolPurposeFlagBits(8)
+const ToolPurposeModifyingFeaturesBit * = VkToolPurposeFlagBits(16)
+
+type VkAccessFlagBits2 * = VkFlags64
+const Access2None * = VkAccessFlagBits2(0)
+const Access2IndirectCommandReadBit * = VkAccessFlagBits2(1)
+const Access2IndexReadBit * = VkAccessFlagBits2(2)
+const Access2VertexAttributeReadBit * = VkAccessFlagBits2(4)
+const Access2UniformReadBit * = VkAccessFlagBits2(8)
+const Access2InputAttachmentReadBit * = VkAccessFlagBits2(16)
+const Access2ShaderReadBit * = VkAccessFlagBits2(32)
+const Access2ShaderWriteBit * = VkAccessFlagBits2(64)
+const Access2ColorAttachmentReadBit * = VkAccessFlagBits2(128)
+const Access2ColorAttachmentWriteBit * = VkAccessFlagBits2(256)
+const Access2DepthStencilAttachmentReadBit * = VkAccessFlagBits2(512)
+const Access2DepthStencilAttachmentWriteBit * = VkAccessFlagBits2(1024)
+const Access2TransferReadBit * = VkAccessFlagBits2(2048)
+const Access2TransferWriteBit * = VkAccessFlagBits2(4096)
+const Access2HostReadBit * = VkAccessFlagBits2(8192)
+const Access2HostWriteBit * = VkAccessFlagBits2(16384)
+const Access2MemoryReadBit * = VkAccessFlagBits2(32768)
+const Access2MemoryWriteBit * = VkAccessFlagBits2(65536)
+const Access2ShaderSampledReadBit * = VkAccessFlagBits2(4294967296)
+const Access2ShaderStorageReadBit * = VkAccessFlagBits2(8589934592)
+const Access2ShaderStorageWriteBit * = VkAccessFlagBits2(17179869184)
+
+type VkPipelineStageFlagBits2 * = VkFlags64
+const PipelineStage2None * = VkPipelineStageFlagBits2(0)
+const PipelineStage2TopOfPipeBit * = VkPipelineStageFlagBits2(1)
+const PipelineStage2DrawIndirectBit * = VkPipelineStageFlagBits2(2)
+const PipelineStage2VertexInputBit * = VkPipelineStageFlagBits2(4)
+const PipelineStage2VertexShaderBit * = VkPipelineStageFlagBits2(8)
+const PipelineStage2TessellationControlShaderBit * = VkPipelineStageFlagBits2(16)
+const PipelineStage2TessellationEvaluationShaderBit * = VkPipelineStageFlagBits2(32)
+const PipelineStage2GeometryShaderBit * = VkPipelineStageFlagBits2(64)
+const PipelineStage2FragmentShaderBit * = VkPipelineStageFlagBits2(128)
+const PipelineStage2EarlyFragmentTestsBit * = VkPipelineStageFlagBits2(256)
+const PipelineStage2LateFragmentTestsBit * = VkPipelineStageFlagBits2(512)
+const PipelineStage2ColorAttachmentOutputBit * = VkPipelineStageFlagBits2(1024)
+const PipelineStage2ComputeShaderBit * = VkPipelineStageFlagBits2(2048)
+const PipelineStage2AllTransferBit * = VkPipelineStageFlagBits2(4096)
+const PipelineStage2BottomOfPipeBit * = VkPipelineStageFlagBits2(8192)
+const PipelineStage2HostBit * = VkPipelineStageFlagBits2(16384)
+const PipelineStage2AllGraphicsBit * = VkPipelineStageFlagBits2(32768)
+const PipelineStage2AllCommandsBit * = VkPipelineStageFlagBits2(65536)
+const PipelineStage2CopyBit * = VkPipelineStageFlagBits2(4294967296)
+const PipelineStage2ResolveBit * = VkPipelineStageFlagBits2(8589934592)
+const PipelineStage2BlitBit * = VkPipelineStageFlagBits2(17179869184)
+const PipelineStage2ClearBit * = VkPipelineStageFlagBits2(34359738368)
+const PipelineStage2IndexInputBit * = VkPipelineStageFlagBits2(68719476736)
+const PipelineStage2VertexAttributeInputBit * = VkPipelineStageFlagBits2(137438953472)
+const PipelineStage2PreRasterizationShadersBit * = VkPipelineStageFlagBits2(274877906944)
+
+type VkSubmitFlagBits * = VkFlags
+const SubmitProtectedBit * = VkSubmitFlagBits(1)
+
+type VkGraphicsPipelineLibraryFlagBitsEXT * = VkFlags
+const GraphicsPipelineLibraryVertexInputInterfaceBitExt * = VkGraphicsPipelineLibraryFlagBitsEXT(1)
+const GraphicsPipelineLibraryPreRasterizationShadersBitExt * = VkGraphicsPipelineLibraryFlagBitsEXT(2)
+const GraphicsPipelineLibraryFragmentShaderBitExt * = VkGraphicsPipelineLibraryFlagBitsEXT(4)
+const GraphicsPipelineLibraryFragmentOutputInterfaceBitExt * = VkGraphicsPipelineLibraryFlagBitsEXT(8)
+
+type VkDeviceAddressBindingFlagBitsEXT * = VkFlags
+const DeviceAddressBindingInternalObjectBitExt * = VkDeviceAddressBindingFlagBitsEXT(1)
+
+type VkFrameBoundaryFlagBitsEXT * = VkFlags
+const FrameBoundaryFrameEndBitExt * = VkFrameBoundaryFlagBitsEXT(1)
+
+type VkPresentScalingFlagBitsEXT * = VkFlags
+const PresentScalingOneToOneBitExt * = VkPresentScalingFlagBitsEXT(1)
+const PresentScalingAspectRatioStretchBitExt * = VkPresentScalingFlagBitsEXT(2)
+const PresentScalingStretchBitExt * = VkPresentScalingFlagBitsEXT(4)
+
+type VkPresentGravityFlagBitsEXT * = VkFlags
+const PresentGravityMinBitExt * = VkPresentGravityFlagBitsEXT(1)
+const PresentGravityMaxBitExt * = VkPresentGravityFlagBitsEXT(2)
+const PresentGravityCenteredBitExt * = VkPresentGravityFlagBitsEXT(4)
+
+type VkPhysicalDeviceSchedulingControlsFlagBitsARM * = VkFlags64
+const PhysicalDeviceSchedulingControlsShaderCoreCountArm * = VkPhysicalDeviceSchedulingControlsFlagBitsARM(1)
+
+type VkVideoCodecOperationFlagBitsKHR * = VkFlags
+const VideoCodecOperationNoneKhr * = VkVideoCodecOperationFlagBitsKHR(0)
+
+type VkVideoChromaSubsamplingFlagBitsKHR * = VkFlags
+const VideoChromaSubsamplingInvalidKhr * = VkVideoChromaSubsamplingFlagBitsKHR(0)
+const VideoChromaSubsamplingMonochromeBitKhr * = VkVideoChromaSubsamplingFlagBitsKHR(1)
+const VideoChromaSubsampling420BitKhr * = VkVideoChromaSubsamplingFlagBitsKHR(2)
+const VideoChromaSubsampling422BitKhr * = VkVideoChromaSubsamplingFlagBitsKHR(4)
+const VideoChromaSubsampling444BitKhr * = VkVideoChromaSubsamplingFlagBitsKHR(8)
+
+type VkVideoComponentBitDepthFlagBitsKHR * = VkFlags
+const VideoComponentBitDepthInvalidKhr * = VkVideoComponentBitDepthFlagBitsKHR(0)
+const VideoComponentBitDepth8BitKhr * = VkVideoComponentBitDepthFlagBitsKHR(1)
+const VideoComponentBitDepth10BitKhr * = VkVideoComponentBitDepthFlagBitsKHR(4)
+const VideoComponentBitDepth12BitKhr * = VkVideoComponentBitDepthFlagBitsKHR(16)
+
+type VkVideoCapabilityFlagBitsKHR * = VkFlags
+const VideoCapabilityProtectedContentBitKhr * = VkVideoCapabilityFlagBitsKHR(1)
+const VideoCapabilitySeparateReferenceImagesBitKhr * = VkVideoCapabilityFlagBitsKHR(2)
+
+type VkVideoSessionCreateFlagBitsKHR * = VkFlags
+const VideoSessionCreateProtectedContentBitKhr * = VkVideoSessionCreateFlagBitsKHR(1)
+
+type VkVideoDecodeH264PictureLayoutFlagBitsKHR * = VkFlags
+const VideoDecodeH264PictureLayoutProgressiveKhr * = VkVideoDecodeH264PictureLayoutFlagBitsKHR(0)
+const VideoDecodeH264PictureLayoutInterlacedInterleavedLinesBitKhr * = VkVideoDecodeH264PictureLayoutFlagBitsKHR(1)
+const VideoDecodeH264PictureLayoutInterlacedSeparatePlanesBitKhr * = VkVideoDecodeH264PictureLayoutFlagBitsKHR(2)
+
+type VkVideoCodingControlFlagBitsKHR * = VkFlags
+const VideoCodingControlResetBitKhr * = VkVideoCodingControlFlagBitsKHR(1)
+
+type VkVideoDecodeUsageFlagBitsKHR * = VkFlags
+const VideoDecodeUsageDefaultKhr * = VkVideoDecodeUsageFlagBitsKHR(0)
+const VideoDecodeUsageTranscodingBitKhr * = VkVideoDecodeUsageFlagBitsKHR(1)
+const VideoDecodeUsageOfflineBitKhr * = VkVideoDecodeUsageFlagBitsKHR(2)
+const VideoDecodeUsageStreamingBitKhr * = VkVideoDecodeUsageFlagBitsKHR(4)
+
+type VkVideoDecodeCapabilityFlagBitsKHR * = VkFlags
+const VideoDecodeCapabilityDpbAndOutputCoincideBitKhr * = VkVideoDecodeCapabilityFlagBitsKHR(1)
+const VideoDecodeCapabilityDpbAndOutputDistinctBitKhr * = VkVideoDecodeCapabilityFlagBitsKHR(2)
+
+type VkVideoEncodeUsageFlagBitsKHR * = VkFlags
+const VideoEncodeUsageDefaultKhr * = VkVideoEncodeUsageFlagBitsKHR(0)
+const VideoEncodeUsageTranscodingBitKhr * = VkVideoEncodeUsageFlagBitsKHR(1)
+const VideoEncodeUsageStreamingBitKhr * = VkVideoEncodeUsageFlagBitsKHR(2)
+const VideoEncodeUsageRecordingBitKhr * = VkVideoEncodeUsageFlagBitsKHR(4)
+const VideoEncodeUsageConferencingBitKhr * = VkVideoEncodeUsageFlagBitsKHR(8)
+
+type VkVideoEncodeContentFlagBitsKHR * = VkFlags
+const VideoEncodeContentDefaultKhr * = VkVideoEncodeContentFlagBitsKHR(0)
+const VideoEncodeContentCameraBitKhr * = VkVideoEncodeContentFlagBitsKHR(1)
+const VideoEncodeContentDesktopBitKhr * = VkVideoEncodeContentFlagBitsKHR(2)
+const VideoEncodeContentRenderedBitKhr * = VkVideoEncodeContentFlagBitsKHR(4)
+
+type VkVideoEncodeCapabilityFlagBitsKHR * = VkFlags
+const VideoEncodeCapabilityPrecedingExternallyEncodedBytesBitKhr * = VkVideoEncodeCapabilityFlagBitsKHR(1)
+const VideoEncodeCapabilityInsufficientBitstreamBufferRangeDetectionBitKhr * = VkVideoEncodeCapabilityFlagBitsKHR(2)
+
+type VkVideoEncodeFeedbackFlagBitsKHR * = VkFlags
+const VideoEncodeFeedbackBitstreamBufferOffsetBitKhr * = VkVideoEncodeFeedbackFlagBitsKHR(1)
+const VideoEncodeFeedbackBitstreamBytesWrittenBitKhr * = VkVideoEncodeFeedbackFlagBitsKHR(2)
+const VideoEncodeFeedbackBitstreamHasOverridesBitKhr * = VkVideoEncodeFeedbackFlagBitsKHR(4)
+
+type VkVideoEncodeRateControlModeFlagBitsKHR * = VkFlags
+const VideoEncodeRateControlModeDefaultKhr * = VkVideoEncodeRateControlModeFlagBitsKHR(0)
+const VideoEncodeRateControlModeDisabledBitKhr * = VkVideoEncodeRateControlModeFlagBitsKHR(1)
+const VideoEncodeRateControlModeCbrBitKhr * = VkVideoEncodeRateControlModeFlagBitsKHR(2)
+const VideoEncodeRateControlModeVbrBitKhr * = VkVideoEncodeRateControlModeFlagBitsKHR(4)
+
+type VkVideoEncodeH264CapabilityFlagBitsKHR * = VkFlags
+const VideoEncodeH264CapabilityHrdComplianceBitKhr * = VkVideoEncodeH264CapabilityFlagBitsKHR(1)
+const VideoEncodeH264CapabilityPredictionWeightTableGeneratedBitKhr * = VkVideoEncodeH264CapabilityFlagBitsKHR(2)
+const VideoEncodeH264CapabilityRowUnalignedSliceBitKhr * = VkVideoEncodeH264CapabilityFlagBitsKHR(4)
+const VideoEncodeH264CapabilityDifferentSliceTypeBitKhr * = VkVideoEncodeH264CapabilityFlagBitsKHR(8)
+const VideoEncodeH264CapabilityBFrameInL0ListBitKhr * = VkVideoEncodeH264CapabilityFlagBitsKHR(16)
+const VideoEncodeH264CapabilityBFrameInL1ListBitKhr * = VkVideoEncodeH264CapabilityFlagBitsKHR(32)
+const VideoEncodeH264CapabilityPerPictureTypeMinMaxQpBitKhr * = VkVideoEncodeH264CapabilityFlagBitsKHR(64)
+const VideoEncodeH264CapabilityPerSliceConstantQpBitKhr * = VkVideoEncodeH264CapabilityFlagBitsKHR(128)
+const VideoEncodeH264CapabilityGeneratePrefixNaluBitKhr * = VkVideoEncodeH264CapabilityFlagBitsKHR(256)
+
+type VkVideoEncodeH264StdFlagBitsKHR * = VkFlags
+const VideoEncodeH264StdSeparateColorPlaneFlagSetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(1)
+const VideoEncodeH264StdQpprimeYZeroTransformBypassFlagSetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(2)
+const VideoEncodeH264StdScalingMatrixPresentFlagSetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(4)
+const VideoEncodeH264StdChromaQpIndexOffsetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(8)
+const VideoEncodeH264StdSecondChromaQpIndexOffsetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(16)
+const VideoEncodeH264StdPicInitQpMinus26BitKhr * = VkVideoEncodeH264StdFlagBitsKHR(32)
+const VideoEncodeH264StdWeightedPredFlagSetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(64)
+const VideoEncodeH264StdWeightedBipredIdcExplicitBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(128)
+const VideoEncodeH264StdWeightedBipredIdcImplicitBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(256)
+const VideoEncodeH264StdTransform8x8ModeFlagSetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(512)
+const VideoEncodeH264StdDirectSpatialMvPredFlagUnsetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(1024)
+const VideoEncodeH264StdEntropyCodingModeFlagUnsetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(2048)
+const VideoEncodeH264StdEntropyCodingModeFlagSetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(4096)
+const VideoEncodeH264StdDirect8x8InferenceFlagUnsetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(8192)
+const VideoEncodeH264StdConstrainedIntraPredFlagSetBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(16384)
+const VideoEncodeH264StdDeblockingFilterDisabledBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(32768)
+const VideoEncodeH264StdDeblockingFilterEnabledBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(65536)
+const VideoEncodeH264StdDeblockingFilterPartialBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(131072)
+const VideoEncodeH264StdSliceQpDeltaBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(524288)
+const VideoEncodeH264StdDifferentSliceQpDeltaBitKhr * = VkVideoEncodeH264StdFlagBitsKHR(1048576)
+
+type VkVideoEncodeH264RateControlFlagBitsKHR * = VkFlags
+const VideoEncodeH264RateControlAttemptHrdComplianceBitKhr * = VkVideoEncodeH264RateControlFlagBitsKHR(1)
+const VideoEncodeH264RateControlRegularGopBitKhr * = VkVideoEncodeH264RateControlFlagBitsKHR(2)
+const VideoEncodeH264RateControlReferencePatternFlatBitKhr * = VkVideoEncodeH264RateControlFlagBitsKHR(4)
+const VideoEncodeH264RateControlReferencePatternDyadicBitKhr * = VkVideoEncodeH264RateControlFlagBitsKHR(8)
+const VideoEncodeH264RateControlTemporalLayerPatternDyadicBitKhr * = VkVideoEncodeH264RateControlFlagBitsKHR(16)
+
+type VkHostImageCopyFlagBitsEXT * = VkFlags
+const HostImageCopyMemcpyExt * = VkHostImageCopyFlagBitsEXT(1)
+
+type VkImageConstraintsInfoFlagBitsFUCHSIA * = VkFlags
+const ImageConstraintsInfoCpuReadRarelyFuchsia * = VkImageConstraintsInfoFlagBitsFUCHSIA(1)
+const ImageConstraintsInfoCpuReadOftenFuchsia * = VkImageConstraintsInfoFlagBitsFUCHSIA(2)
+const ImageConstraintsInfoCpuWriteRarelyFuchsia * = VkImageConstraintsInfoFlagBitsFUCHSIA(4)
+const ImageConstraintsInfoCpuWriteOftenFuchsia * = VkImageConstraintsInfoFlagBitsFUCHSIA(8)
+const ImageConstraintsInfoProtectedOptionalFuchsia * = VkImageConstraintsInfoFlagBitsFUCHSIA(16)
+
+type VkFormatFeatureFlagBits2 * = VkFlags64
+const FormatFeature2SampledImageBit * = VkFormatFeatureFlagBits2(1)
+const FormatFeature2StorageImageBit * = VkFormatFeatureFlagBits2(2)
+const FormatFeature2StorageImageAtomicBit * = VkFormatFeatureFlagBits2(4)
+const FormatFeature2UniformTexelBufferBit * = VkFormatFeatureFlagBits2(8)
+const FormatFeature2StorageTexelBufferBit * = VkFormatFeatureFlagBits2(16)
+const FormatFeature2StorageTexelBufferAtomicBit * = VkFormatFeatureFlagBits2(32)
+const FormatFeature2VertexBufferBit * = VkFormatFeatureFlagBits2(64)
+const FormatFeature2ColorAttachmentBit * = VkFormatFeatureFlagBits2(128)
+const FormatFeature2ColorAttachmentBlendBit * = VkFormatFeatureFlagBits2(256)
+const FormatFeature2DepthStencilAttachmentBit * = VkFormatFeatureFlagBits2(512)
+const FormatFeature2BlitSrcBit * = VkFormatFeatureFlagBits2(1024)
+const FormatFeature2BlitDstBit * = VkFormatFeatureFlagBits2(2048)
+const FormatFeature2SampledImageFilterLinearBit * = VkFormatFeatureFlagBits2(4096)
+const FormatFeature2SampledImageFilterCubicBit * = VkFormatFeatureFlagBits2(8192)
+const FormatFeature2TransferSrcBit * = VkFormatFeatureFlagBits2(16384)
+const FormatFeature2TransferDstBit * = VkFormatFeatureFlagBits2(32768)
+const FormatFeature2SampledImageFilterMinmaxBit * = VkFormatFeatureFlagBits2(65536)
+const FormatFeature2MidpointChromaSamplesBit * = VkFormatFeatureFlagBits2(131072)
+const FormatFeature2SampledImageYcbcrConversionLinearFilterBit * = VkFormatFeatureFlagBits2(262144)
+const FormatFeature2SampledImageYcbcrConversionSeparateReconstructionFilterBit * = VkFormatFeatureFlagBits2(524288)
+const FormatFeature2SampledImageYcbcrConversionChromaReconstructionExplicitBit * = VkFormatFeatureFlagBits2(1048576)
+const FormatFeature2SampledImageYcbcrConversionChromaReconstructionExplicitForceableBit * = VkFormatFeatureFlagBits2(2097152)
+const FormatFeature2DisjointBit * = VkFormatFeatureFlagBits2(4194304)
+const FormatFeature2CositedChromaSamplesBit * = VkFormatFeatureFlagBits2(8388608)
+const FormatFeature2StorageReadWithoutFormatBit * = VkFormatFeatureFlagBits2(2147483648)
+const FormatFeature2StorageWriteWithoutFormatBit * = VkFormatFeatureFlagBits2(4294967296)
+const FormatFeature2SampledImageDepthComparisonBit * = VkFormatFeatureFlagBits2(8589934592)
+
+type VkRenderingFlagBits * = VkFlags
+const RenderingContentsSecondaryCommandBuffersBit * = VkRenderingFlagBits(1)
+const RenderingSuspendingBit * = VkRenderingFlagBits(2)
+const RenderingResumingBit * = VkRenderingFlagBits(4)
+
+type VkVideoEncodeH265CapabilityFlagBitsKHR * = VkFlags
+const VideoEncodeH265CapabilityHrdComplianceBitKhr * = VkVideoEncodeH265CapabilityFlagBitsKHR(1)
+const VideoEncodeH265CapabilityPredictionWeightTableGeneratedBitKhr * = VkVideoEncodeH265CapabilityFlagBitsKHR(2)
+const VideoEncodeH265CapabilityRowUnalignedSliceSegmentBitKhr * = VkVideoEncodeH265CapabilityFlagBitsKHR(4)
+const VideoEncodeH265CapabilityDifferentSliceSegmentTypeBitKhr * = VkVideoEncodeH265CapabilityFlagBitsKHR(8)
+const VideoEncodeH265CapabilityBFrameInL0ListBitKhr * = VkVideoEncodeH265CapabilityFlagBitsKHR(16)
+const VideoEncodeH265CapabilityBFrameInL1ListBitKhr * = VkVideoEncodeH265CapabilityFlagBitsKHR(32)
+const VideoEncodeH265CapabilityPerPictureTypeMinMaxQpBitKhr * = VkVideoEncodeH265CapabilityFlagBitsKHR(64)
+const VideoEncodeH265CapabilityPerSliceSegmentConstantQpBitKhr * = VkVideoEncodeH265CapabilityFlagBitsKHR(128)
+const VideoEncodeH265CapabilityMultipleTilesPerSliceSegmentBitKhr * = VkVideoEncodeH265CapabilityFlagBitsKHR(256)
+const VideoEncodeH265CapabilityMultipleSliceSegmentsPerTileBitKhr * = VkVideoEncodeH265CapabilityFlagBitsKHR(512)
+
+type VkVideoEncodeH265StdFlagBitsKHR * = VkFlags
+const VideoEncodeH265StdSeparateColorPlaneFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(1)
+const VideoEncodeH265StdSampleAdaptiveOffsetEnabledFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(2)
+const VideoEncodeH265StdScalingListDataPresentFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(4)
+const VideoEncodeH265StdPcmEnabledFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(8)
+const VideoEncodeH265StdSpsTemporalMvpEnabledFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(16)
+const VideoEncodeH265StdInitQpMinus26BitKhr * = VkVideoEncodeH265StdFlagBitsKHR(32)
+const VideoEncodeH265StdWeightedPredFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(64)
+const VideoEncodeH265StdWeightedBipredFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(128)
+const VideoEncodeH265StdLog2ParallelMergeLevelMinus2BitKhr * = VkVideoEncodeH265StdFlagBitsKHR(256)
+const VideoEncodeH265StdSignDataHidingEnabledFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(512)
+const VideoEncodeH265StdTransformSkipEnabledFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(1024)
+const VideoEncodeH265StdTransformSkipEnabledFlagUnsetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(2048)
+const VideoEncodeH265StdPpsSliceChromaQpOffsetsPresentFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(4096)
+const VideoEncodeH265StdTransquantBypassEnabledFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(8192)
+const VideoEncodeH265StdConstrainedIntraPredFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(16384)
+const VideoEncodeH265StdEntropyCodingSyncEnabledFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(32768)
+const VideoEncodeH265StdDeblockingFilterOverrideEnabledFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(65536)
+const VideoEncodeH265StdDependentSliceSegmentsEnabledFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(131072)
+const VideoEncodeH265StdDependentSliceSegmentFlagSetBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(262144)
+const VideoEncodeH265StdSliceQpDeltaBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(524288)
+const VideoEncodeH265StdDifferentSliceQpDeltaBitKhr * = VkVideoEncodeH265StdFlagBitsKHR(1048576)
+
+type VkVideoEncodeH265RateControlFlagBitsKHR * = VkFlags
+const VideoEncodeH265RateControlAttemptHrdComplianceBitKhr * = VkVideoEncodeH265RateControlFlagBitsKHR(1)
+const VideoEncodeH265RateControlRegularGopBitKhr * = VkVideoEncodeH265RateControlFlagBitsKHR(2)
+const VideoEncodeH265RateControlReferencePatternFlatBitKhr * = VkVideoEncodeH265RateControlFlagBitsKHR(4)
+const VideoEncodeH265RateControlReferencePatternDyadicBitKhr * = VkVideoEncodeH265RateControlFlagBitsKHR(8)
+const VideoEncodeH265RateControlTemporalSubLayerPatternDyadicBitKhr * = VkVideoEncodeH265RateControlFlagBitsKHR(16)
+
+type VkVideoEncodeH265CtbSizeFlagBitsKHR * = VkFlags
+const VideoEncodeH265CtbSize16BitKhr * = VkVideoEncodeH265CtbSizeFlagBitsKHR(1)
+const VideoEncodeH265CtbSize32BitKhr * = VkVideoEncodeH265CtbSizeFlagBitsKHR(2)
+const VideoEncodeH265CtbSize64BitKhr * = VkVideoEncodeH265CtbSizeFlagBitsKHR(4)
+
+type VkVideoEncodeH265TransformBlockSizeFlagBitsKHR * = VkFlags
+const VideoEncodeH265TransformBlockSize4BitKhr * = VkVideoEncodeH265TransformBlockSizeFlagBitsKHR(1)
+const VideoEncodeH265TransformBlockSize8BitKhr * = VkVideoEncodeH265TransformBlockSizeFlagBitsKHR(2)
+const VideoEncodeH265TransformBlockSize16BitKhr * = VkVideoEncodeH265TransformBlockSizeFlagBitsKHR(4)
+const VideoEncodeH265TransformBlockSize32BitKhr * = VkVideoEncodeH265TransformBlockSizeFlagBitsKHR(8)
+
+type VkExportMetalObjectTypeFlagBitsEXT * = VkFlags
+const ExportMetalObjectTypeMetalDeviceBitExt * = VkExportMetalObjectTypeFlagBitsEXT(1)
+const ExportMetalObjectTypeMetalCommandQueueBitExt * = VkExportMetalObjectTypeFlagBitsEXT(2)
+const ExportMetalObjectTypeMetalBufferBitExt * = VkExportMetalObjectTypeFlagBitsEXT(4)
+const ExportMetalObjectTypeMetalTextureBitExt * = VkExportMetalObjectTypeFlagBitsEXT(8)
+const ExportMetalObjectTypeMetalIosurfaceBitExt * = VkExportMetalObjectTypeFlagBitsEXT(16)
+const ExportMetalObjectTypeMetalSharedEventBitExt * = VkExportMetalObjectTypeFlagBitsEXT(32)
+
+type VkImageCompressionFlagBitsEXT * = VkFlags
+const ImageCompressionDefaultExt * = VkImageCompressionFlagBitsEXT(0)
+const ImageCompressionFixedRateDefaultExt * = VkImageCompressionFlagBitsEXT(1)
+const ImageCompressionFixedRateExplicitExt * = VkImageCompressionFlagBitsEXT(2)
+const ImageCompressionDisabledExt * = VkImageCompressionFlagBitsEXT(4)
+
+type VkImageCompressionFixedRateFlagBitsEXT * = VkFlags
+const ImageCompressionFixedRateNoneExt * = VkImageCompressionFixedRateFlagBitsEXT(0)
+const ImageCompressionFixedRate1bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(1)
+const ImageCompressionFixedRate2bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(2)
+const ImageCompressionFixedRate3bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(4)
+const ImageCompressionFixedRate4bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(8)
+const ImageCompressionFixedRate5bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(16)
+const ImageCompressionFixedRate6bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(32)
+const ImageCompressionFixedRate7bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(64)
+const ImageCompressionFixedRate8bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(128)
+const ImageCompressionFixedRate9bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(256)
+const ImageCompressionFixedRate10bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(512)
+const ImageCompressionFixedRate11bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(1024)
+const ImageCompressionFixedRate12bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(2048)
+const ImageCompressionFixedRate13bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(4096)
+const ImageCompressionFixedRate14bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(8192)
+const ImageCompressionFixedRate15bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(16384)
+const ImageCompressionFixedRate16bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(32768)
+const ImageCompressionFixedRate17bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(65536)
+const ImageCompressionFixedRate18bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(131072)
+const ImageCompressionFixedRate19bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(262144)
+const ImageCompressionFixedRate20bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(524288)
+const ImageCompressionFixedRate21bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(1048576)
+const ImageCompressionFixedRate22bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(2097152)
+const ImageCompressionFixedRate23bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(4194304)
+const ImageCompressionFixedRate24bpcBitExt * = VkImageCompressionFixedRateFlagBitsEXT(8388608)
+
+type VkOpticalFlowGridSizeFlagBitsNV * = VkFlags
+const OpticalFlowGridSizeUnknownNv * = VkOpticalFlowGridSizeFlagBitsNV(0)
+const OpticalFlowGridSize1x1BitNv * = VkOpticalFlowGridSizeFlagBitsNV(1)
+const OpticalFlowGridSize2x2BitNv * = VkOpticalFlowGridSizeFlagBitsNV(2)
+const OpticalFlowGridSize4x4BitNv * = VkOpticalFlowGridSizeFlagBitsNV(4)
+const OpticalFlowGridSize8x8BitNv * = VkOpticalFlowGridSizeFlagBitsNV(8)
+
+type VkOpticalFlowUsageFlagBitsNV * = VkFlags
+const OpticalFlowUsageUnknownNv * = VkOpticalFlowUsageFlagBitsNV(0)
+const OpticalFlowUsageInputBitNv * = VkOpticalFlowUsageFlagBitsNV(1)
+const OpticalFlowUsageOutputBitNv * = VkOpticalFlowUsageFlagBitsNV(2)
+const OpticalFlowUsageHintBitNv * = VkOpticalFlowUsageFlagBitsNV(4)
+const OpticalFlowUsageCostBitNv * = VkOpticalFlowUsageFlagBitsNV(8)
+const OpticalFlowUsageGlobalFlowBitNv * = VkOpticalFlowUsageFlagBitsNV(16)
+
+type VkOpticalFlowSessionCreateFlagBitsNV * = VkFlags
+const OpticalFlowSessionCreateEnableHintBitNv * = VkOpticalFlowSessionCreateFlagBitsNV(1)
+const OpticalFlowSessionCreateEnableCostBitNv * = VkOpticalFlowSessionCreateFlagBitsNV(2)
+const OpticalFlowSessionCreateEnableGlobalFlowBitNv * = VkOpticalFlowSessionCreateFlagBitsNV(4)
+const OpticalFlowSessionCreateAllowRegionsBitNv * = VkOpticalFlowSessionCreateFlagBitsNV(8)
+const OpticalFlowSessionCreateBothDirectionsBitNv * = VkOpticalFlowSessionCreateFlagBitsNV(16)
+
+type VkOpticalFlowExecuteFlagBitsNV * = VkFlags
+const OpticalFlowExecuteDisableTemporalHintsBitNv * = VkOpticalFlowExecuteFlagBitsNV(1)
+
+type VkBuildMicromapFlagBitsEXT * = VkFlags
+const BuildMicromapPreferFastTraceBitExt * = VkBuildMicromapFlagBitsEXT(1)
+const BuildMicromapPreferFastBuildBitExt * = VkBuildMicromapFlagBitsEXT(2)
+const BuildMicromapAllowCompactionBitExt * = VkBuildMicromapFlagBitsEXT(4)
+
+type VkMicromapCreateFlagBitsEXT * = VkFlags
+const MicromapCreateDeviceAddressCaptureReplayBitExt * = VkMicromapCreateFlagBitsEXT(1)
+
+type VkShaderCreateFlagBitsEXT * = VkFlags
+const ShaderCreateLinkStageBitExt * = VkShaderCreateFlagBitsEXT(1)
 
 

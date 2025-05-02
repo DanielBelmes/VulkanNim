@@ -55,7 +55,7 @@ task git, "Internal:  Updates the Vulkan spec submodule.":
   withDir specDir:
     exec "git submodule update --remote --merge"
 #___________________
-taskRequires "genvk", "https://github.com/heysokam/nstd >= 0.3.2" # For parseopts extensions
+taskRequires "genvk", "https://github.com/heysokam/nstd#head" # For parseopts extensions
 task genvk, "Internal:  Generates the vk bindings, using the currently tracked vk.xml file.":
   #exec "nimble git"
   exec &"{nimcr} {generatorVk} {vkSpecXML}"
