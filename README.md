@@ -27,7 +27,7 @@ The generator code is not installed when using this library as a nimble dependen
 You need to clone the [VulkanNim](https://github.com/DanielBelmes/VulkanNim) repository in order to run it.  
 
 ### Usage
-The code for the generator is located in the [`gen`](./gen) folder.  
+The code for the generator is located in the [`tools`](./tools) folder.  
 Call `nimble genvk` to run it.  
 This will output the bindings to the [`src`](./src/VulkanNim) folder.  
 
