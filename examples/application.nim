@@ -329,7 +329,6 @@ proc createImageViews(self: VulkanTriangleApp) =
             components: VkComponentMapping(r:ComponentSwizzleIdentity,g:ComponentSwizzleIdentity,b:ComponentSwizzleIdentity,a:ComponentSwizzleIdentity),
             subresourceRange: VkImageSubresourceRange(aspectMask: VkImageAspectFlags(ImageAspectColorBit), baseMipLevel: 0.uint32, levelCount: 1.uint32, baseArrayLayer: 0.uint32, layerCount: 1.uint32)
         )
-        echo createInfo.subresourceRange.aspectMask.uint32
         if vkCreateImageView(self.device, addr createInfo, nil, addr self.swapChainImageViews[index]) != Success:
             raise newException(RuntimeException, "failed to create image views")
 
