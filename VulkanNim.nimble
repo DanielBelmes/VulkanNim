@@ -4,13 +4,12 @@ import std/strformat
 # Package
 packageName   = "VulkanNim"
 version       = "0.0.0"
-author        = "DanielBelmes"
+author        = "DanielBelmes, heysokam"
 description   = "Vulkan Bindings for Nim | Influenced by VulkanHpp"
 license       = "MIT"
 
 # Build Requirements
 requires "nim >= 2.0.0"
-requires "https://github.com/nitely/nim-regex#head"
 
 # Folders
 srcDir          = "src"
@@ -30,7 +29,7 @@ let generatorVideo = toolsDir/"generatorVideo.nim"
 # Helpers
 #___________________
 const vlevel = when defined(debug): 2 else: 1
-let nimcr  = &"nim c -r --verbosity:{vlevel} --outdir:{binDir}"
+let nimcr = &"nim c -r --verbosity:{vlevel} --outdir:{binDir}"
   ## Compile and run, outputting to binDir
 proc run (file, dir :string) :void=  exec &"{nimcr} {dir/file}"
   ## Runs file from the given dir, using the nimcr command
@@ -55,16 +54,18 @@ task git, "Internal:  Updates the Vulkan spec submodule.":
   withDir specDir:
     exec "git submodule update --remote --merge"
 #___________________
+taskRequires "genvk", "https://github.com/nitely/nim-regex#head"
 taskRequires "genvk", "https://github.com/heysokam/nstd#head" # For parseopts extensions
 task genvk, "Internal:  Generates the vk bindings, using the currently tracked vk.xml file.":
   #exec "nimble git"
   exec &"{nimcr} {generatorVk} {vkSpecXML}"
 #___________________
-taskRequires "genvideo", "https://github.com/heysokam/nstd >= 0.3.2" # For parseopts extensions
+taskRequires "genvideo", "https://github.com/nitely/nim-regex#head"
+taskRequires "genvideo", "https://github.com/heysokam/nstd#head" # For parseopts extensions
 task genvideo, "Internal:  Generates the vk video bindings, using the currently tracked video.xml file.":
   #exec "nimble git"
   exec &"{nimcr} {generatorVideo} {videoSpecXML}"
 #___________________
 # Build the examples binaries
-example example, "Example WIP: Builds the current wip example.", "vktriangledemo"
+example wip, "Example WIP: Builds the current wip example.", "wip"
 
