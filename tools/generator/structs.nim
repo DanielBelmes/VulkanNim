@@ -19,6 +19,19 @@ type {name}* {isUnion}= object
 {members}
 """
 
+func generateStructFieldValue *(member: MemberData; fieldName, structName :string) :string=
+  let hasValue   = member.value != ""
+  let isPNext    = fieldName == "pNext"
+  let hasDefault = hasValue or isPNext
+  if not hasDefault: return ""
+  # Add default values not in the spec
+  result.add " = "
+  result.add(
+      if hasValue : member.value.symbolToNim # First, so we dont accidentally override. This is the else case.
+    elif isPNext  : "nil"
+    else:""# unreachable
+  )
+
 proc generateStruct *(api: string, name: string, struct :StructureData, types: OrderedTable[string, TypeData]) :string=
   var members :string = ""
   let isUnion :string = if(struct.isUnion): "{.union.} " else: ""
@@ -31,7 +44,7 @@ proc generateStruct *(api: string, name: string, struct :StructureData, types: O
     let stars = if(member.`type`.`type` == "void"): 0 else: member.`type`.postfix.count('*') #might have const but we won't deal with that for now
     let safeType = if(member.`type`.`type` == "void"): "pointer" else: c2NimType(toNimSafeIdentifier(member.`type`.`type`),member.`type`.postfix.count("*"))
     let `type` = if(member.arraySizes.len() > 0): fmt"array[{member.arraySizes[0]}, {safeType}]" else: safeType #TODO look up enum array sizes
-    let value = if(member.value != ""): " = " & symbolToNim(member.value) else: ""
+    let value = generateStructFieldValue(member, memberName, name)
     members &= fmt memberTemplate
   return fmt structTemplate #returnedOnly?, structextends?
 

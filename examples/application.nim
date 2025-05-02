@@ -285,7 +285,6 @@ proc createSwapChain(self: VulkanTriangleApp) =
         imageCount = swapChainSupport.capabilities.maxImageCount
 
     var createInfo = VkSwapchainCreateInfoKHR(
-        sType: StructureTypeSwapchainCreateInfoKhr,
         surface: self.surface,
         minImageCount: imageCount,
         imageFormat: surfaceFormat.format,
@@ -510,7 +509,6 @@ proc createFrameBuffers(self: VulkanTriangleApp) =
         var
             attachments = [self.swapChainImageViews[index]]
             framebufferInfo = VkFramebufferCreateInfo(
-                sType : StructureTypeFrameBufferCreateInfo,
                 renderPass : self.renderPass,
                 attachmentCount : attachments.len.uint32,
                 pAttachments : attachments[0].addr,
