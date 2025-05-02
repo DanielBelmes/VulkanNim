@@ -38,8 +38,6 @@ proc transformExtensions(parser: var Parser): void =
         for requireData in parser.registry.extensions[extensionName].requireData:
                 for constData in requireData.enums:
                     if constData.alias == "" and constData.extends in parser.registry.enums:
-                        if extensionName == "VK_NVX_binary_import":
-                            echo constData
                         parser.registry.enums[constData.extends].values[constData.name] = EnumValueData(
                                     comment  : "",
                                     value    : intToStr(getEnumValue(constData)), # todo - NEED TO CALCULATE ACTUAL VALUE WITH THAT DUMB FORMULA
@@ -63,8 +61,6 @@ proc transformFeatures(parser: var Parser): void =
                 for constName, constData in requireData.constants:
                     if constData.extends in parser.registry.enums:
                         if(constData.alias == ""):
-                            if(constName == "VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES"):
-                                echo constData
                             parser.registry.enums[constData.extends].values[constName] = EnumValueData(
                                 comment  : "",
                                 value    : intToStr(getEnumValue(constData)), # todo - NEED TO CALCULATE ACTUAL VALUE WITH THAT DUMB FORMULA
@@ -101,8 +97,8 @@ proc transformFeatures(parser: var Parser): void =
             count -= 1
         if parser.registry.enumAliases.pop(`type`):
             count -= 1
-    echo "Leftover Types that might be shared or never got added to registry during parsing:"
-    echo typesToDelete
+    # echo "Leftover Types that might be shared or never got added to registry during parsing:"
+    # echo typesToDelete
 
 
 proc transformDatabase*(parser: var Parser): void =

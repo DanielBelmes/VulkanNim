@@ -25,7 +25,7 @@ const ConstGenTempl     = """
 #_____________________________
 # Templates: Enums
 #const EnumTitleTempl    = "type {name.symbolToNim} * = enum\n"
-const EnumTitleTempl   = "type {name} * = enum\n"
+const EnumTitleTempl   = "type {name} *{{.size:{enumSize}.}}= enum\n"
 #const EnumFieldTempl    = "  {field.symbolToNim} = {val}{cmt}\n"
 const EnumFieldTempl   = "  {symbolToNim(field)} = {val}{cmt}\n"
 const EnumFieldCmtTempl = "  ## {gen.registry.enums[name].values[field].comment}"  # without \n, its added by EnumFieldTempl
@@ -39,7 +39,8 @@ import std/sets
 {enums}
 """
 const BitmaskHeader        = "## Value Bitmasks\n"
-const BitMaskFieldTempl   = "  {symbolToNim(field)} = {val}{cmt}\n"
+const BitMaskTitleTempl  = "type {name} * = {bitWidth}\n"
+const BitMaskFieldTempl   = "const {symbolToNim(field)} * = {name}({val}){cmt}\n"
 const BitmaskFieldCmtTempl = "  ## {gen.registry.bitmasks[name].values[field].comment}"  # without \n, its added by EnumFieldTempl
 const BitmaskAliasHeader  = "## API Bitmask Aliases\n"
 #_____________________________
@@ -70,16 +71,18 @@ proc generateEnums *(gen: Generator) :void= # TODO need to exclude extensions
   # TODO: Enum reordering for negative values
   enums.add EnumHeader
   for name in gen.registry.enums.keys():
-    var tmp :string
-    tmp.add(fmt EnumTitleTempl )
+    let enumSize = "sizeof(cint)"  # TODO: Maybe figure out a better size calc that hardcode cint?
     var ordered = gen.registry.enums[name].values
     ordered.sort( enumCmp )
+    var tmp :string
+    tmp.add(fmt EnumTitleTempl )
     for field in ordered.keys():
       if field == "": continue
       let val = gen.registry.enums[name].values[field].value
       let cmt = if gen.registry.enums[name].values[field].comment == "": "" else: fmt EnumFieldCmtTempl
       tmp.add(fmt EnumFieldTempl )
     enums.add &"{tmp}\n"
+
 
   #_____________________________
   # Codegen EnumAliases
@@ -98,8 +101,11 @@ proc generateEnums *(gen: Generator) :void= # TODO need to exclude extensions
   # Bitmask Enum
   enums.add BitmaskHeader
   for name in gen.registry.bitmasks.keys():
+    let bitWidth :string=
+      if gen.registry.bitmasks[name].bitWidth == "64" : "VkFlags64"
+      else                                            : "VkFlags"
     var tmp :string
-    tmp.add(fmt EnumTitleTempl )
+    tmp.add(fmt BitMaskTitleTempl )
     var ordered = gen.registry.bitmasks[name].values
     # @todo order bitmasks!!!!
     if(ordered.len == 0): continue

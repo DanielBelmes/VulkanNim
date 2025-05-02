@@ -19,7 +19,6 @@ proc generateProc(`proc`: CommandData, api: string): string =
   var args: string = ""
   let paramLen = `proc`.params.len-1
   for index, arg in `proc`.params:
-    echo arg
     if arg.api.len > 0 and api notin arg.api:
       continue
     let typ = if arg.typ.typ == "void" and arg.typ.postfix.len > 0: "pointer" else: c2NimType(toNimSafeIdentifier(arg.typ.typ), arg.typ.postfix.count("*"))
