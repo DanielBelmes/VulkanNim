@@ -54,6 +54,10 @@ task git, "Internal:  Updates the Vulkan spec submodule.":
   withDir specDir:
     exec "git submodule update --remote --merge"
 #___________________
+task tag, "Internal:  Tags the library with a version (Retroactively tags missing versions too)":
+  requires "https://github.com/beef331/graffiti#head"
+  exec &"graffiti {packageName}.nimble"
+#___________________
 taskRequires "genvk", "https://github.com/nitely/nim-regex#head"
 taskRequires "genvk", "https://github.com/heysokam/nstd#head" # For parseopts extensions
 task genvk, "Internal:  Generates the vk bindings, using the currently tracked vk.xml file.":
