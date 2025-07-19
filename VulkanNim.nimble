@@ -29,7 +29,8 @@ let generatorVideo = toolsDir/"generatorVideo.nim"
 # Helpers
 #___________________
 const vlevel = when defined(debug): 2 else: 1
-let nimcr = &"nim c -r --verbosity:{vlevel} --outdir:{binDir}"
+const dev = when defined(dev): "" else: "--define:release"
+let nimcr = &"nim c -r --verbosity:{vlevel} {dev} --outdir:{binDir}"
   ## Compile and run, outputting to binDir
 proc run (file, dir :string) :void=  exec &"{nimcr} {dir/file}"
   ## Runs file from the given dir, using the nimcr command
@@ -38,6 +39,11 @@ proc runTest (file :string) :void=  file.run(testsDir)
 proc runExample (file :string) :void=  file.run(examplesDir)
   ## Runs the given test file. Assumes the file is stored in the default testsDir folder
 template example (name :untyped; descr,file :static string)=
+  when defined(dev):
+    echo "---------------------------------------------------------------------------"
+    echo "-    \e[36mExample ran with dev enabled. Please ensure LunarSDK is running.\e[0m     -"
+    echo "-                      https://vulkan.lunarg.com/                         -"
+    echo "---------------------------------------------------------------------------"
   ## Generates a task to build+run the given example
   let sname = astToStr(name)  # string name of the untyped task name
   # Examples dependencies
