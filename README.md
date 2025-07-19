@@ -31,3 +31,4 @@ The code for the generator is located in the [`tools`](./tools) folder.
 Call `nimble genvk` to run it.  
 This will output the bindings to the [`src`](./src/VulkanNim) folder.  
 
+`nimble -d:dev example` Requires LunarSDK to be installed and turned on
