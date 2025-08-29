@@ -65,13 +65,11 @@ task tag, "Internal:  Tags the library with a version (Retroactively tags missin
   exec &"graffiti {packageName}.nimble"
 #___________________
 taskRequires "genvk", "https://github.com/nitely/nim-regex#head"
-taskRequires "genvk", "https://github.com/heysokam/nstd#head" # For parseopts extensions
 task genvk, "Internal:  Generates the vk bindings, using the currently tracked vk.xml file.":
   #exec "nimble git"
   exec &"{nimcr} {generatorVk} {vkSpecXML}"
 #___________________
 taskRequires "genvideo", "https://github.com/nitely/nim-regex#head"
-taskRequires "genvideo", "https://github.com/heysokam/nstd#head" # For parseopts extensions
 task genvideo, "Internal:  Generates the vk video bindings, using the currently tracked video.xml file.":
   #exec "nimble git"
   exec &"{nimcr} {generatorVideo} {videoSpecXML}"

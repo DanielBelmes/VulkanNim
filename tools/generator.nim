@@ -1,11 +1,11 @@
 # std dependencies
 import std/streams
-# External dependencies
-import nstd
 # parser dependencies
 import ./parser/parser
 import ./generator/generator
 import ./transformers/transformers
+# helpers dependencies
+from ./helpers import getArgs
 
 #_______________________________________
 # Generator Entry Point
@@ -26,7 +26,7 @@ static:assert DefaultAPI in ValidAPIs
 # Entry Point
 proc main=
   # Interpret the arguments given to the generator
-  let args = nstd.getArgs()
+  let args = helpers.getArgs()
   var XML, targetAPI: string
   if args.len in 1..2:
     if not args[0].endsWith(".xml"): raise newException(ArgsError, &"The first argument input must be a valid .xml file. See {Help}")

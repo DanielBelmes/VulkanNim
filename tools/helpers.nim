@@ -3,9 +3,10 @@ import std/tables
 import std/re
 import std/strformat
 import std/strutils
-# External dependencies
-import nstd/format as nstdFormat ; export nstdFormat
+import std/parseopt
+import std/os
 # Generator dependencies
+import ./format ; export format
 import ./customxml
 
 #___________________
@@ -14,6 +15,14 @@ type ParsingError  * = object of CatchableError  ## For errors when parsing the 
 type CodegenError  * = object of CatchableError  ## For errors during Nim code generation from the IR data
 type Unreachable   * = object of Defect          ## For use inside the `unreachable "msg"` template
 #___________________
+
+proc getArgs *() :seq[string]=
+  var par = commandLineParams().initOptParser()
+  for kind, key, val in par.getOpt():
+    case kind
+    of cmdArgument : result.add( key )
+    of cmdEnd      : assert true, "Reached a cmdEnd kind. Should never happen."
+    else           : continue
 
 iterator findElems *(node :XmlNode; name :string) :XmlNode=
   ## Yields all xnElement nodes contained in the given XmlNode that match the given name.

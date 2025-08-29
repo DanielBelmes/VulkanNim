@@ -1,9 +1,3 @@
-#_______________________________________
-# Also available from nstd
-# Should copy/paste into VulkanNim/strings.nim to avoid the user depending on any specific library
-# https://github.com/heysokam/nstd/blob/master/src/nstd/strings.nim#L100
-#_______________________________________
-
 
 #_______________________________________
 # @section Automatic : CStringArray
