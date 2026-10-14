@@ -1,11 +1,9 @@
 # std dependencies
-import std/streams
-# parser dependencies
-import ./parser/parser
-import ./generator/generator
-import ./transformers/transformers
+import std/os
+import std/strformat
+import std/strutils
 # helpers dependencies
-from ./helpers import getArgs
+from ./helpers import getArgs, ArgsError, CodegenError
 
 #_______________________________________
 # Generator Entry Point
@@ -13,6 +11,7 @@ from ./helpers import getArgs
 # CLI helper docs
 const DefaultAPI = "vulkan"
 const ValidAPIs  = ["vulkan", "vulkansc"]
+const Binary     = "VulkanObjectAST"
 const Help = &"""
 Usage:
 - First argument:  Must always be a valid vk.xml spec file.
@@ -22,6 +21,13 @@ Usage:
   Will default to "{DefaultAPI}" when omitted.
 """
 static:assert DefaultAPI in ValidAPIs
+#___________________
+proc converter_binary () :string=
+  result = findExe(Binary)
+  if result.len > 0: return
+  let local = "bin"/Binary.addFileExt(ExeExt)
+  if fileExists(local): return local
+  return ""
 #___________________
 # Entry Point
 proc main=
@@ -38,21 +44,15 @@ proc main=
     targetAPI = DefaultAPI # Assume normal vulkan (not sc) when omitted.
   elif args.len == 0 : raise newException(ArgsError, &"No arguments provided. See {Help}")
   else               : raise newException(ArgsError, &"Too many arguments provided. See {Help}")
-
-  # Read the file into an XML tree
-  var file = newFileStream(XML,fmRead)
-  var parser = Parser(doc : file.parseXml(),
-    api : targetAPI )
-
-  parser.readRegistry() #Parse XML into IR
-
-  transformDatabase(parser) #Modify registry databse based on enabled api, features, and extensions
-
-  var generator = Generator(
-    api : targetAPI,
-    registry: parser.registry )
-
-  generator.generate() #Generate Library
-
-
+  #___________________
+  # Run the VulkanObjectAST converter binary
+  let bin = converter_binary()
+  if bin.len == 0: raise newException(CodegenError, &"{Binary} was not found. Install it into your PATH, or place it at {\"bin\"/Binary}")
+  let code = execShellCmd(&"{bin} --spec={XML}")
+  if code != 0: raise newException(CodegenError, &"{Binary} failed to convert {XML}. Exit code: {code}")
+  #___________________
+  # Parse+codegen output.atf with nonim
+  # TODO: ...
+#___________________
 when isMainModule: main()
+
