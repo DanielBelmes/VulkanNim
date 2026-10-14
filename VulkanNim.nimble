@@ -18,11 +18,11 @@ let testsDir    = "tests"
 let examplesDir = "examples"
 
 # Generator config
-let specDir   = "spec"
-let vkSpecXML   = specDir/"xml"/"vk.xml"
+let specDir        = "spec"
+let vkSpecXML      = specDir/"xml"/"vk.xml"
 let videoSpecXML   = specDir/"xml"/"video.xml"
-let toolsDir  = "tools"
-let generatorVk = toolsDir/"generator.nim"
+let toolsDir       = "tools"
+let generatorVk    = toolsDir/"generator.nim"
 let generatorVideo = toolsDir/"generatorVideo.nim"
 
 #________________________________________
@@ -60,16 +60,18 @@ task git, "Internal:  Updates the Vulkan spec submodule.":
   withDir specDir:
     exec "git submodule update --remote --merge"
 #___________________
+taskRequires "tag", "https://github.com/beef331/graffiti#head"
 task tag, "Internal:  Tags the library with a version (Retroactively tags missing versions too)":
-  requires "https://github.com/beef331/graffiti#head"
   exec &"graffiti {packageName}.nimble"
 #___________________
 taskRequires "genvk", "https://github.com/nitely/nim-regex#head"
+taskRequires "genvk", "https://github.com/MechasNotBrains/nonim#head"
 task genvk, "Internal:  Generates the vk bindings, using the currently tracked vk.xml file.":
   #exec "nimble git"
   exec &"{nimcr} {generatorVk} {vkSpecXML}"
 #___________________
 taskRequires "genvideo", "https://github.com/nitely/nim-regex#head"
+taskRequires "genvideo", "https://github.com/MechasNotBrains/nonim#head"
 task genvideo, "Internal:  Generates the vk video bindings, using the currently tracked video.xml file.":
   #exec "nimble git"
   exec &"{nimcr} {generatorVideo} {videoSpecXML}"
