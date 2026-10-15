@@ -9,5 +9,7 @@ proc generate *(atf :string) :string=
   ## Converts the given astTF.json string into unchanged.nim code
   let ast  = atf.fromJson()
   let code = ast.nim(mode = BlockMode.none)
-  result   = code.modules[ast.root].definitions
+  result   = ""
+  for module in code.modules:
+    result = result & "\n" & module.definitions
 
