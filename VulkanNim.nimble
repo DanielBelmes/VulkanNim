@@ -56,24 +56,20 @@ template example (name :untyped; descr,file :static string)=
 #________________________________________
 # Tasks
 #___________________
-task git, "Internal:  Updates the Vulkan spec submodule.":
-  withDir specDir:
-    exec "git submodule update --remote --merge"
-#___________________
 taskRequires "tag", "https://github.com/beef331/graffiti#head"
 task tag, "Internal:  Tags the library with a version (Retroactively tags missing versions too)":
   exec &"graffiti {packageName}.nimble"
 #___________________
 taskRequires "genvk", "https://github.com/nitely/nim-regex#head"
+taskRequires "genvk", "https://codeberg.org/danielbelmes/vulkan-object-ast#head"
 taskRequires "genvk", "https://github.com/MechasNotBrains/nonim#head"
 task genvk, "Internal:  Generates the vk bindings, using the currently tracked vk.xml file.":
-  #exec "nimble git"
   exec &"{nimcr} {generatorVk} {vkSpecXML}"
 #___________________
 taskRequires "genvideo", "https://github.com/nitely/nim-regex#head"
+taskRequires "genvideo", "https://codeberg.org/danielbelmes/vulkan-object-ast#head"
 taskRequires "genvideo", "https://github.com/MechasNotBrains/nonim#head"
 task genvideo, "Internal:  Generates the vk video bindings, using the currently tracked video.xml file.":
-  #exec "nimble git"
   exec &"{nimcr} {generatorVideo} {videoSpecXML}"
 #___________________
 # Build the examples binaries

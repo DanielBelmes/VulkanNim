@@ -2,8 +2,9 @@
 import std/os
 import std/strformat
 import std/strutils
-# helpers dependencies
+# generator dependencies
 from ./helpers import getArgs, ArgsError, CodegenError
+from ./generator/unchanged import nil
 
 #_______________________________________
 # Generator Entry Point
@@ -12,6 +13,8 @@ from ./helpers import getArgs, ArgsError, CodegenError
 const DefaultAPI = "vulkan"
 const ValidAPIs  = ["vulkan", "vulkansc"]
 const Binary     = "VulkanObjectAST"
+const VulkanAST  = "bin"/"vulkan.atf"
+const Unchanged  = "src"/"VulkanNim"/"unchanged.nim"
 const Help = &"""
 Usage:
 - First argument:  Must always be a valid vk.xml spec file.
@@ -48,11 +51,13 @@ proc main=
   # Run the VulkanObjectAST converter binary
   let bin = converter_binary()
   if bin.len == 0: raise newException(CodegenError, &"{Binary} was not found. Install it into your PATH, or place it at {\"bin\"/Binary}")
-  let code = execShellCmd(&"{bin} --spec={XML}")
+  let code = execShellCmd(&"{bin} --spec={XML} --output={VulkanAST}")
   if code != 0: raise newException(CodegenError, &"{Binary} failed to convert {XML}. Exit code: {code}")
   #___________________
-  # Parse+codegen output.atf with nonim
-  # TODO: ...
+  # Parse + process + codegen vulkan.atf with nonim
+  let api_unchanged = unchanged.generate(VulkanAST.readFile())
+  Unchanged.parentDir().createDir()
+  Unchanged.writeFile(api_unchanged)
 #___________________
 when isMainModule: main()
 
